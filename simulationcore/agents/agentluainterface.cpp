@@ -1162,7 +1162,7 @@ int AgentLuaInterface::l_radialCollisionScan(lua_State *L)
             {
                 collision = GridMovement::checkCollision(posX+i, posY+j);
 
-                //Output::Inst()->kdebug("Checking: %d, %d", posX+i, posY+j);
+                //Output::Inst()->kdebl_radialMapColorScanug("Checking: %d, %d", posX+i, posY+j);
 
                 if (collision)
                 {

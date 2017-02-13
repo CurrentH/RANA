@@ -25,7 +25,7 @@ AgentInterface::AgentInterface(int ID, double posX, double posY, double posZ, Se
 :Agent(ID, posX, posY, posZ, sector), destinationX(posX), destinationY(posY), speed(1),
  	 	 moving(false), gridmove(false), filename(filename), nofile(false), removed(false)
 {
-
+	desc = "CPP";
 	Output::Inst()->addGraphicAgent(ID, -1,-1);
 
 	moveFactor = Phys::getMacroFactor() * Phys::getTimeRes();
@@ -111,51 +111,536 @@ int AgentInterface::generateEventID()
 }
 
 //	Physics
+int AgentInterface::speedOfSound()
+{
+	return Phys::speedOfEvent(posX, posY, origX, origY, propagationSpeed);
+}
 
+int AgentInterface::distance()
+{
+	return Phys::calcDistance(origX, origY, posX, posY);
+}
 
+int AgentInterface::currentTime()
+{
+	return Phys::getCTime();
+}
 
+int AgentInterface::currentTimeS()
+{
+	return (double)Phys::getCTime()*Phys::getTimeRes();
+}
 
+int AgentInterface::getMacroFactor()
+{
+	return Phys::getMacroFactor();
+}
 
+int AgentInterface::getTimeResolution()
+{
+    return Phys::getTimeRes();
+}
 
+int AgentInterface::getMersenneFloat()
+{
+    double low = lua_tonumber(L,-2);		//TODO
+    double high = lua_tonumber(L, -1);		//TODO
 
+    return Phys::getMersenneFloat(low,high);
+}
 
+int AgentInterface::getMersenneInteger()
+{
+    int64_t low = lua_tonumber(L,-2);		//TODO
+    int64_t high = lua_tonumber(L, -1);		//TODO
+    int64_t number = low;
 
+    if(low > high)
+    {
+        number = Phys::getMersenneInteger(high, low);
+    }
+    else if(high > low)
+    {
+        number = Phys::getMersenneInteger(low, high);
+    }
 
+    return number;
+}
 
+//	Map and position
+std::vector<int> AgentInterface::getEnvironmentSize()
+{
+	std::vector<int> tmp;
+	tmp.push_back(Phys::getEnvX());
+	tmp.push_back(Phys::getEnvY());
 
+	return tmp;
+}
 
+int AgentInterface::modifyMap()
+{
+	double x = 1;	//TODO
+	double y = 1; 	//TODO
 
+	int modX = x * Phys::getScale();
+	int modY = y * Phys::getScale();
 
+	rgba color;
+	color.red = 1;
+	color.green = 1;
+	color.blue = 1;
+	color.alpha = 0;
 
+	return MapHandler::setPixelInfo(modX, modY, color);
+}
 
+rgba AgentInterface::checkMap()
+{
+	double x = 1;
+	double y = 1;
 
+	int checkX = x * Phys::getScale();
+	int checkY = y * Phys::getScale();
 
+	rgba color = MapHandler::getPixelInfo(checkX, checkY);
 
+	return color;
+}
 
+int AgentInterface::checkMapAndChange()
+{
+	double x = 1;
+	double y = 1;
 
+	int modX = x * Phys::getScale();
+	int modY = y * Phys::getScale();
 
+	rgba check_color;
+	check_color.red = 1;
+	check_color.green = 1;
+	check_color.blue = 1;
+	check_color.alpha = 0;
 
+	rgba change_color;
+	change_color.red = 1;
+	change_color.green = 1;
+	change_color.blue = 1;
+	change_color.alpha = 0;
 
+	return MapHandler::checkAndChange(modX, modY, check_color, change_color);
+}
 
+int AgentInterface::radialMapColorScan()
+{
+	int radius = 1;
+	int posX = 1 - radius;
+	int posY = 1 - radius;
+	int r = 1;
+	int g = 1;
+	int b = 1;
 
+	MatriceInt result = Scanning::radialMask(radius);
+	int count = 0;
+	int index = 0;
 
+	for (int i = 1; i < radius*2; i++)
+	{
+		for (int j = 1; j < radius*2; j++)
+		{
+			if(result[i][j] == 1)
+			{
+				rgba color = MapHandler::getPixelInfo(posX+i, posY+j);
 
+				if(r == color.red && g == color.green && b == color.blue)
+				{
+					count++;
+					index++;
+				}
+			}
+		}
+	}
 
+	if(count == 0)
+	{
+		return 0;
+	}
+	return 1;
+}
 
+int AgentInterface::radialMapScan()
+{
+	int radius = 1;
+	int posX = 1 - radius;
+	int posY = 1 - radius;
 
+	MatriceInt result = Scanning::radialMask(radius);
+	int index = 0;
 
+	for (int i = 1; i < radius*2; i++)
+	{
+		for (int j = 1; j < radius*2; j++)
+		{
+			if(result[i][j] == 1)
+			{
+				index++;
 
+				rgba color = MapHandler::getPixelInfo(posX+i, posY+j);
+			}
+		}
+	}
+	return 1;
+}
 
+void AgentInterface::addPosition()
+{
 
+    int x = 1;
+    int y = 1;
+    int id = 1;
+    GridMovement::addPos(x, y, id);
+}
 
+int AgentInterface::checkPosition()
+{
+    int posX = 0;
+    int posY = 0;
 
+    posX = 1 * GridMovement::getScale()+.5;
+    posY = 1 * GridMovement::getScale()+.5;
 
+    pList agentList = GridMovement::checkPosition(posX, posY);
 
+    int i = 1;
+    for(pList::iterator it = agentList.begin(); it != agentList.end(); ++it,i++)
+    {
+    	//TODO
+        lua_pushnumber(L, i);
+        lua_pushnumber(L, *it);
+        lua_settable(L, -3);
+    }
 
+    return 1;
+}
 
+int AgentInterface::updatePosition()
+{
+	int oldX = 1;
+	int oldY = 1;
+	int newX = 1;
+	int newY = 1;
+	int id = 1;
 
+	if(oldX != newX || oldY != newY)
+	{
+		GridMovement::updatePos(oldX, oldY, newX, newY, id);
+		return 1;
+	}
 
+	return 0;
+}
 
+int AgentInterface::checkCollision()
+{
+    int posX = 1;
+    int posY = 1;
 
+    return GridMovement::checkCollision(posX, posY);
+}
+
+int AgentInterface::checkCollisionRadial()
+{
+    int radius = 1;
+    int posX = 1 - radius;
+    int posY = 1 - radius;
+
+    MatriceInt result = Scanning::radialMask(radius);
+
+    bool collision = false;
+
+    for (int i = 1; i < radius*2; i++)
+    {
+        for(int j = 1; j < radius*2; j++)
+        {
+
+            if( result[i][j] == 1 && (posX+i != posX+radius || posY+j != posY+radius ))
+            {
+                if(GridMovement::checkCollision(posX+i, posY+j))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+int AgentInterface::getMaskRadial()
+{
+    int radius = 1;
+    int posX = 1 - radius;
+    int posY = 1 - radius;
+
+    MatriceInt result = Scanning::radialMask(radius);
+    int index = 0;
+
+    for (int i = 1; i < radius*2; i++)
+    {
+        for(int j = 1; j < radius*2; j++)
+        {
+            if( result[i][j] == 1)
+            {
+                index++;
+
+                //TODO
+                lua_pushnumber(L, index);
+                lua_newtable(L);
+                lua_pushstring(L,"posX");
+                lua_pushnumber(L, posX + i);
+                lua_settable(L, -3);
+                lua_pushstring(L,"posY");
+                lua_pushnumber(L, posY + j);
+                lua_settable(L, -3);
+                lua_settable(L, -3);
+            }
+        }
+    }
+    return 1;
+}
+
+void AgentInterface::gridMove()
+{
+    int oldX = 1;
+    int oldY = 1;
+    int newX = 1;
+    int newY = 1;
+}
+
+int AgentInterface::getGridScale()
+{
+    return GridMovement::getScale();
+}
+
+void AgentInterface::initializeGrid()
+{
+    GridMovement::initGrid(1);
+}
+
+int AgentInterface::radialCollisionScan()
+{
+    int radius = 1;
+    int posX = 1 - radius;
+    int posY = 1 - radius;
+    int id = 1;
+
+    MatriceInt result = Scanning::radialMask(radius);
+    bool collision = false;
+    int counter = 0;
+
+    for (int i = 1; i < radius*2; i++)
+    {
+        for(int j = 1; j < radius*2; j++)
+        {
+            if( result[i][j] == 1)
+            {
+                if (GridMovement::checkCollision(posX+i, posY+j))
+                {
+                    pList agentList = GridMovement::checkPosition(posX+i, posY+j);
+
+                    for(auto it = agentList.begin(); it != agentList.end(); ++it)
+                    {
+                        if (id != *it)
+                        {
+                            counter++;
+
+                            //	TODO
+                            lua_pushnumber(L, counter);
+                            lua_newtable(L);
+                            lua_pushstring(L, "id");
+                            lua_pushnumber(L, *it);
+                            lua_settable(L, -3);
+                            lua_pushstring(L, "posX");
+                            lua_pushnumber(L, posX + i);
+                            lua_settable(L, -3);
+                            lua_pushstring(L, "posY");
+                            lua_pushnumber(L, posY + j);
+                            lua_settable(L, -3);
+                            lua_settable(L, -3);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+
+int AgentInterface::updatePositionIfFree()
+{
+    int oldX = int(1*GridMovement::getScale());
+    int oldY = int(1*GridMovement::getScale());
+    int newX = int(1*GridMovement::getScale());
+    int newY = int(1*GridMovement::getScale());
+    int id = 1;
+
+    if(oldX != newX || oldY != newY)
+    {
+        GridMovement::updateIfFree(oldX, oldY, newX, newY, id);
+        return true;
+    }
+
+    return false;
+}
+
+//	Shared values
+std::string AgentInterface::getSharedNumber(std::string key)
+{
+    double value = Shared::getNumber(key);
+
+    if (value == LLONG_MIN)
+    {
+    	return "no_value";
+    }
+
+    return std::to_string(value);
+}
+
+void AgentInterface::addSharedNumber(std::string key, double value)
+{
+    Shared::addNumber(key, value);
+}
+
+std::string AgentInterface::getSharedString(std::string key)
+{
+    return Shared::getString(key);
+}
+
+void AgentInterface::addSharedString(std::string key, double value)
+{
+    Shared::addString(key, std::to_string(value));
+}
+
+//	Simulation core
+void AgentInterface::stopSimulation()
+{
+    Output::RunSimulation.store(false);
+}
+
+std::vector<std::string> AgentInterface::getAgentPath()
+{
+	std::vector<std::string> tmp;
+	tmp.push_back(Output::AgentPath.c_str());
+	tmp.push_back(Output::AgentFile.c_str());
+
+    return tmp;
+}
+
+int AgentInterface::addAgent()
+{
+    double posX = 1;
+    double posY = 1;
+    double posZ = 1;
+    std::string path = "1";
+    std::string filename = "1";
+
+    return Interfacer::addLuaAgent(posX, posY, posZ, path, filename);
+}
+
+int AgentInterface::removeAgent()
+{
+    return Interfacer::removeAgent(1);
+}
+
+//	Agents
+void AgentInterface::emitEvent()
+{
+	std::unique_ptr<EventQueue::eEvent> sendEvent(new EventQueue::eEvent());
+
+	sendEvent->originID = 1;
+	sendEvent->posX	= 1;
+	sendEvent->posY = 1;
+	sendEvent->propagationSpeed = 1;
+	sendEvent->activationTime = Phys::getCTime()+1;
+	sendEvent->id = ID::generateEventID();
+	sendEvent->desc = 1;
+	sendEvent->targetID = 1;
+	sendEvent->targetGroup = 1;
+	sendEvent->luatable = 1;
+	sendEvent->posZ = 1;
+
+	Interfacer::submitEEvent(std::move(sendEvent));
+}
+
+int AgentInterface::addGroup()
+{
+    int id = 1;
+    int group = 1;
+
+    auto autonPtr = Interfacer::getAgentPtr(id);
+    if (autonPtr != NULL)
+    {
+        autonPtr->addGroup(group);
+        return true;
+    }
+
+    return false;
+}
+
+int AgentInterface::removeGroup()
+{
+    int id = 1;
+    int group = 1;
+
+    auto autonPtr = Interfacer::getAgentPtr(id);
+    if (autonPtr != NULL)
+    {
+        removed = autonPtr->removeGroup(group);
+        return true;
+    }
+
+    return false;
+}
+
+void AgentInterface::setMacroFactorMultipler()
+{
+    int id = 1;
+    int macroFactorMultiple = 1;
+
+    auto autonPtr = Interfacer::getAgentPtr(id);
+
+    if(autonPtr != NULL)
+    {
+    	autonPtr->setMacroFactorMultipler(macroFactorMultiple);
+    }
+}
+
+int AgentInterface::changeAgentColor()
+{
+    int id = 1;
+    int r = 1;
+    int g = 1;
+    int b = 1;
+    int alpha = 1;
+
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255 || alpha < 0 || alpha > 255 )
+    {
+        return false;
+    }
+    else
+    {
+        Output::Inst()->changeGraphicAgentColor(id, r, g, b, alpha);
+    }
+    return true;
+
+}
+
+//	Panic
+void AgentInterface::panic(std::string string)
+{
+    Output::Inst()->kprintf("<b>PANIC,%s</b></>", string.c_str());
+    Output::KillSimulation.store(true);
+}
 
 

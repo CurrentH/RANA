@@ -25,56 +25,56 @@ public:
 	int generateEventID();
 
 	//	Physics
-	void speedOfSound();
-	void distance();
-	void currentTime();
-	void currentTimeS();
-	void getMacroFactor();
-	void getTimeResolution();
-	void getMersenneFloat();
-	void getMersenneInteger();
+	int speedOfSound();
+	int distance();
+	int currentTime();
+	int currentTimeS();
+	int getMacroFactor();
+	int getTimeResolution();
+	int getMersenneFloat();
+	int getMersenneInteger();
 
 	//	Map and movement
-	void getEnvironmentSize();
-	void modifyMap();
-	void checkMap();
-	void checkMapAndChange();
-	void radialMapScan();
-	void radialMapColorScan();
+	std::vector<int> getEnvironmentSize();
+	int modifyMap();
+	rgba checkMap();
+	int checkMapAndChange();
+	int radialMapScan();
+	int radialMapColorScan();
 
 	void addPosition();
-	void checkPosition();
-	void updatePosition();
-	void checkCollision();
-	void checkCollisionRadial();
-	void getMaskRadial();
+	int checkPosition();
+	int updatePosition();
+	int checkCollision();
+	int checkCollisionRadial();
+	int getMaskRadial();
 	void gridMove();
-	void getGridScale();
+	int getGridScale();
 	void initializeGrid();
-	void radialCollisionScan();
-	void updatePositionIfFree();
+	int radialCollisionScan();
+	int updatePositionIfFree();
 
 	//	Shared values
-	void getSharedNumber();
-	void addSharedNumber();
-	void getSharedString();
-	void addSharedString();
+	std::string getSharedNumber(std::string key);
+	void addSharedNumber(std::string key, double value);
+	std::string getSharedString(std::string key);
+	void addSharedString(std::string key, double value);
 
 	//	Simulation core
 	void stopSimulation();
-	void getAgentPath();
-	void addAgent();
-	void removeAgent();
+	std::vector<std::string> getAgentPath();
+	int addAgent();
+	int removeAgent();
 
 	//	Agents
 	void emitEvent();
-	void addGroup();
-	void removeGroup();
+	int addGroup();
+	int removeGroup();
 	void setMacroFactorMultipler();
-	void changeAgentColor();
+	int changeAgentColor();
 
 	//	Panic
-	void panic();
+	void panic(std::string string);
 
 	void processFunction(EventQueue::dataEvent *devent, double mapRes, double x, double y, double &zvalue, double &duration);
 	void InitializeAgent();
