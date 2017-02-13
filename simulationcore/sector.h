@@ -79,6 +79,9 @@ private:
         std::map<int,std::shared_ptr<AgentLuaInterface>> luaAgents;
         std::list<std::shared_ptr<AgentLuaInterface>> newAgents;
 
+        std::map<int,std::shared_ptr<AgentInterface>> cppAgents;
+        std::list<std::shared_ptr<AgentInterface>> newCppAgents;
+
 		std::list<int> removalIDs;
 
 		friend class Agent;

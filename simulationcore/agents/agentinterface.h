@@ -96,7 +96,7 @@ private:
     double eventChance();
 
     std::string filename;
-    //the LUA state:	//TODO: rewrite state
+
     friend class Sector;
     friend class Supervisor;
     bool nofile;

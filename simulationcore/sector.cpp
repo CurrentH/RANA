@@ -174,6 +174,11 @@ void Sector::simDone()
 	{
 		itlua->second->simDone();
 	}
+
+    for(auto itcpp = cppAgents.begin(); itcpp !=cppAgents.end(); itcpp++)
+	{
+    	itcpp->second->simDone();
+	}
 }
 
 //perform an event for an auton in question:
@@ -190,8 +195,7 @@ int Sector::addAgent(double x, double y, double z,
 
 	if(type.compare("Lua") == 0)
 	{
-        std::shared_ptr<AgentLuaInterface> luaPtr =
-                std::make_shared<AgentLuaInterface>(id, x, y, 1, this, filename);
+        std::shared_ptr<AgentLuaInterface> luaPtr = std::make_shared<AgentLuaInterface>(id, x, y, 1, this, filename);
 
         if(Output::SimRunning)
         {
@@ -202,7 +206,20 @@ int Sector::addAgent(double x, double y, double z,
             luaAgents.insert(std::make_pair(luaPtr->getID(),luaPtr));
             luaPtr->InitializeAgent();
         }
+	}
+	else if(type.compare("Cpp") == 0)
+	{
+		std::shared_ptr<AgentInterface> cppPtr = std::make_shared<AgentInterface>(id, x, y, 1, this, filename);
 
+		if(Output::SimRunning)
+		{
+			newCppAgents.push_back(cppPtr);
+		}
+		else
+		{
+			cppAgents.insert(std::make_pair(cppPtr->getID(),cppPtr));
+			cppPtr->InitializeAgent();
+		}
 	}
 
 	return id;
@@ -217,5 +234,4 @@ bool Sector::removeAgent(int arg_id)
 		removalIDs.push_back(arg_id);
 		return true;
 	} else return false;
-
 }
