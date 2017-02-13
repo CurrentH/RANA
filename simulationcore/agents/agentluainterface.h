@@ -121,12 +121,8 @@ public:
 
    private:
 
-    std::unique_ptr<EventQueue::iEvent>
-    processEvent(const EventQueue::eEvent* event);
-
-    std::unique_ptr<EventQueue::eEvent>
-    handleEvent(std::unique_ptr<EventQueue::iEvent> eventPtr);
-
+    std::unique_ptr<EventQueue::iEvent> processEvent(const EventQueue::eEvent* event);
+    std::unique_ptr<EventQueue::eEvent> handleEvent(std::unique_ptr<EventQueue::iEvent> eventPtr);
     std::unique_ptr<EventQueue::eEvent> takeStep();
 
     void movement();
