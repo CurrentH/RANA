@@ -35,12 +35,14 @@ AgentInterface::~AgentInterface()
 {
 	if(initiated)
 	{
-		//Delete everything
+		//TODO: Delete everything
 	}
 }
 
 void AgentInterface::InitializeAgent()
 {
+	//	TODO
+
 	if(removed) return;
 }
 
@@ -58,6 +60,8 @@ void AgentInterface::InitializeAgent()
  */
 std::unique_ptr<EventQueue::iEvent> AgentInterface::processEvent(const EventQueue::eEvent *event)
 {
+	//TODO
+
 	return NULL;
 }
 
@@ -71,6 +75,11 @@ std::unique_ptr<EventQueue::iEvent> AgentInterface::processEvent(const EventQueu
  */
 std::unique_ptr<EventQueue::eEvent> AgentInterface::takeStep()
 {
+	if(removed) return NULL;
+	if(nofile) return NULL;
+
+	//	TODO
+
 	return NULL;
 }
 
@@ -84,6 +93,8 @@ std::unique_ptr<EventQueue::eEvent> AgentInterface::takeStep()
  */
 std::unique_ptr<EventQueue::eEvent> AgentInterface::handleEvent(std::unique_ptr<EventQueue::iEvent> eventPtr)
 {
+	//	TODO
+
 	return NULL;
 }
 
@@ -642,5 +653,175 @@ void AgentInterface::panic(std::string string)
     Output::Inst()->kprintf("<b>PANIC,%s</b></>", string.c_str());
     Output::KillSimulation.store(true);
 }
+
+//	TODO:	Find name for these functions below:
+
+/********************************************************
+ * Core utility.
+ *
+ ********************************************************/
+
+void AgentInterface::setRemoved()
+{
+    //Output::Inst()->kprintf("removing agent.#.%i",ID);
+    removed = true;
+    GridMovement::removePos(ID);
+}
+
+void AgentInterface::simDone()
+{
+    if(nofile)
+        return;
+    try
+    {
+        lua_getglobal(L, "_CleanUp");
+
+        if(lua_pcall(L,0,0,0)!=LUA_OK)
+        {
+            Output::Inst()->kprintf("<b><font color=\"brown\">Error on cleanUp. %s</font></b></>",lua_tostring(L,-1));
+        }
+    }
+    catch(std::exception& e)
+    {
+        Output::Inst()->kprintf("<b><font color=\"red\">Exception on cleanUp. %s</font></b></>", e.what());
+    }
+}
+
+void AgentInterface::getSyncData()
+{
+    if(removed) return;
+    try
+	{
+		lua_getglobal(L, "ColorRed");
+		lua_getglobal(L, "ColorGreen");
+		lua_getglobal(L, "ColorBlue");
+		lua_getglobal(L, "ColorAlpha");
+		lua_getglobal(L, "PositionZ");
+
+		lua_getglobal(L, "Mass");
+		lua_getglobal(L, "Charge");
+		lua_getglobal(L, "Radius");
+
+        lua_getglobal(L, "GridMove");
+        lua_getglobal(L, "StepMultiple");
+        lua_getglobal(L, "PositionX");
+        lua_getglobal(L, "PositionY");
+        lua_getglobal(L, "DestinationX");
+        lua_getglobal(L, "DestinationY");
+        lua_getglobal(L, "Speed");
+		lua_getglobal(L, "Moving");
+
+		radius = lua_tonumber(L, -9);
+		charge = lua_tonumber(L, -10);
+		mass = lua_tonumber(L, -11);
+
+		posZ = lua_tonumber(L, -12);
+
+		color.alpha = lua_tonumber(L, -13);
+		color.red = lua_tonumber(L, -16);
+		color.green = lua_tonumber(L, -15);
+		color.blue = lua_tonumber(L, -14);
+
+
+        int stepMultiple = (int)lua_tonumber(L, -7);
+        if(stepMultiple >=0 )
+        {
+            macroFactorMultiple = stepMultiple;
+        }
+        posX = lua_tonumber(L, -6);
+        posY = lua_tonumber(L, -5);
+
+        destinationX = lua_tonumber(L, -4);
+        destinationY = lua_tonumber(L, -3);
+        speed = lua_tonumber(L, -2);
+        moving = lua_toboolean(L, -1);
+        gridmove = lua_toboolean(L,- 8);
+
+    }
+    catch(std::exception &e)
+    {
+        Output::Inst()->kprintf("<b><font color=\"red\">Exception on retrieving sync data, %s</font></b></>", e.what());
+        Output::RunSimulation.store(false);
+        return;
+    }
+}
+
+void AgentInterface::movement()
+{
+    lua_getglobal(L, "GridMove");
+    gridmove = lua_toboolean(L,-1);
+    //bool collision = false;
+
+
+    if(posX != destinationX || posY != destinationY)
+    {
+        double angle = std::atan2(destinationX-posX, destinationY-posY);
+        double vY = speed * std::cos(angle);
+        double vX = speed * std::sin(angle);
+
+        double newPosX = posX + moveFactor * vX * macroFactorMultiple;
+        double newPosY = posY + moveFactor * vY * macroFactorMultiple;
+
+
+        //Check if the agent overshoots it's target destinations.
+        if(		(posX >= destinationX && newPosX <= destinationX &&
+                 posY >= destinationY && newPosY <= destinationY) ||
+                (posX <= destinationX && newPosX >= destinationX &&
+                 posY >= destinationY && newPosY <= destinationY) ||
+                (posX >= destinationX && newPosX <= destinationX &&
+                 posY <= destinationY && newPosY >= destinationY) ||
+                (posX <= destinationX && newPosX >= destinationX &&
+                 posY <= destinationY && newPosY >= destinationY)
+                )
+            //if(std::abs(newPosX-DestinationX)std::abs(posX-destinationX))
+        {
+            moving = false;
+            lua_pushboolean(L, moving);
+            lua_setglobal(L, "Moving");
+            newPosX = destinationX;
+            newPosY = destinationY;
+        }
+
+        if(gridmove)
+        {
+            if(int(posX*GridMovement::getScale())	!=	int(newPosX*GridMovement::getScale()) ||
+                    int(posY*GridMovement::getScale())!=int(newPosY*GridMovement::getScale()) )
+            {
+                GridMovement::updatePos(int(posX*GridMovement::getScale()),
+                                        int(posY*GridMovement::getScale()),
+                                        int(newPosX*GridMovement::getScale()),
+                                        int(newPosY*GridMovement::getScale()),
+                                        ID);
+            }
+        }
+
+        //if(collisioni)
+        //{
+        //v//  moving = false;
+        //  lua_pushboolean(L,moving);
+        //  lua_setglobal(L,"Moving");
+        // }
+        //else
+        //{
+        posX = newPosX;
+        posY = newPosY;
+        lua_pushnumber(L, posX);
+        lua_setglobal(L, "PositionX");
+        lua_pushnumber(L, posY);
+        lua_setglobal(L, "PositionY");
+        //}
+
+    }
+    else
+    {
+        moving = false;
+        lua_pushboolean(L,moving);
+        lua_setglobal(L,"Moving");
+    }
+}
+
+
+
+
 
 

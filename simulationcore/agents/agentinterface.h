@@ -15,6 +15,9 @@ public:
 	AgentInterface(int ID, double posX, double posY, double posZ, Sector *sector, std::string filename);
 	~AgentInterface();
 
+	bool operator==(AgentInterface &other) const;
+	bool operator!=(AgentInterface &other) const;
+
     /*******************************************
     * Functions
     ********************************************/
@@ -106,5 +109,6 @@ private:
     void getSyncData();
 
     bool initiated = false;
-
 };
+
+#endif // AGENTINTERFACE_H

@@ -72,6 +72,7 @@ SOURCES       = main.cpp \
 		simulationcore/sector.cpp \
 		simulationcore/supervisor.cpp \
 		simulationcore/agents/agent.cpp \
+		simulationcore/agents/agentinterface.cpp \
 		simulationcore/agents/agentluainterface.cpp \
 		simulationcore/eventqueue.cpp qrc_images.cpp \
 		moc_mainwindow.cpp \
@@ -105,6 +106,7 @@ OBJECTS       = main.o \
 		sector.o \
 		supervisor.o \
 		agent.o \
+		agentinterface.o \
 		agentluainterface.o \
 		eventqueue.o \
 		qrc_images.o \
@@ -125,15 +127,23 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_clucene_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designercomponents_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_device_lib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri \
@@ -143,15 +153,38 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformsupport_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmldevtools_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickparticles_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uiplugin.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkit.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkitwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_x11extras.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf \
@@ -199,6 +232,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		simulationcore/sector.h \
 		simulationcore/supervisor.h \
 		simulationcore/agents/agent.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agentluainterface.h \
 		simulationcore/eventqueue.h main.cpp \
 		mainwindow.cpp \
@@ -224,6 +258,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		simulationcore/sector.cpp \
 		simulationcore/supervisor.cpp \
 		simulationcore/agents/agent.cpp \
+		simulationcore/agents/agentinterface.cpp \
 		simulationcore/agents/agentluainterface.cpp \
 		simulationcore/eventqueue.cpp
 QMAKE_TARGET  = Rana_qt
@@ -266,15 +301,23 @@ Makefile: Rana_qt.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_clucene_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designercomponents_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_device_lib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri \
@@ -284,15 +327,38 @@ Makefile: Rana_qt.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformsupport_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmldevtools_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickparticles_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uiplugin.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkit.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkitwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_x11extras.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf \
@@ -331,15 +397,23 @@ Makefile: Rana_qt.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_clucene_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designer_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_designercomponents_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_device_lib_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_help_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri:
@@ -349,15 +423,38 @@ Makefile: Rana_qt.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformsupport_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmldevtools_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickparticles_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_script_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_scripttools_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uiplugin.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_uitools_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkit.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_webkitwidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_x11extras.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xmlpatterns_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf:
@@ -400,8 +497,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents images.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h ID.h utility.h output.h control.h graphics/agentItem.h runner.h postprocessing/eventprocessing.h postprocessing/colorutility.h eventdialog.h postprocessing/graphics/zblock.h postprocessing/postcontrol.h postprocessing/eventrunner.h postprocessing/graphics/zmap.h helpdialog.h api/gridmovement.h api/maphandler.h api/phys.h api/scanning.h api/shared.h simulationcore/flowcontrol.h simulationcore/interfacer.h simulationcore/sector.h simulationcore/supervisor.h simulationcore/agents/agent.h simulationcore/agents/agentluainterface.h simulationcore/eventqueue.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp output.cpp control.cpp graphics/agentItem.cpp runner.cpp postprocessing/eventprocessing.cpp postprocessing/colorutility.cpp eventdialog.cpp postprocessing/graphics/zblock.cpp postprocessing/postcontrol.cpp postprocessing/eventrunner.cpp postprocessing/graphics/zmap.cpp helpdialog.cpp api/gridmovement.cpp api/maphandler.cpp api/phys.cpp api/scanning.cpp api/shared.cpp simulationcore/flowcontrol.cpp simulationcore/interfacer.cpp simulationcore/sector.cpp simulationcore/supervisor.cpp simulationcore/agents/agent.cpp simulationcore/agents/agentluainterface.cpp simulationcore/eventqueue.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h ID.h utility.h output.h control.h graphics/agentItem.h runner.h postprocessing/eventprocessing.h postprocessing/colorutility.h eventdialog.h postprocessing/graphics/zblock.h postprocessing/postcontrol.h postprocessing/eventrunner.h postprocessing/graphics/zmap.h helpdialog.h api/gridmovement.h api/maphandler.h api/phys.h api/scanning.h api/shared.h simulationcore/flowcontrol.h simulationcore/interfacer.h simulationcore/sector.h simulationcore/supervisor.h simulationcore/agents/agent.h simulationcore/agents/agentinterface.h simulationcore/agents/agentluainterface.h simulationcore/eventqueue.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp output.cpp control.cpp graphics/agentItem.cpp runner.cpp postprocessing/eventprocessing.cpp postprocessing/colorutility.cpp eventdialog.cpp postprocessing/graphics/zblock.cpp postprocessing/postcontrol.cpp postprocessing/eventrunner.cpp postprocessing/graphics/zmap.cpp helpdialog.cpp api/gridmovement.cpp api/maphandler.cpp api/phys.cpp api/scanning.cpp api/shared.cpp simulationcore/flowcontrol.cpp simulationcore/interfacer.cpp simulationcore/sector.cpp simulationcore/supervisor.cpp simulationcore/agents/agent.cpp simulationcore/agents/agentinterface.cpp simulationcore/agents/agentluainterface.cpp simulationcore/eventqueue.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui eventdialog.ui about.ui $(DISTDIR)/
 
 
@@ -447,6 +544,7 @@ moc_mainwindow.cpp: graphics/agentItem.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		postprocessing/graphics/zblock.h \
@@ -469,6 +567,7 @@ moc_control.cpp: mainwindow.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -484,9 +583,10 @@ moc_runner.cpp: simulationcore/flowcontrol.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		simulationcore/sector.h \
-		simulationcore/agents/agentluainterface.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		utility.h \
+		simulationcore/agents/agentluainterface.h \
 		simulationcore/interfacer.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -512,6 +612,7 @@ moc_eventdialog.cpp: control.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -529,6 +630,7 @@ moc_postcontrol.cpp: postprocessing/eventrunner.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -549,6 +651,7 @@ moc_eventrunner.cpp: postprocessing/eventprocessing.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -601,6 +704,7 @@ main.o: main.cpp mainwindow.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -625,6 +729,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -654,6 +759,7 @@ output.o: output.cpp api/phys.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -675,6 +781,7 @@ control.o: control.cpp control.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -693,9 +800,10 @@ runner.o: runner.cpp runner.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		simulationcore/sector.h \
-		simulationcore/agents/agentluainterface.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		utility.h \
+		simulationcore/agents/agentluainterface.h \
 		simulationcore/interfacer.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -716,6 +824,7 @@ eventprocessing.o: postprocessing/eventprocessing.cpp api/phys.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -745,6 +854,7 @@ colorutility.o: postprocessing/colorutility.cpp postprocessing/colorutility.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		control.h \
@@ -766,6 +876,7 @@ eventdialog.o: eventdialog.cpp eventdialog.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -787,6 +898,7 @@ zblock.o: postprocessing/graphics/zblock.cpp output.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -805,6 +917,7 @@ postcontrol.o: postprocessing/postcontrol.cpp postprocessing/postcontrol.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -825,6 +938,7 @@ eventrunner.o: postprocessing/eventrunner.cpp postprocessing/eventrunner.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -853,6 +967,7 @@ zmap.o: postprocessing/graphics/zmap.cpp postprocessing/graphics/zmap.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		control.h \
 		simulationcore/flowcontrol.h \
@@ -876,6 +991,7 @@ gridmovement.o: api/gridmovement.cpp api/gridmovement.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -897,6 +1013,7 @@ maphandler.o: api/maphandler.cpp output.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -921,6 +1038,7 @@ phys.o: api/phys.cpp api/phys.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -943,6 +1061,7 @@ scanning.o: api/scanning.cpp api/scanning.h \
 		simulationcore/sector.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -964,6 +1083,7 @@ shared.o: api/shared.cpp output.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -979,9 +1099,10 @@ flowcontrol.o: simulationcore/flowcontrol.cpp simulationcore/flowcontrol.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		simulationcore/sector.h \
-		simulationcore/agents/agentluainterface.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		utility.h \
+		simulationcore/agents/agentluainterface.h \
 		simulationcore/interfacer.h \
 		mainwindow.h \
 		graphics/agentItem.h \
@@ -1006,6 +1127,7 @@ interfacer.o: simulationcore/interfacer.cpp simulationcore/interfacer.h \
 		simulationcore/eventqueue.h \
 		simulationcore/supervisor.h \
 		simulationcore/sector.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agentluainterface.h \
 		output.h \
 		mainwindow.h \
@@ -1026,8 +1148,9 @@ sector.o: simulationcore/sector.cpp api/phys.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
-		simulationcore/agents/agentluainterface.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
+		simulationcore/agents/agentluainterface.h \
 		simulationcore/interfacer.h \
 		ID.h \
 		output.h \
@@ -1047,9 +1170,10 @@ sector.o: simulationcore/sector.cpp api/phys.h \
 supervisor.o: simulationcore/supervisor.cpp simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		simulationcore/sector.h \
-		simulationcore/agents/agentluainterface.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		utility.h \
+		simulationcore/agents/agentluainterface.h \
 		api/phys.h \
 		output.h \
 		mainwindow.h \
@@ -1071,8 +1195,37 @@ agent.o: simulationcore/agents/agent.cpp simulationcore/agents/agent.h \
 		simulationcore/eventqueue.h \
 		simulationcore/sector.h \
 		simulationcore/supervisor.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agentluainterface.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o agent.o simulationcore/agents/agent.cpp
+
+agentinterface.o: simulationcore/agents/agentinterface.cpp output.h \
+		mainwindow.h \
+		graphics/agentItem.h \
+		postprocessing/postcontrol.h \
+		postprocessing/eventrunner.h \
+		postprocessing/eventprocessing.h \
+		simulationcore/agents/agentluainterface.h \
+		simulationcore/sector.h \
+		simulationcore/supervisor.h \
+		simulationcore/eventqueue.h \
+		utility.h \
+		simulationcore/agents/agentinterface.h \
+		simulationcore/agents/agent.h \
+		postprocessing/graphics/zblock.h \
+		postprocessing/colorutility.h \
+		control.h \
+		simulationcore/flowcontrol.h \
+		simulationcore/interfacer.h \
+		runner.h \
+		postprocessing/graphics/zmap.h \
+		ID.h \
+		api/phys.h \
+		api/gridmovement.h \
+		api/maphandler.h \
+		api/shared.h \
+		api/scanning.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o agentinterface.o simulationcore/agents/agentinterface.cpp
 
 agentluainterface.o: simulationcore/agents/agentluainterface.cpp output.h \
 		mainwindow.h \
@@ -1085,6 +1238,7 @@ agentluainterface.o: simulationcore/agents/agentluainterface.cpp output.h \
 		simulationcore/supervisor.h \
 		simulationcore/eventqueue.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \
@@ -1112,6 +1266,7 @@ eventqueue.o: simulationcore/eventqueue.cpp simulationcore/eventqueue.h \
 		simulationcore/sector.h \
 		simulationcore/supervisor.h \
 		utility.h \
+		simulationcore/agents/agentinterface.h \
 		simulationcore/agents/agent.h \
 		postprocessing/graphics/zblock.h \
 		postprocessing/colorutility.h \

@@ -233,5 +233,16 @@ bool Sector::removeAgent(int arg_id)
 		luaItr->second->setRemoved();
 		removalIDs.push_back(arg_id);
 		return true;
-	} else return false;
+	}
+
+    auto cppItr = cppAgents.find(arg_id);
+    if(cppItr != cppAgents.end())
+    {
+    	cppItr->second->setRemoved();
+    	removalIDs.push_back(arg_id);
+    	return true;
+    }
+
+    return false;
+
 }

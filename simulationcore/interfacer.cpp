@@ -6,7 +6,7 @@
 Supervisor* Interfacer::master = NULL;
 std::map<int, std::string> Interfacer::agentFilenames;
 std::map<int, std::shared_ptr<AgentLuaInterface>> Interfacer::agents;
-std::map<int, std::shared_ptr<AgentInterface>> Interfacer::agents;
+std::map<int, std::shared_ptr<AgentInterface>> Interfacer::agentsCpp;
 std::mutex Interfacer::eventMutex;
 std::mutex Interfacer::agentMutex;
 std::mutex Interfacer::agentPtrMutex;
@@ -16,8 +16,8 @@ void Interfacer::initInterfacer(Supervisor *arg_master)
 	master = arg_master;
     agentFilenames.clear();
     agents.clear();
+    agentsCpp.clear();
 	//activesector = arg_activesector;
-
 }
 
 int Interfacer::addLuaAgent(double x, double y, double z, std::string path, std::string filename)
@@ -101,9 +101,9 @@ std::shared_ptr<AgentInterface> Interfacer::getAgentCppPtr(int id)
 {
     std::lock_guard<std::mutex> guard(agentPtrMutex);
 
-	auto itr = agents.find(id);
+	auto itr = agentsCpp.find(id);
 
-	if(itr != agents.end())
+	if(itr != agentsCpp.end())
 	{
 		return itr->second;
 	} else return NULL;
