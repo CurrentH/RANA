@@ -51,7 +51,7 @@ class Sector
         ~Sector();
 
 		void generateAgent();
-		void populate(int LUASize, std::string filename);
+        void populate(int LUASize, std::string filename, int agentType);
         void takeStepPhase(unsigned long long tmu);
 		//function to receive events the master, and distribute them on all local sector
 		void distroPhase(const EventQueue::eEvent *event);
@@ -60,8 +60,7 @@ class Sector
 		int initAmount;
 		void simDone();
 		int getID(){ return id; }
-		int addAgent(double x, double y, double z,
-					  std::string filename, std::string type);
+        int addAgent(double x, double y, double z, std::string filename, std::string type);
 
 		bool removeAgent(int arg_id);
 		int containsAgent(int arg_id);
@@ -95,6 +94,7 @@ private:
 		double height;
 		int id;
 
+        int agentType;
 };
 
 #endif // SECTOR_H

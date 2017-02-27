@@ -1062,7 +1062,6 @@ int AgentLuaInterface::l_checkCollisionRadial(lua_State *L)
     {
         for(int j = 1; j < radius*2; j++)
         {
-
             if( result[i][j] == 1 && (posX+i != posX+radius || posY+j != posY+radius ))
             {
                 //Output::Inst()->kdebug("collision checked at posX+i %i and posY+j %i", posX+i, posY+j);

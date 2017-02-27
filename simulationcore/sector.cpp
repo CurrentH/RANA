@@ -49,24 +49,41 @@ Sector::~Sector()
 {
 }
 
-void Sector::populate(int LUASize ,std::string filename)
+void Sector::populate(int agentSize ,std::string filename, int agentType)
 {
-	for(int i=0; i<LUASize; i++)
-	{
+    if(agentType == 0)
+    {
+        for(int i=0; i<agentSize; i++)
+        {
+            if(Output::KillSimulation.load()) return;
+            double xtmp = Phys::getMersenneFloat(0,width);
+            double ytmp = Phys::getMersenneFloat(0,height);
 
-		if(Output::KillSimulation.load()) return;
-        double xtmp = Phys::getMersenneFloat(0,width);
-        double ytmp = Phys::getMersenneFloat(0,height);
+            std::shared_ptr<AgentLuaInterface> luaPtr = std::make_shared<AgentLuaInterface>(ID::generateAgentID(), xtmp, ytmp, 1, this, filename);
 
-        std::shared_ptr<AgentLuaInterface> luaPtr =
-                std::make_shared<AgentLuaInterface>(ID::generateAgentID(), xtmp, ytmp,
-										   1, this, filename);
+            luaAgents.insert(std::make_pair(luaPtr->getID(), luaPtr));
+            Interfacer::addLuaAgentPtr(luaPtr);
 
-        luaAgents.insert(std::make_pair(luaPtr->getID(), luaPtr));
-        Interfacer::addLuaAgentPtr(luaPtr);
+            luaPtr->InitializeAgent();
+        }
+    }
+    else if(agentType == 1)
+    {
+        for(int i=0; i<agentSize; i++)
+        {
+            if(Output::KillSimulation.load()) return;
+            double xtmp = Phys::getMersenneFloat(0,width);
+            double ytmp = Phys::getMersenneFloat(0,height);
 
-		luaPtr->InitializeAgent();
-	}
+            std::shared_ptr<AgentInterface> cppPtr = std::make_shared<AgentInterface>(ID::generateAgentID(), xtmp, ytmp, 1, this, filename);
+
+            cppAgents.insert(std::make_pair(cppPtr->getID(), cppPtr));
+            Interfacer::addCppAgentPtr(cppPtr);
+
+            cppPtr->InitializeAgent();
+        }
+    }
+
 }
 
 /**
@@ -75,21 +92,40 @@ void Sector::populate(int LUASize ,std::string filename)
  * @param agentinfo address of array that holds the info needed for graphic rendering.
  */
 void Sector::retrievePopPos(std::list<agentInfo> &infolist){
+    if( agentType == 0 )
+    {
+        for(const auto &lua : luaAgents)
+        {
 
-    for(const auto &lua : luaAgents)
-	{
+            if(master->removedIDs.find(lua.second->getID()) ==
+                    master->removedIDs.end())
+            {
+                agentInfo info = lua.second->getAgentInfo();
+                //info.id = lua.second->getID();
+                //info.y = lua.second->getPosY();
+                //info.x = lua.second->getPosX();
+                infolist.push_back(info);
 
-        if(master->removedIDs.find(lua.second->getID()) ==
-				master->removedIDs.end())
-		{
-			agentInfo info = lua.second->getAgentInfo();
-			//info.id = lua.second->getID();
-			//info.y = lua.second->getPosY();
-			//info.x = lua.second->getPosX();
-			infolist.push_back(info);
+            }
+        }
+    }
+    else if( agentType == 1 )
+    {
+        for(const auto &cpp : cppAgents)
+        {
 
-		}
-	}
+            if(master->removedIDs.find(cpp.second->getID()) ==
+                    master->removedIDs.end())
+            {
+                agentInfo info = cpp.second->getAgentInfo();
+                //info.id = lua.second->getID();
+                //info.y = lua.second->getPosY();
+                //info.x = lua.second->getPosX();
+                infolist.push_back(info);
+
+            }
+        }
+    }
 }
 
 
@@ -101,45 +137,87 @@ void Sector::retrievePopPos(std::list<agentInfo> &infolist){
  */
 void Sector::takeStepPhase(unsigned long long tmu)
 {
-    for(const auto &lua : luaAgents)
-	{
-        int macroFactorMultipler = lua.second->getMacroFactorMultipler();
-
-		if(macroFactorMultipler > 0 &&
-                tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
-		{
-			std::unique_ptr<EventQueue::eEvent> eevent =
-                    lua.second->takeStep();
-
-
-			if(eevent != NULL)
-			{
-				master->receiveEEventPtr(std::move(eevent));
-			}
-		}
-	}
-
-	if(!removalIDs.empty())
-	{
-		//remove all autons set for removal
-        for(const auto &r : removalIDs)
-		{
-            auto itrLua = luaAgents.find(r);
-            if(itrLua != luaAgents.end())
-			{
-                luaAgents.erase(r);
-			}
-		}
-		removalIDs.clear();
-	}
-
-    for(const auto &agent : newAgents)
+    if( agentType == 0 )
     {
-        luaAgents.insert(std::make_pair(agent->getID(),agent));
-        agent->InitializeAgent();
+        for(const auto &lua : luaAgents)
+        {
+            int macroFactorMultipler = lua.second->getMacroFactorMultipler();
 
+            if(macroFactorMultipler > 0 &&
+                    tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
+            {
+                std::unique_ptr<EventQueue::eEvent> eevent =
+                        lua.second->takeStep();
+
+
+                if(eevent != NULL)
+                {
+                    master->receiveEEventPtr(std::move(eevent));
+                }
+            }
+        }
+
+        if(!removalIDs.empty())
+        {
+            //remove all autons set for removal
+            for(const auto &r : removalIDs)
+            {
+                auto itrLua = luaAgents.find(r);
+                if(itrLua != luaAgents.end())
+                {
+                    luaAgents.erase(r);
+                }
+            }
+            removalIDs.clear();
+        }
+
+        for(const auto &agent : newAgents)
+        {
+            luaAgents.insert(std::make_pair(agent->getID(),agent));
+            agent->InitializeAgent();
+
+        }
+        newAgents.clear();
     }
-    newAgents.clear();
+    else if( agentType == 1 )
+    {
+        for(const auto &cpp : cppAgents)
+        {
+            int macroFactorMultipler = cpp.second->getMacroFactorMultipler();
+
+            if(macroFactorMultipler > 0 && tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
+            {
+                std::unique_ptr<EventQueue::eEvent> eevent = lua.second->takeStep();
+
+                if(eevent != NULL)
+                {
+                    master->receiveEEventPtr(std::move(eevent));
+                }
+            }
+        }
+
+        if(!removalIDs.empty())
+        {
+            //remove all autons set for removal
+            for(const auto &r : removalIDs)
+            {
+                auto itrCpp = cppAgents.find(r);
+                if(itrCpp != cppAgents.end())
+                {
+                    cppAgents.erase(r);
+                }
+            }
+            removalIDs.clear();
+        }
+
+        for(const auto &agent : newAgents)
+        {
+            cppAgents.insert(std::make_pair(agent->getID(),agent));
+            agent->InitializeAgent();
+
+        }
+        newAgents.clear();
+    }
 
 }
 
@@ -150,35 +228,61 @@ void Sector::takeStepPhase(unsigned long long tmu)
  */
 void Sector::distroPhase(const EventQueue::eEvent* event)
 {
-    for(const auto &lua : luaAgents)
-	{
-        if(event->originID != lua.second->getID() &&
-				(event->targetGroup == 0 ||
-                 lua.second->checkGroup(event->targetGroup) == true))
-		{
-			std::unique_ptr<EventQueue::iEvent> ieventPtr =
-                    lua.second->processEvent(event);
+    if( agentType == 0 )
+    {
+        for(const auto &lua : luaAgents)
+        {
+            if(event->originID != lua.second->getID() &&
+                    (event->targetGroup == 0 ||
+                     lua.second->checkGroup(event->targetGroup) == true))
+            {
+                std::unique_ptr<EventQueue::iEvent> ieventPtr =
+                        lua.second->processEvent(event);
 
-			if(ieventPtr != NULL)
-			{
-				master->incrementEEventCounter(event->id);
-				master->receiveIEventPtr(std::move(ieventPtr));
-			}
-		}
-	}
+                if(ieventPtr != NULL)
+                {
+                    master->incrementEEventCounter(event->id);
+                    master->receiveIEventPtr(std::move(ieventPtr));
+                }
+            }
+        }
+    }
+    else if( agentType == 1 )
+    {
+        for(const auto &cpp : cppAgents)
+        {
+            if(event->originID != cpp.second->getID() &&
+                    (event->targetGroup == 0 ||
+                     cpp.second->checkGroup(event->targetGroup) == true))
+            {
+                std::unique_ptr<EventQueue::iEvent> ieventPtr = cpp.second->processEvent(event);
+
+                if(ieventPtr != NULL)
+                {
+                    master->incrementEEventCounter(event->id);
+                    master->receiveIEventPtr(std::move(ieventPtr));
+                }
+            }
+        }
+    }
 }
 
 void Sector::simDone()
 {
-    for(auto itlua = luaAgents.begin(); itlua !=luaAgents.end(); itlua++)
-	{
-		itlua->second->simDone();
-	}
-
-    for(auto itcpp = cppAgents.begin(); itcpp !=cppAgents.end(); itcpp++)
-	{
-    	itcpp->second->simDone();
-	}
+    if( agentType == 0 )
+    {
+        for(auto itlua = luaAgents.begin(); itlua !=luaAgents.end(); itlua++)
+        {
+            itlua->second->simDone();
+        }
+    }
+    else if( agentType == 1 )
+    {
+        for(auto itcpp = cppAgents.begin(); itcpp !=cppAgents.end(); itcpp++)
+        {
+            itcpp->second->simDone();
+        }
+    }
 }
 
 //perform an event for an auton in question:
@@ -188,8 +292,7 @@ void Sector::performEvent(std::unique_ptr<EventQueue::eEvent> event)
 }
 
 
-int Sector::addAgent(double x, double y, double z,
-					  std::string filename, std::string type="Lua")
+int Sector::addAgent(double x, double y, double z, std::string filename, std::string type)
 {
     int id = ID::generateAgentID();
 

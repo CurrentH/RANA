@@ -153,8 +153,7 @@ std::list<agentInfo> Supervisor::retrievePopPos()
  * @param filename the lua file of the LUA autons definition.
  */
 
-void Supervisor::populateSystem(int listenerSize,
-                            int screamerSize, int LUASize, std::string filename)
+void Supervisor::populateSystem(int listenerSize, int screamerSize, int LUASize, std::string filename)
 {
 
     std::vector<int> LUAVector;
@@ -165,7 +164,7 @@ void Supervisor::populateSystem(int listenerSize,
     }
 
     autonAmount = LUASize;
-    luaFilename = filename;
+    agentFilename = filename;
 
     uint j = 0;
     for(int i = 0; i<LUASize; i++, j++)
@@ -179,7 +178,7 @@ void Supervisor::populateSystem(int listenerSize,
     {
         Sector *sector = sectors.at(j);
         //Output::Inst()->kdebug("Working not here %i", *itr);
-        sector->populate(*itr, filename);
+        sector->populate(*itr, filename, simulationType);
     }
 
 }
@@ -221,8 +220,7 @@ void Supervisor::microStep(unsigned long long tmu)
 
         for(auto &e : elist) //; eListItr != elist.end(); ++eListItr)
         {
-            const EventQueue::eEvent* eEventPtr =
-                    eventQueue->addUsedEEvent(std::move(e));
+            const EventQueue::eEvent* eEventPtr = eventQueue->addUsedEEvent(std::move(e));
 
             for(const auto &s : sectors)
             {
@@ -235,25 +233,47 @@ void Supervisor::microStep(unsigned long long tmu)
     {
         auto ilist = eventQueue->getIEventList(tmu);
 
-        for(auto &e : ilist)
+        if( simulationType == 0 ) //LUA agents
         {
-            //Output::Inst()->kprintf("origin id is %i", event->originID);
-            if (removedIDs.find(e->originID) == removedIDs.end())
+            for(auto &e : ilist)
             {
-                std::unique_ptr<EventQueue::iEvent> iEventPtr(std::move(e));
+                //Output::Inst()->kprintf("origin id is %i", event->originID);
+                if (removedIDs.find(e->originID) == removedIDs.end())
+                {
+                    std::unique_ptr<EventQueue::iEvent> iEventPtr(std::move(e));
 
-                AgentLuaInterface *luaAgent = (AgentLuaInterface*)iEventPtr->origin;
-                eventQueue->decrementEeventCounter(iEventPtr->event->id);
+                    AgentLuaInterface *luaAgent = (AgentLuaInterface*)iEventPtr->origin;
+                    eventQueue->decrementEeventCounter(iEventPtr->event->id);
 
-                std::unique_ptr<EventQueue::eEvent> eEventPtr =
-                        luaAgent->handleEvent(std::move(iEventPtr));
+                    std::unique_ptr<EventQueue::eEvent> eEventPtr = luaAgent->handleEvent(std::move(iEventPtr));
 
+                    if(eEventPtr != NULL)
+                        eventQueue->insertEEvent(std::move(eEventPtr));
 
-                if(eEventPtr != NULL)
-                    eventQueue->insertEEvent(std::move(eEventPtr));
-
+                }
             }
         }
+        else if( simulationType == 1 ) //CPP agents
+        {
+            for(auto &e : ilist)
+            {
+                //Output::Inst()->kprintf("origin id is %i", event->originID);
+                if (removedIDs.find(e->originID) == removedIDs.end())
+                {
+                    std::unique_ptr<EventQueue::iEvent> iEventPtr(std::move(e));
+
+                    AgentInterface *cppAgent = (AgentInterface*)iEventPtr->origin;
+                    eventQueue->decrementEeventCounter(iEventPtr->event->id);
+
+                    std::unique_ptr<EventQueue::eEvent> eEventPtr = cppAgent->handleEvent(std::move(iEventPtr));
+
+                    if(eEventPtr != NULL)
+                        eventQueue->insertEEvent(std::move(eEventPtr));
+                }
+            }
+        }
+
+
     }
 
     eventQueue->legacyFront();
@@ -336,7 +356,7 @@ void Supervisor::printStatus()
  */
 void Supervisor::saveExternalEvents(std::string filename)
 {
-    eventQueue->saveEEventData(filename, luaFilename,autonAmount,areaY,areaX);
+    eventQueue->saveEEventData(filename, agentFilename,autonAmount,areaY,areaX);
 }
 
 void Supervisor::simDone()
@@ -347,8 +367,7 @@ void Supervisor::simDone()
     }
 }
 
-int Supervisor::addAgent(double x, double y, double z, std::string path,
-                     std::string filename, std::string type = "Lua")
+int Supervisor::addAgent(double x, double y, double z, std::string path, std::string filename, std::string type)
 {
     auto nestItr = sectors.begin();
 
@@ -382,3 +401,17 @@ bool Supervisor::removeAgent(int arg_id)
     }
     return false;
 }
+
+//  Choose whether to use LUA or CPP agents.
+void Supervisor::setSimulationType( int agentAmount )
+{
+    if( agentAmount < 5000 )
+    {
+        simulationType = 0;
+    }
+    else
+    {
+        simulationType = 1;
+    }
+}
+

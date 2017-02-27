@@ -25,37 +25,37 @@ public:
 	//	Interface
 	void debug( std::string string );
 	void print( std::string string );
-	int generateEventID();
+    unsigned long long generateEventID();
 
 	//	Physics
-	int speedOfSound();
-	int distance();
-	int currentTime();
-	int currentTimeS();
+    unsigned long long speedOfSound();
+    double distance();
+    unsigned long long currentTime();
+    double currentTimeS();
 	int getMacroFactor();
-	int getTimeResolution();
-	int getMersenneFloat();
-	int getMersenneInteger();
+    double getTimeResolution();
+    double getMersenneFloat(double low, double high);
+    int64_t getMersenneInteger(int64_t low, int64_t high);
 
 	//	Map and movement
 	std::vector<int> getEnvironmentSize();
-	int modifyMap();
-	rgba checkMap();
-	int checkMapAndChange();
-	int radialMapScan();
-	int radialMapColorScan();
+    bool modifyMap(double x, double y, int r, int g, int b);
+    rgba checkMap(double x, double y);
+    bool checkMapAndChange(double x, double y, int r1, int g1, int b1, int r2, int b2, int g2);
+    int radialMapColorScan(int radius, int x, int y, int r, int g, int b);
+    int radialMapScan(int radius, int x, int y);
 
-	void addPosition();
-	int checkPosition();
-	int updatePosition();
-	int checkCollision();
-	int checkCollisionRadial();
-	int getMaskRadial();
-	void gridMove();
-	int getGridScale();
+    void addPosition(int x, int y, int id);
+    pList checkPosition(int x, int y);
+    void updatePosition(int oldX, int oldY, int newX, int newY, int id);
+    bool checkCollision(int x, int y);
+    bool checkCollisionRadial(int radius, int x, int y);
+    int getMaskRadial(int radius, int x, int y);
+    void gridMove(int oldX, int oldY, int newX, int newY);
+    double getGridScale();
 	void initializeGrid();
-	int radialCollisionScan();
-	int updatePositionIfFree();
+    int radialCollisionScan(int radius, int x, int y, int id);
+    bool updatePositionIfFree(int x1, int y1, int x2, int y2, int id);
 
 	//	Shared values
 	std::string getSharedNumber(std::string key);
@@ -66,15 +66,15 @@ public:
 	//	Simulation core
 	void stopSimulation();
 	std::vector<std::string> getAgentPath();
-	int addAgent();
-	int removeAgent();
+    int addAgent(int posX, int posY, int posZ, std::__cxx11::string path, std::__cxx11::string filename);
+    bool removeAgent(int id);
 
 	//	Agents
-	void emitEvent();
-	int addGroup();
-	int removeGroup();
-	void setMacroFactorMultipler();
-	int changeAgentColor();
+    void emitEvent(int id, int posX, int posY, double speed, std::string tableString, std::string desc, int targetID, int targetGroup);
+    bool addGroup(int groupID, int id);
+    bool removeGroup(int groupID, int id);
+    void setMacroFactorMultipler(int id, int macroFactorMultiple);
+    bool changeAgentColor(int id, int r, int g, int b, int alpha);
 
 	//	Panic
 	void panic(std::string string);
@@ -90,7 +90,7 @@ private:
 	void movement();
     double destinationX;
     double destinationY;
-    double speed; //meters pr second
+    double speed;
     bool moving;
     bool gridmove;
 

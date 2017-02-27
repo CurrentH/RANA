@@ -112,7 +112,7 @@ function CleanUp()
 			file:write(value ..",".. agent_table[value] .."\n")
 	end
 
-	file2 = io.open("/home/sojoe/box_data.csv", "a")
+	file2 = io.open("/home/theis/box_data.csv", "a")
 
 	file2:write(synced_calls .."\n")
 

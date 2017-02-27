@@ -112,3 +112,47 @@ DEPENDPATH += $$PWD/../lua51_64bit/include
 
 RESOURCES += \
     images.qrc
+
+DISTFILES += \
+    lua_agents/01_pingpong.lua \
+    lua_agents/02_data_collector.lua \
+    lua_agents/02_master.lua \
+    lua_agents/02_oscillator.lua \
+    lua_agents/03_painter.lua \
+    lua_agents/04_valueShare.lua \
+    lua_agents/05_angular_event_module.lua \
+    lua_agents/05_bat.lua \
+    lua_agents/05_master.lua \
+    lua_agents/05_pole.lua \
+    lua_agents/06_mover.lua \
+    lua_agents/07_repulser.lua \
+    lua_agents/08_flasher.lua \
+    lua_agents/08_master_flasher.lua \
+    lua_agents/09_radial_scanner.lua \
+    lua_agents/10_pingpong_targeted.lua \
+    lua_agents/11_data_collector.lua \
+    lua_agents/11_forage_module.lua \
+    lua_agents/11_frog.lua \
+    lua_agents/11_master.lua \
+    lua_agents/11_oscillator_module.lua \
+    lua_agents/12_female.lua \
+    lua_agents/12_freerunning_osc.lua \
+    lua_agents/12_greenfield_osc.lua \
+    lua_agents/12_master.lua \
+    lua_agents/13_precision_test.lua \
+    modules/auxiliary.lua \
+    modules/lib_env_lake.lua \
+    modules/lib_table.lua \
+    modules/ranalib_agent.lua \
+    modules/ranalib_api.lua \
+    modules/ranalib_collision.lua \
+    modules/ranalib_core.lua \
+    modules/ranalib_draw.lua \
+    modules/ranalib_environment.lua \
+    modules/ranalib_event.lua \
+    modules/ranalib_map.lua \
+    modules/ranalib_movement.lua \
+    modules/ranalib_shared.lua \
+    modules/ranalib_statistic.lua \
+    modules/ranalib_utility.lua \
+    modules/wrapper_auxiliary.lua

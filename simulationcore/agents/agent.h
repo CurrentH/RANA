@@ -44,8 +44,7 @@ public:
     virtual std::unique_ptr<EventQueue::eEvent> handleEvent(std::unique_ptr<EventQueue::iEvent> event);
     virtual std::unique_ptr<EventQueue::eEvent> takeStep(){return NULL;}
 
-    virtual void processFunction(EventQueue::dataEvent *devent, double mapRes,
-								 double x, double y, double &zvalue, double &duration){}
+    virtual void processFunction(EventQueue::dataEvent *devent, double mapRes, double x, double y, double &zvalue, double &duration){}
 
     std::string getDesc();
     int getID();

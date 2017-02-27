@@ -27,7 +27,7 @@
 #include "agent.h"
 #include "../sector.h"
 
-    Agent::Agent(int ID, double posX, double posY, double posZ, Sector *sector)
+Agent::Agent(int ID, double posX, double posY, double posZ, Sector *sector)
 :ID(ID), macroFactorMultiple(1), posX(posX), posY(posY), posZ(posZ), sector(sector),
 	  radius(0), mass(0), charge(0)
 {

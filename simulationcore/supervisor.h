@@ -96,7 +96,7 @@ private:
 
 	int autonAmount;
     int sectorAmount;
-	std::string luaFilename;
+    std::string agentFilename;
 	double areaX;
 	double areaY;
 
@@ -113,5 +113,7 @@ private:
     static std::mutex mutexStep;
     static std::mutex mutexStepDone;
     static int task;
+
+    int simulationType;
 };
 #endif // SUPERVISOR_H

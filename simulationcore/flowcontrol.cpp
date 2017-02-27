@@ -94,9 +94,10 @@ void FlowControl::generateEnvironment(double width, double height, int threads,
     mapWidth = width;
     mapHeight = height;
 
-    agentAmount = agentAmount;
     luaFilename = filename;
+    agentAmount = agentAmount;
 
+    masteragent->setAgentType(agentAmount);
     masteragent->populateSystem(0, 0, agentAmount, filename);
 
     retrievePopPos();
