@@ -58,6 +58,7 @@ class FlowControl
 
         void toggleLiveView(bool enable);
         void populateSystem();
+
 private:
 
         Control *control;
@@ -82,6 +83,7 @@ private:
         std::atomic_bool fetchPositions;
 
         int agentAmount;
+
         std::string luaFilename;
 
 		typedef std::list<agentInfo> onlineAgents;

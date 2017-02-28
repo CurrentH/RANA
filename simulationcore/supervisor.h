@@ -76,6 +76,8 @@ public:
 
     std::set<int> removedIDs;
 
+    void setSimulationType(int numberOfAgents);
+
 private:
 
     std::vector<Sector*> sectors;

@@ -47,8 +47,8 @@
 #include "../../api/scanning.h"
 
 AgentLuaInterface::AgentLuaInterface(int ID, double posX, double posY, double posZ, Sector *sector, std::string filename)
-    : Agent(ID, posX, posY, posZ, sector), destinationX(posX), destinationY(posY),speed(1), moving(false),gridmove(false),filename(filename),
-      nofile(false),removed(false),L(NULL)
+    :Agent(ID,posX,posY,posZ,sector),destinationX(posX),destinationY(posY),speed(1),moving(false),gridmove(false),
+    filename(filename),nofile(false),removed(false),L(NULL)
 {
     desc = "LUA";
     //Output::Inst()->kprintf("%f,%f", posX, posY);

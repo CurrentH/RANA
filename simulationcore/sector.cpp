@@ -143,12 +143,9 @@ void Sector::takeStepPhase(unsigned long long tmu)
         {
             int macroFactorMultipler = lua.second->getMacroFactorMultipler();
 
-            if(macroFactorMultipler > 0 &&
-                    tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
+            if(macroFactorMultipler > 0 && tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
             {
-                std::unique_ptr<EventQueue::eEvent> eevent =
-                        lua.second->takeStep();
-
+                std::unique_ptr<EventQueue::eEvent> eevent = lua.second->takeStep();
 
                 if(eevent != NULL)
                 {
@@ -187,7 +184,7 @@ void Sector::takeStepPhase(unsigned long long tmu)
 
             if(macroFactorMultipler > 0 && tmu%(macroFactorMultipler*Phys::getMacroFactor()) == 0 )
             {
-                std::unique_ptr<EventQueue::eEvent> eevent = lua.second->takeStep();
+                std::unique_ptr<EventQueue::eEvent> eevent = cpp.second->takeStep();
 
                 if(eevent != NULL)
                 {
@@ -210,13 +207,13 @@ void Sector::takeStepPhase(unsigned long long tmu)
             removalIDs.clear();
         }
 
-        for(const auto &agent : newAgents)
+        for(const auto &agent : newCppAgents)
         {
             cppAgents.insert(std::make_pair(agent->getID(),agent));
             agent->InitializeAgent();
 
         }
-        newAgents.clear();
+        newCppAgents.clear();
     }
 
 }

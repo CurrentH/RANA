@@ -403,9 +403,9 @@ bool Supervisor::removeAgent(int arg_id)
 }
 
 //  Choose whether to use LUA or CPP agents.
-void Supervisor::setSimulationType( int agentAmount )
+void Supervisor::setSimulationType(int numberOfAgents)
 {
-    if( agentAmount < 5000 )
+    if( numberOfAgents < 5000 )
     {
         simulationType = 0;
     }

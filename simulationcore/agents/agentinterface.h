@@ -28,8 +28,8 @@ public:
     unsigned long long generateEventID();
 
 	//	Physics
-    unsigned long long speedOfSound();
-    double distance();
+    unsigned long long speedOfSound(double x_origin, double y_origin, double x_dest, double y_dest, double propagationSpeed);
+    double distance(double x_origin, double y_origin, double x_dest, double y_dest);
     unsigned long long currentTime();
     double currentTimeS();
 	int getMacroFactor();
@@ -46,7 +46,7 @@ public:
     int radialMapScan(int radius, int x, int y);
 
     void addPosition(int x, int y, int id);
-    pList checkPosition(int x, int y);
+    std::list<int> checkPosition(int x, int y);
     void updatePosition(int oldX, int oldY, int newX, int newY, int id);
     bool checkCollision(int x, int y);
     bool checkCollisionRadial(int radius, int x, int y);

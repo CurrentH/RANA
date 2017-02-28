@@ -43,8 +43,8 @@
 #include "../../api/scanning.h"
 
 AgentInterface::AgentInterface(int ID, double posX, double posY, double posZ, Sector *sector, std::string filename)
-:Agent(ID, posX, posY, posZ, sector), destinationX(posX), destinationY(posY), speed(1),
- 	 	 moving(false), gridmove(false), filename(filename), nofile(false), removed(false)
+    :Agent(ID,posX,posY,posZ,sector),destinationX(posX),destinationY(posY),speed(1),moving(false),gridmove(false),
+    filename(filename),nofile(false),removed(false)
 {
 	desc = "CPP";
 	Output::Inst()->addGraphicAgent(ID, -1,-1);
@@ -67,11 +67,7 @@ void AgentInterface::InitializeAgent()
 
     if(gridmove == true)
     {
-        GridMovememt::addPos(
-                    int(posX*GridMovement::getScale()),
-                    int(posY*GridMovement::getScale()),
-                    ID
-                    );
+        GridMovement::addPos(int(posX*GridMovement::getScale()),int(posY*GridMovement::getScale()),ID);
     }
     getSyncData();
 }
@@ -205,14 +201,14 @@ unsigned long long AgentInterface::generateEventID()
 }
 
 //	Physics
-unsigned long long AgentInterface::speedOfSound()
+unsigned long long AgentInterface::speedOfSound(double x_origin, double y_origin, double x_dest, double y_dest, double propagationSpeed)
 {
-	return Phys::speedOfEvent(posX, posY, origX, origY, propagationSpeed);
+    return Phys::speedOfEvent(x_origin, y_origin, x_dest, y_dest, propagationSpeed);
 }
 
-double AgentInterface::distance()
+double AgentInterface::distance(double x_origin, double y_origin, double x_dest, double y_dest)
 {
-	return Phys::calcDistance(origX, origY, posX, posY);
+    return Phys::calcDistance(x_origin, y_origin, x_dest, y_dest);
 }
 
 unsigned long long AgentInterface::currentTime()
@@ -361,7 +357,7 @@ int AgentInterface::radialMapScan(int radius, int x, int y)
 			{
 				index++;
 
-				rgba color = MapHandler::getPixelInfo(posX+i, posY+j);
+                //rgba color = MapHandler::getPixelInfo(posX+i, posY+j);
 			}
 		}
 	}
@@ -373,7 +369,7 @@ void AgentInterface::addPosition(int x, int y, int id)
     GridMovement::addPos(x, y, id);
 }
 
-pList AgentInterface::checkPosition(int x, int y)
+std::list<int> AgentInterface::checkPosition(int x, int y)
 {
     posX = x * GridMovement::getScale() + 0.5;
     posY = y * GridMovement::getScale() + 0.5;
@@ -436,7 +432,7 @@ int AgentInterface::getMaskRadial(int radius, int x, int y)
                 index++;
 
                 //TODO
-                lua_pushnumber(L, index);
+                /*lua_pushnumber(L, index);
                 lua_newtable(L);
                 lua_pushstring(L,"posX");
                 lua_pushnumber(L, posX + i);
@@ -444,7 +440,7 @@ int AgentInterface::getMaskRadial(int radius, int x, int y)
                 lua_pushstring(L,"posY");
                 lua_pushnumber(L, posY + j);
                 lua_settable(L, -3);
-                lua_settable(L, -3);
+                lua_settable(L, -3);*/
             }
         }
     }
@@ -491,7 +487,7 @@ int AgentInterface::radialCollisionScan(int radius, int x, int y, int id)
                         {
                             counter++;
 
-                            lua_pushnumber(L, counter);
+                            /*lua_pushnumber(L, counter);
                             lua_newtable(L);
                             lua_pushstring(L, "id");
                             lua_pushnumber(L, *it);
@@ -502,7 +498,7 @@ int AgentInterface::radialCollisionScan(int radius, int x, int y, int id)
                             lua_pushstring(L, "posY");
                             lua_pushnumber(L, posY + j);
                             lua_settable(L, -3);
-                            lua_settable(L, -3);
+                            lua_settable(L, -3);*/
                         }
                     }
 
@@ -658,6 +654,46 @@ void AgentInterface::panic(std::string string)
     Output::KillSimulation.store(true);
 }
 
+//  Post processing
+void AgentInterface::processFunction(EventQueue::dataEvent *devent, double mapRes, double x, double y, double &zvalue, double &duration)
+{
+    //  TODO
+    if(removed) return;
+
+    try
+    {
+        /*
+        lua_settop(L,0);
+
+        //Output::Inst()->kprintf("hugahuga--%s", devent->table);
+
+        lua_getglobal(L, "_ProcessEventFunction");
+        lua_pushnumber(L, devent->originX);
+        lua_pushnumber(L, devent->originY);
+        lua_pushnumber(L, x);
+        lua_pushnumber(L, y);
+        lua_pushnumber(L, time);
+        lua_pushstring(L, devent->table);
+
+        if(lua_pcall(L,6,2,0)!=LUA_OK){
+            Output::Inst()->kprintf("Error on calling _ProcessEventFunction : %s\n,",
+                                    lua_tostring(L,-1));
+            Output::RunEventProcessing.store(false);
+            return;
+        } else
+        {
+            zvalue = lua_tonumber(L,-2);
+            duration = lua_tonumber(L,-1);
+        }
+        */
+    }
+    catch(std::exception &e)
+    {
+        Output::Inst()->kprintf("<b><font color=\"red\">Error on processEvent..%s</font></b></>", e.what());
+        Output::RunEventProcessing.store(false);
+    }
+}
+
 //  Core utility.
 void AgentInterface::setRemoved()
 {
@@ -668,8 +704,8 @@ void AgentInterface::setRemoved()
 
 void AgentInterface::simDone()
 {
-    if(nofile)
-        return;
+    if(nofile) return;
+    /*
     try
     {
         lua_getglobal(L, "_CleanUp");
@@ -683,6 +719,7 @@ void AgentInterface::simDone()
     {
         Output::Inst()->kprintf("<b><font color=\"red\">Exception on cleanUp. %s</font></b></>", e.what());
     }
+    */
 }
 
 void AgentInterface::getSyncData()
@@ -691,6 +728,7 @@ void AgentInterface::getSyncData()
     if(removed) return;
     try
 	{
+        /*
 		lua_getglobal(L, "ColorRed");
 		lua_getglobal(L, "ColorGreen");
 		lua_getglobal(L, "ColorBlue");
@@ -735,7 +773,7 @@ void AgentInterface::getSyncData()
         speed = lua_tonumber(L, -2);
         moving = lua_toboolean(L, -1);
         gridmove = lua_toboolean(L,- 8);
-
+        */
     }
     catch(std::exception &e)
     {
