@@ -1,7 +1,7 @@
 #include <QFileDialog>
 
-#include "eventdialog.h"
 #include "ui_eventdialog.h"
+#include "src/eventdialog.h"
 
 EventDialog::EventDialog(Control *control, QWidget *parent) :
 	QDialog(parent),

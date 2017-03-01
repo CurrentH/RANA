@@ -72,7 +72,7 @@ AgentLuaInterface::AgentLuaInterface(int ID, double posX, double posY, double po
         std::string cur_path = lua_tostring(L, -1);
         std::string module_path = Output::Inst()->RanaDir;
         //Output::Inst()->kdebug(module_path.c_str());
-        module_path.append("/modules/?.lua");
+        module_path.append("/src/modules/?.lua");
         //Output::Inst()->kdebug(module_path.c_str());
         cur_path.append(";");
         cur_path.append(module_path);
@@ -196,7 +196,7 @@ AgentLuaInterface::AgentLuaInterface(int ID, double posX, double posY, double po
         lua_register(L, "l_changeAgentColor", l_changeAgentColor);
 
         std::string auxLib = Output::Inst()->RanaDir;
-        auxLib.append("/modules/auxiliary.lua");
+        auxLib.append("/src/modules/auxiliary.lua");
 
         std::string settingsPath = filename;
         settingsPath.erase(settingsPath.end()-4,settingsPath.end());
