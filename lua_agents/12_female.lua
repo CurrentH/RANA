@@ -1,4 +1,4 @@
-----begin_license--
+---begin_license--
 --
 --Copyright 	2013 - 2016 	Søren Vissing Jørgensen.
 --
@@ -58,13 +58,16 @@ synced_calls = 0
 synced = false
 
 function InitializeAgent()
-	
-	say("Female initialized")
+        l_debug("Female agent #: " .. ID .. " is being initialized")
+
+        --positionX = ENV_WIDTH/2
+        --positionY = ENV_HEIGHT/2
+        --say("Fema "..ID.." x "..positionX.." y "..positionY)
+
 	ids = Shared.getTable("ids")
 	agent_table = Shared.getTable("agents")
 
-	Agent.changeColor{r=255}
-
+        Agent.changeColor{r=255,b=255}
 end
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
@@ -83,13 +86,12 @@ function HandleEvent(event)
 	else
 		--say(synced_calls)
 		synced_calls = 0
-		say(event.ID)
+                say(event.ID)
 		countdown = beta
 		synced = true
 	end
 
 	total_calls = total_calls + 1
-
 end
 
 
@@ -102,26 +104,26 @@ end
 
 
 function CleanUp()
+        l_debug("Agent "..ID.." is doing clean up - Female")
 
-	--Write the oscillation data to a csv file.
-	file = io.open("greenfield_stats.csv", "w")
-
-	say(Utility.serializeTable(agent_table))
+        file = io.open("test_output/greenfield_stats.csv", "w")
 
 	for key,value in pairs(ids) do
-			file:write(value ..",".. agent_table[value] .."\n")
+            file:write(value ..",".. agent_table[value] .."\n")
 	end
 
-	file2 = io.open("/home/theis/box_data.csv", "a")
+        file:close()
 
+        file2 = io.open("test_output/box_data.csv", "a")
 	file2:write(synced_calls .."\n")
+        file2:close()
 
 
-	say("Total number of calls: ".. total_calls)
-	say("Number of calls within thresshold: ".. synced_calls)
+        --say(Utility.serializeTable(agent_table))
+        --say("Total number of calls: ".. total_calls)
+        --say("Number of calls within thresshold: ".. synced_calls)
 
-	file:close()
-	say("Data Collection is done\n")
-
+        Agent.removeAgent(ID)
+        l_debug("Agent " .. ID .. " is done")
 end
 

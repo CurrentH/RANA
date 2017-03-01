@@ -63,20 +63,17 @@ peaked = false
 Event	= require "ranalib_event"
 Core	= require "ranalib_core"
 Stat	= require "ranalib_statistic"
+Agent 	= require "ranalib_agent"
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 function initializeAgent()
-	Tt = T + Stat.randomMean(e,0)
+        l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
---	if ID==1 then 
---		PositionX=10 
---		PositionY=10
---	elseif ID==2 then
---		PositionX=20
---		PositionY=10
---	end
+        --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
+        --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
+        --say("GFie "..ID.." x "..positionX.." y "..positionY)
 
-	l_debug("Oscillator agent #: " .. ID .. " has been initialized")
+        Tt = T + Stat.randomMean(e,0)
 end
 
 function takeStep()
@@ -126,16 +123,18 @@ function handleEvent(sourceX, sourceY, sourceID, eventDescription, eventTable)
 end
 
 function cleanUp()
+        l_debug("Agent "..ID.." is doing clean up - Green")
 
 	--Write the oscillation data to a csv file.
 	if ID <= 4 then
-		file = io.open("/home/theis/green_data"..ID..".csv", "w")
+                file = io.open("test_output/green_data"..ID..".csv", "w")
 		for i,v in pairs(Olevels) do
 			file:write(i..","..v.."\n")
 		end
 		file:close()
 	end
 
-	l_debug("Agent #: " .. ID .. " is done\n")
+        Agent.removeAgent(ID)
+        l_debug("Agent " .. ID .. " is done")
 end
 

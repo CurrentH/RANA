@@ -138,7 +138,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_generateButton_clicked()
 {
-
     qApp->processEvents();
     if (Output::Inst()->SimRunning.load())
     {
@@ -220,7 +219,6 @@ void MainWindow::on_generateButton_clicked()
 
     initializeTimer->start(400);
     //ui->generateButton->setEnabled(true);
-
 }
 
 /**

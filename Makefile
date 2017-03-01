@@ -143,6 +143,7 @@ DIST          = lua_agents/01_pingpong.lua \
 		lua_agents/12_greenfield_osc.lua \
 		lua_agents/12_master.lua \
 		lua_agents/13_precision_test.lua \
+		lua_agents/14_master.lua \
 		modules/auxiliary.lua \
 		modules/lib_env_lake.lua \
 		modules/lib_table.lua \
