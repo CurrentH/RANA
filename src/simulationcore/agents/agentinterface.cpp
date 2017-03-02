@@ -1,4 +1,3 @@
-
 //
 //Copyright 	2013 	Søren Vissing Jørgensen.
 //			2014	Søren Vissing Jørgensen, Center for Bio-Robotics, SDU, MMMI.
@@ -31,6 +30,10 @@
 #include <cmath>
 #include <mutex>
 
+//#include "lua.hpp"
+//#include "lauxlib.h"
+//#include "lualib.h"
+
 #include "src/ID.h"
 #include "src/output.h"
 #include "src/api/phys.h"
@@ -46,7 +49,10 @@ AgentInterface::AgentInterface(int ID, double posX, double posY, double posZ, Se
     filename(filename),nofile(false),removed(false)
 {
 	desc = "CPP";
-	Output::Inst()->addGraphicAgent(ID, -1,-1);
+    color.red=255;
+    color.green=255;
+    color.blue=0;
+    Output::Inst()->addGraphicAgent(ID,-1,-1,color,0);
 
 	moveFactor = Phys::getMacroFactor() * Phys::getTimeRes();
 }

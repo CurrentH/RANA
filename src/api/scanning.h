@@ -13,6 +13,7 @@ public:
     Scanning();
     static void reset();
     static MatriceInt radialMask(int radius);
+    static void edgeMask();
 
 private:
 

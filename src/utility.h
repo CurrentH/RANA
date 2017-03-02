@@ -27,6 +27,7 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
+#include <map>
 
 #define SSTR(x) dynamic_cast<std::ostringstream & >(\
 		(std::ostringstream() << std::dec << x) ).str();
@@ -58,8 +59,9 @@ struct agentInfo
 	double radius;
 	double mass;
 	double charge;
-    //std::string filename;
 
+    double angle;
+    //std::string filename;
 };
 
 
@@ -68,10 +70,17 @@ struct agentTmu
     int x;
     int y;
     int id;
-	unsigned long long tmu;
+    unsigned long long tmu;
+};
+
+struct agentPosition
+{
+    int x;
+    int y;
 };
 
 typedef std::vector< std::vector<int> > MatriceInt;
+typedef std::vector< std::map<int, double>> EdgeAngles;
 
 
 #endif // UTILITY_H

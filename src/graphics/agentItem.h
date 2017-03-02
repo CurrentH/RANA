@@ -25,22 +25,29 @@
 #include <QPainter>
 #include <QGraphicsItem>
 
+#include "src/utility.h"
+
 class agentItem : public QGraphicsItem
 {
     //Q_OBJECT
 public:
-    agentItem(QString id);
+    agentItem(QString id, rgba color, double angle);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-	void setColor(int r, int g, int b, int alpha=255);
+    void setColor(rgba color);
     void showID(bool show);
 
+    void showAngle(bool);
+    void setAngle(double angle);
+    double getAngle();
 private:
 
     QString id;
-	QColor pencolor;
-	bool showid;
+    QColor pencolor;
+    bool showid;
+    double angle = 0;
+    bool angleShow;
 
 };
 

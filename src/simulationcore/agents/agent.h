@@ -83,9 +83,12 @@ protected:
     Sector* sector;
 	rgba color;
 
+    std::mutex mutex;
+
 	double radius;
 	double mass;
 	double charge;
+    double angle;
 
 
     friend class Sector;

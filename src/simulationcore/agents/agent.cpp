@@ -29,7 +29,7 @@
 
 Agent::Agent(int ID, double posX, double posY, double posZ, Sector *sector)
 :ID(ID), macroFactorMultiple(1), posX(posX), posY(posY), posZ(posZ), sector(sector),
-	  radius(0), mass(0), charge(0)
+  radius(0), mass(0), charge(0),angle(0)
 {
 
 }
@@ -60,6 +60,7 @@ double Agent::getPosZ()
 
 void Agent::setColor(int r, int g, int b, int a)
 {
+    std::lock_guard<std::mutex> guard(mutex);
 	color.red = r;
 	color.green = g;
 	color.blue = b;
@@ -68,7 +69,6 @@ void Agent::setColor(int r, int g, int b, int a)
 
 agentInfo Agent::getAgentInfo()
 {
-
 	agentInfo info;
 
 	info.color = color;
@@ -81,8 +81,9 @@ agentInfo Agent::getAgentInfo()
 	info.y = posY;
 	info.z = posZ;
 
-	return info;
+    info.angle = angle;
 
+	return info;
 }
 
 bool Agent::removeGroup(int group)

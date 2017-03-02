@@ -88,6 +88,7 @@ void FlowControl::generateEnvironment(double width, double height, int threads,
     Phys::setEnvironment(width, height);
     Shared::initShared();
     Interfacer::initInterfacer(masteragent);
+    //Scanning::edgeMask();
 
     masteragent->generateMap(width,height,threads,timeResolution, macroResolution);
 

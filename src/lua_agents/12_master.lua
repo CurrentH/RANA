@@ -44,6 +44,7 @@
 -- Import Rana lua libraries.
 Agent	= require "ranalib_agent"
 Shared = require "ranalib_shared"
+
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 oscillator_amount = 2
 

@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "src/api/scanning.h"
+#include "src/api/phys.h"
 #include "src/output.h"
 
 std::unordered_map<int, MatriceInt> Scanning::radialMasks;

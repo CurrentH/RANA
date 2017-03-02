@@ -159,4 +159,6 @@ DISTFILES += \
     src/modules/ranalib_shared.lua \
     src/modules/ranalib_statistic.lua \
     src/modules/ranalib_utility.lua \
-    src/modules/wrapper_auxiliary.lua
+    src/modules/wrapper_auxiliary.lua \
+    src/modules/ranalib_math.lua \
+    src/modules/ranalib_physics.lua

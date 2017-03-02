@@ -115,7 +115,7 @@ public:
                          double x, double y,
                          double &zvalue, double &duration);
 
-	static int l_changeAgentColor(lua_State *L);
+    static int l_changeAgentColor(lua_State *L);
 
     void InitializeAgent();
 
