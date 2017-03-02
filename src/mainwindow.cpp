@@ -49,10 +49,10 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow),factor(1),
-    mapImage(NULL), mapItem(NULL),scene(new QGraphicsScene()),
-    control(new Control(this)),disableSimOutput(false),
-    postControl(new PostControl(this)),zBlocks(NULL),
-    eventScene(new QGraphicsScene()), zmap(NULL), eventMapScene(new QGraphicsScene()),
+	mapImage(NULL), mapItem(NULL),scene(new QGraphicsScene()),
+	control(new Control(this)),disableSimOutput(false),
+	postControl(new PostControl(this)),zBlocks(NULL),
+	eventScene(new QGraphicsScene()), zmap(NULL), eventMapScene(new QGraphicsScene()),
     PPactiveAgents(NULL), zMapTimer(new QTimer(this)),initializeTimer(new QTimer(this)),
     runTimer(new QTimer(this)),disableLiveView(true),playingMap(false), running(false)
 {
@@ -62,44 +62,36 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->progressBar->setValue(0);
     ui->graphicsView->setScene(scene);
     scene->setBackgroundBrush(Qt::gray);
-    ui->runButton->setDisabled(true);
+	ui->runButton->setDisabled(true);
 //dr.	ui->adv_spinBox->hide();
 
-    this->setWindowTitle("Rana 1.8");
-    qRegisterMetaType<INFOLIST>("INFOLIST");
+	this->setWindowTitle("Rana 1.8");
+	qRegisterMetaType<INFOLIST>("INFOLIST");
 
-    QObject::connect(this,SIGNAL(map_updateSignal(INFOLIST)),
-                     this,SLOT(on_updateMap(INFOLIST)));
+	QObject::connect(this,SIGNAL(map_updateSignal(INFOLIST)),this,SLOT(on_updateMap(INFOLIST)));
 
-    QObject::connect(this,SIGNAL(writeStringSignal(QString)),
-                     this,SLOT(on_writeOutput(QString)));
+	QObject::connect(this,SIGNAL(writeStringSignal(QString)),this,SLOT(on_writeOutput(QString)));
 
-    QObject::connect(this,SIGNAL(writeRegularSignal(QString)),
-                     this,SLOT(on_writeRegularOutput(QString)));
+	QObject::connect(this,SIGNAL(writeRegularSignal(QString)),this,SLOT(on_writeRegularOutput(QString)));
 
-    QObject::connect(this,SIGNAL(writeStatusSignal(unsigned long long,unsigned long long)),
-                     this,SLOT(on_udateStatus(unsigned long long,unsigned long long)));
+	QObject::connect(this,SIGNAL(writeStatusSignal(unsigned long long,unsigned long long)),this,SLOT(on_udateStatus(unsigned long long,unsigned long long)));
 
-    QObject::connect(this,SIGNAL(addGraphicAgentSignal(int,int,int,rgba,double)),
-                        this,SLOT(on_addGraphicAgent(int,int,int,rgba,double)));
+	QObject::connect(this,SIGNAL(addGraphicAgentSignal(int,int,int,rgba,double)),this,SLOT(on_addGraphicAgent(int,int,int,rgba,double)));
 
-    QObject::connect(this, SIGNAL(removeGraphicAgentSignal(int)),
-                     this, SLOT(on_removeGraphicAgent(int)));
+	QObject::connect(this, SIGNAL(removeGraphicAgentSignal(int)),this, SLOT(on_removeGraphicAgent(int)));
 
-    QObject::connect(this, SIGNAL(changeGraphicAgentColorSignal(int,int,int,int,int)),
-                     this, SLOT(on_changeGraphicAgentColor(int,int,int,int,int)));
+	//QObject::connect(this, SIGNAL(changeGraphicAgentColorSignal(int,int,int,int,int)),this, SLOT(on_changeGraphicAgentColor(int,int,int,int,int)));
 
-    QObject::connect(this,SIGNAL(enableRunButtonSignal(bool)),
-                     this, SLOT(on_enableRunButton(bool)));
+	QObject::connect(this,SIGNAL(enableRunButtonSignal(bool)),this, SLOT(on_enableRunButton(bool)));
 
-    resizeTimer.setSingleShot(true);
-    QObject::connect(&resizeTimer, SIGNAL(timeout()), SLOT(on_resizeTimerTimeout()));
+	resizeTimer.setSingleShot(true);
+	QObject::connect(&resizeTimer, SIGNAL(timeout()), SLOT(on_resizeTimerTimeout()));
 
-    initializeTimer->setSingleShot(true);
-    QObject::connect(initializeTimer, SIGNAL(timeout()), SLOT(on_initializeTimerTimeout()));
+	initializeTimer->setSingleShot(true);
+	QObject::connect(initializeTimer, SIGNAL(timeout()), SLOT(on_initializeTimerTimeout()));
 
-    runTimer->setSingleShot(true);
-    QObject::connect(runTimer, SIGNAL(timeout()), SLOT(on_runTimerTimeout()));
+	runTimer->setSingleShot(true);
+	QObject::connect(runTimer, SIGNAL(timeout()), SLOT(on_runTimerTimeout()));
 
 
     //connect actions:
@@ -109,20 +101,20 @@ MainWindow::MainWindow(QWidget *parent) :
     //versionString = QString("<b><font color=\"green\">RANA</b></font> version 1.7.14:0.8.2");
 
     //ui->statusBar->addWidget(new QLabel(versionString));
-    ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
+	ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 
-    sim_controlTab = ui->simControlTab;
-    sim_viewTab = ui->simLiveView;
+	sim_controlTab = ui->simControlTab;
+	sim_viewTab = ui->simLiveView;
     //sim_advancedTab = ui->simAdvancedTab;
-    sim_general = ui->simGeneralWidget;
+	sim_general = ui->simGeneralWidget;
 
-    ppConstruction();
-    dialogConstruction();
+	ppConstruction();
+	dialogConstruction();
 
-    ui->graphicsView->viewport()->installEventFilter(this);
+	ui->graphicsView->viewport()->installEventFilter(this);
 
-    Output::Inst()->RanaDir =
-            QCoreApplication::applicationDirPath().toUtf8().constData();
+	Output::Inst()->RanaDir =
+			QCoreApplication::applicationDirPath().toUtf8().constData();
 }
 
 MainWindow::~MainWindow()
@@ -148,16 +140,16 @@ void MainWindow::on_generateButton_clicked()
 
     ui->generateButton->setEnabled(false);
     ui->runButton->setEnabled(false);
-    //initializeTimer->start(2000);
-    int i = 0;
-    for(auto iter=graphAgents.begin(); iter!=graphAgents.end(); ++iter, i++)
-    {
-        //Output::Inst()->kprintf("item #%i ", i);
-        scene->removeItem(*iter);
+	//initializeTimer->start(2000);
+	int i = 0;
+	for(auto iter=graphAgents.begin(); iter!=graphAgents.end(); ++iter, i++) 
+	{
+		//Output::Inst()->kprintf("item #%i ", i);
+		scene->removeItem(*iter);
         delete *iter;
-    }
+	}
 
-    ui->graphicsView->viewport()->update();
+	ui->graphicsView->viewport()->update();
 
     graphAgents.clear();
     GridMovement::clearGrid();
@@ -166,37 +158,37 @@ void MainWindow::on_generateButton_clicked()
         on_generateEmptyMapButton_clicked();
     }
 
-    if(mapItem != NULL){
+	if(mapItem != NULL){
 
-        //mapItem->setPixmap(QPixmap::fromImage(*mapImage));
+		//mapItem->setPixmap(QPixmap::fromImage(*mapImage));
         //mapItem->setZValue(1);
 
-        ui->vis_disableAgentsCheckBox->setChecked(false);
+		ui->vis_disableAgentsCheckBox->setChecked(false);
         //ui->vis_disableAgentIDs->setChecked(false);
 
-        Phys::setScale(ui->scaleDoubleSpinBox->value());
-        //Output::Inst()->kprintf("Setting map scale to %f", Phys::getScale());
+		Phys::setScale(ui->scaleDoubleSpinBox->value());
+		//Output::Inst()->kprintf("Setting map scale to %f", Phys::getScale());
 
-        ui->progressBar->setValue(0);
-        QFile path(ui->agentPathLineEdit->text());
-        if(path.exists())
-        {
-            double exponent = (double)ui->timeResSpinBox->value();
-            double timeRes = 1/(double)std::pow(10,exponent);
-            //Output::Inst()->kprintf("resolution is: %.20f", timeRes);
-            double macroRes = std::pow(10,ui->macroSpinBox->value());
-            Output::Inst()->kprintf("macro resolution is: %f , timeRes %f", macroRes, timeRes);
-            macroRes = (1/timeRes)/macroRes;
-            Output::Inst()->kprintf("macro resolution is: %f", macroRes);
+		ui->progressBar->setValue(0);
+		QFile path(ui->agentPathLineEdit->text());
+		if(path.exists())
+		{
+			double exponent = (double)ui->timeResSpinBox->value();
+			double timeRes = 1/(double)std::pow(10,exponent);
+			//Output::Inst()->kprintf("resolution is: %.20f", timeRes);
+			double macroRes = std::pow(10,ui->macroSpinBox->value());
+			Output::Inst()->kprintf("macro resolution is: %f , timeRes %f", macroRes, timeRes);
+			macroRes = (1/timeRes)/macroRes;
+			Output::Inst()->kprintf("macro resolution is: %f", macroRes);
 
 
             int agentAmount = ui->luaSpinBox->value();
-            QString agentPath = ui->agentPathLineEdit->text();
+			QString agentPath = ui->agentPathLineEdit->text();
 
-            //set the global agent loader path variables:
-            QFileInfo fi(agentPath);
-            Output::AgentFile=fi.fileName().toStdString();
-            Output::AgentPath=fi.path().toStdString().append("/");
+			//set the global agent loader path variables:
+			QFileInfo fi(agentPath);
+			Output::AgentFile=fi.fileName().toStdString();
+			Output::AgentPath=fi.path().toStdString().append("/");
 
             std::string stringPath = agentPath.toUtf8().constData();
 
@@ -230,8 +222,8 @@ void MainWindow::on_generateButton_clicked()
  */
 void MainWindow::advanceProgess(int percentage)
 {
-    //QCoreApplication::postEvent(scene, new QEvent(QEvent::UpdateRequest),
-    //                          Qt::LowEventPriority);
+	//QCoreApplication::postEvent(scene, new QEvent(QEvent::UpdateRequest),
+	//                          Qt::LowEventPriority);
     QMetaObject::invokeMethod(ui->progressBar, "setValue", Q_ARG(int, percentage));
     //ui->progressBar->setValue(percentage);
 }
@@ -270,15 +262,15 @@ void MainWindow::on_browseMapButton_clicked()
 
 void MainWindow::on_generateEmptyMapButton_clicked()
 {
-    if(mapImage != NULL)
-        delete mapImage;
+	if(mapImage != NULL)
+		delete mapImage;
 
-    mapImage = new QImage(ui->emptyPXspinBox->value(),
-                          ui->emptyPYspinBox->value(),
-                          QImage::Format_RGB32);
-    mapImage->fill(Qt::GlobalColor::black);
+	mapImage = new QImage(ui->emptyPXspinBox->value(),
+						  ui->emptyPYspinBox->value(),
+						  QImage::Format_RGB32);
+	mapImage->fill(Qt::GlobalColor::black);
 
-    defineMap();
+	defineMap();
 }
 
 
@@ -292,19 +284,19 @@ void MainWindow::on_writeOutput(QString string)
 {
     //std::this_thread::sleep_for(std::chrono::milliseconds(5));
     //QString prepend = "</>";
-    ui->outputTextBrowser->setTextColor(Qt::black);
+	ui->outputTextBrowser->setTextColor(Qt::black);
 
-    if(!ui->action_Enable_Visualisation->isChecked())
-    {
-        ui->outputTextBrowser->append(string);
-    } else
-    {
-        ui->vis_outputTextBrowser->append(string);
-    }
-    //QString output = string.prepend(prepend);
+	if(!ui->action_Enable_Visualisation->isChecked())
+	{
+		ui->outputTextBrowser->append(string);
+	} else
+	{
+		ui->vis_outputTextBrowser->append(string);
+	}
+	//QString output = string.prepend(prepend);
 
-    //ui->outputTextBrowser->insertHtml(string);
-    //ui->outputTextBrowser->append("");
+	//ui->outputTextBrowser->insertHtml(string);
+	//ui->outputTextBrowser->append("");
 }
 
 /**
@@ -314,11 +306,11 @@ void MainWindow::on_writeOutput(QString string)
  */
 void MainWindow::write_output(QString argMsg)
 {
-    if(!disableSimOutput){
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        emit writeStringSignal(argMsg);
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    }
+	if(!disableSimOutput){
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		emit writeStringSignal(argMsg);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
 
 }
 
@@ -329,14 +321,14 @@ void MainWindow::write_output(QString argMsg)
  */
 void MainWindow::on_writeRegularOutput(QString string)
 {
-    ui->outputTextBrowser->setTextColor(Qt::black);
-    if(!ui->action_Enable_Visualisation->isChecked())
-    {
-        ui->outputTextBrowser->append(string);
-    } else
-    {
-        ui->vis_outputTextBrowser->append(string);
-    }
+	ui->outputTextBrowser->setTextColor(Qt::black);
+	if(!ui->action_Enable_Visualisation->isChecked())
+	{
+		ui->outputTextBrowser->append(string);
+	} else
+	{
+		ui->vis_outputTextBrowser->append(string);
+	}
 }
 
 /**
@@ -346,9 +338,9 @@ void MainWindow::on_writeRegularOutput(QString string)
  */
 void MainWindow::write_regularOutput(QString argMsg)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    emit writeRegularSignal(argMsg);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	emit writeRegularSignal(argMsg);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 }
 
@@ -364,8 +356,8 @@ void MainWindow::write_regularOutput(QString argMsg)
  */
 void MainWindow::on_udateStatus(unsigned long long internalEvents, unsigned long long externalEvents)
 {
-    ui->label_status1->setText(QString().setNum(Phys::getCTime()*Phys::getTimeRes()+
-                                                Phys::getMacroFactor()/(1/Phys::getTimeRes())));
+	ui->label_status1->setText(QString().setNum(Phys::getCTime()*Phys::getTimeRes()+
+												Phys::getMacroFactor()/(1/Phys::getTimeRes())));
     ui->label_status3->setText(QString().setNum(internalEvents));
     ui->label_status4->setText(QString().setNum(externalEvents));
 }
@@ -376,7 +368,7 @@ void MainWindow::on_udateStatus(unsigned long long internalEvents, unsigned long
  */
 void MainWindow::write_status(unsigned long long internalEvents, unsigned long long externalEvents)
 {
-    emit writeStatusSignal(internalEvents, externalEvents);
+	emit writeStatusSignal(internalEvents, externalEvents);
 }
 
 
@@ -398,7 +390,7 @@ void MainWindow::on_updateMap(INFOLIST infolist)
 
     mapItem->setPixmap(QPixmap::fromImage(*mapImage));
     mapItem->setZValue(1);
-
+	
 
     //INFOLIST::iterator itr;
 
@@ -406,14 +398,14 @@ void MainWindow::on_updateMap(INFOLIST infolist)
     {
         int x = itr->x/Phys::getScale();
         int y = itr->y/Phys::getScale();
-        rgba color = itr->color;
-        double angle = itr->angle;
-
-        int Id = itr->id;
+		rgba color = itr->color;
+		double angle = itr->angle;
+		
+		int Id = itr->id;
 
         if(!graphAgents.contains(Id))
         {
-            addGraphicAgent(Id, x, y, color, angle);
+			addGraphicAgent(Id, x, y, color, angle);
 
         } else
         {
@@ -421,12 +413,12 @@ void MainWindow::on_updateMap(INFOLIST infolist)
             agentItem *gfxItem = i.value();
             gfxItem->setX(x);
             gfxItem->setY(y);
-            gfxItem->setColor(color);
-            gfxItem->setAngle(angle);
+			gfxItem->setColor(color);
+			gfxItem->setAngle(angle);
         }
-    }
+	}
 
-    ui->graphicsView->viewport()->update();
+	ui->graphicsView->viewport()->update();
 
 }
 
@@ -442,17 +434,17 @@ void MainWindow::addGraphicAgent(int id, int posX, int posY, rgba color, double 
 {
     //ui->generateButton->setEnabled(false);
     //ui->runButton->setEnabled(false);
-    emit addGraphicAgentSignal(id, posX, posY, color, angle);
+	emit addGraphicAgentSignal(id, posX, posY, color, angle);
 }
 
 void MainWindow::on_addGraphicAgent(int id, int posX, int posY, rgba color, double angle)
 {
 
     //itializeTimer->start(500);
-    agentItem *gfxItem = new agentItem(QString::number(id), color, angle);
+	agentItem *gfxItem = new agentItem(QString::number(id), color, angle);
 
-    gfxItem->setZValue(2);
-    gfxItem->setX(posX);
+	gfxItem->setZValue(2);
+	gfxItem->setX(posX);
     gfxItem->setY(posY);
     gfxItem->showID(!ui->vis_disableAgentIDs->isChecked());
 
@@ -460,16 +452,16 @@ void MainWindow::on_addGraphicAgent(int id, int posX, int posY, rgba color, doub
     //Output::Inst()->kprintf("ID is %i", Id);
     //Output::Inst()->kprintf("Size of the agent array %i", graphAgents.size());
 
-    auto itr = graphAgents.find(id);
-    if(itr != graphAgents.end())
-    {
-        scene->removeItem(*itr);
-        delete *itr;
-        graphAgents.remove(id);
-    }
+	auto itr = graphAgents.find(id);
+	if(itr != graphAgents.end())
+	{
+		scene->removeItem(*itr);
+		delete *itr;
+		graphAgents.remove(id);
+	}
 
-    scene->addItem(gfxItem);
-    graphAgents.insert(id, gfxItem);
+	scene->addItem(gfxItem);
+	graphAgents.insert(id, gfxItem);
 
     //ui->runButton->setEnabled(true);
     //if (ui->generateButton->isEnabled())
@@ -478,11 +470,11 @@ void MainWindow::on_addGraphicAgent(int id, int posX, int posY, rgba color, doub
     //ui->generateButton->setEnabled(true);
 }
 
-void MainWindow::changeGraphicAgentColor(int id, int r, int g, int b, int alpha)
-{
-    emit changeGraphicAgentColorSignal(id,r,g,b,alpha);
+//void MainWindow::changeGraphicAgentColor(int id, int r, int g, int b, int alpha)
+//{
+//    emit changeGraphicAgentColorSignal(id,r,g,b,alpha);
 
-}
+//}
 
 //void MainWindow::on_changeGraphicAgentColor(int id, int r, int g, int b, int alpha)
 //{
@@ -531,11 +523,11 @@ void MainWindow::on_vis_disableAgentsCheckBox_toggled(bool checked)
 
 void MainWindow::on_vis_disableAgentIDs_toggled(bool checked)
 {
-    for(auto itr = graphAgents.begin(); itr != graphAgents.end(); ++itr)
-    {
-        itr.value()->showID(!checked);
-    }
-    ui->graphicsView->viewport()->update();
+	for(auto itr = graphAgents.begin(); itr != graphAgents.end(); ++itr)
+	{
+		itr.value()->showID(!checked);
+	}
+	ui->graphicsView->viewport()->update();
 }
 
 
@@ -547,17 +539,17 @@ void MainWindow::on_vis_disableAgentIDs_toggled(bool checked)
 
 void MainWindow::removeGraphicAgent(int id)
 {
-    emit removeGraphicAgentSignal(id);
+	emit removeGraphicAgentSignal(id);
 }
 
 void MainWindow::on_removeGraphicAgent(int id)
 {
-    auto iter = graphAgents.find(id);
-    if(iter != graphAgents.end())
-    {
-        scene->removeItem(*iter);
-        delete *iter;
-        graphAgents.remove(id);
+	auto iter = graphAgents.find(id);
+	if(iter != graphAgents.end())
+	{
+		scene->removeItem(*iter);
+		delete *iter;
+		graphAgents.remove(id);
     }
 }
 
@@ -576,14 +568,14 @@ void MainWindow::on_runTimerTimeout()
 void MainWindow::wheelEvent(QWheelEvent* event)
 {
 
-    ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    // Scale the view / do the zoom
+	ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+	// Scale the view / do the zoom
     QTransform transform = ui->graphicsView->transform();
     double scale = .50;
 
     if(event->delta() > 0)
     {
-        // Zoom in
+		// Zoom in
         //factor = .15 + factor;
         double change = transform.m11() + scale;
         ui->graphicsView->setTransform(QTransform::fromScale(change,change));
@@ -596,30 +588,30 @@ void MainWindow::wheelEvent(QWheelEvent* event)
     }
 
     transform = ui->graphicsView->transform();
-    ui->zoomSlider->setValue(std::abs(100*transform.m11()));
-    ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
+	ui->zoomSlider->setValue(std::abs(100*transform.m11()));
+	ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
 
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
-    if(object == ui->graphicsView->viewport() && event->type() == QEvent::Wheel)
-    {
-        return true;
-    }
-    return false;
+	if(object == ui->graphicsView->viewport() && event->type() == QEvent::Wheel)
+	{
+		return true;
+	}
+	return false;
 }
 
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    //MainWindow::resizeEvent(event);
+	//MainWindow::resizeEvent(event);
     //resizeTimer.start( 1000 );
 
-    if(ui->tabWidget->currentIndex() == ui->tabWidget->indexOf(vis_mapTab))
-    {
-        if(zmap != NULL)
-        {
+	if(ui->tabWidget->currentIndex() == ui->tabWidget->indexOf(vis_mapTab))
+	{
+		if(zmap != NULL)
+		{
            // ui->vis_mapGraphicsView->fitInView(eventMapScene->sceneRect());
             eventMapScene->removeItem(zmap);
             zmap = new ZMap();
@@ -637,13 +629,13 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     {
         if(mapItem != NULL)
             ui->graphicsView->fitInView(mapItem->boundingRect(),
-                                    Qt::KeepAspectRatio);
+									Qt::KeepAspectRatio);
 
-        QTransform transform = ui->graphicsView->transform();
-        ui->zoomSlider->setValue(std::abs(100*transform.m11()));
-        ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
+		QTransform transform = ui->graphicsView->transform();
+		ui->zoomSlider->setValue(std::abs(100*transform.m11()));
+		ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
 
-    }
+	}
 }
 
 void MainWindow::on_resizeTimerTimeout()
@@ -659,19 +651,19 @@ void MainWindow::on_resizeTimerTimeout()
  */
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    control->toggleLiveView(false);
+	control->toggleLiveView(false);
 
-    if(index == ui->tabWidget->indexOf(vis_mapTab))
-    {
+	if(index == ui->tabWidget->indexOf(vis_mapTab))
+	{
         ui->vis_graphicsView->fitInView(eventMapScene->sceneRect(),Qt::KeepAspectRatio);
 
         if(zmap != NULL)
-        {
+		{
             //zmap->setPos(0,0);
             //zmap->setSize(ui->vis_mapGraphicsView->width(),ui->vis_mapGraphicsView->height());
             //ui->vis_mapGraphicsView->fitInView(eventMapScene->sceneRect());//
             resizeTimer.start( 500 );
-        }
+		}
 
     }
     else if(ui->tabWidget->currentIndex() == ui->tabWidget->indexOf(sim_viewTab))
@@ -680,13 +672,13 @@ void MainWindow::on_tabWidget_currentChanged(int index)
             ui->graphicsView->fitInView(mapItem->boundingRect(),
                                     Qt::KeepAspectRatio);
 
-        control->toggleLiveView(true);
+		control->toggleLiveView(true);
 
-        QTransform transform = ui->graphicsView->transform();
-        ui->zoomSlider->setValue(std::abs(100*transform.m11()));
-        ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
+		QTransform transform = ui->graphicsView->transform();
+		ui->zoomSlider->setValue(std::abs(100*transform.m11()));
+		ui->zoomLabel->setText(QString::number(std::abs(100*transform.m11())));
 
-    }
+	}
 }
 
 
@@ -695,12 +687,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
  */
 void MainWindow::on_browseLuaAgentButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName
-            (this, tr("Open Map File"),QDir::currentPath(),
-             tr("Lua Files (*.lua)"));
+	QString fileName = QFileDialog::getOpenFileName
+			(this, tr("Open Map File"),QDir::currentPath(),
+			 tr("Lua Files (*.lua)"));
 
 
-    ui->agentPathLineEdit->setText(fileName);
+	ui->agentPathLineEdit->setText(fileName);
 }
 
 /**
@@ -716,11 +708,11 @@ void MainWindow::on_runButton_clicked()
         control->stopSimulation();
 
     }
-    else
-    {
+	else
+	{
         //ui->generateButton->setDisabled(true);
-        control->runSimulation(ui->runTimeSpinBox->value());
-    }
+		control->runSimulation(ui->runTimeSpinBox->value());
+	}
 }
 
 /**
@@ -731,7 +723,7 @@ void MainWindow::on_runButton_clicked()
 void MainWindow::changeRunButton(QString text)
 {
     ui->runButton->setEnabled(true);
-    ui->runButton->setText(text);
+	ui->runButton->setText(text);
 }
 
 void MainWindow::runButtonHide()
@@ -750,20 +742,20 @@ void MainWindow::runButtonHide()
  */
 void MainWindow::defineMap()
 {
-    if(mapItem == NULL)
-    {
-        mapItem = new QGraphicsPixmapItem(QPixmap::fromImage(*mapImage));
-        scene->addItem(mapItem);
+	if(mapItem == NULL)
+	{
+		mapItem = new QGraphicsPixmapItem(QPixmap::fromImage(*mapImage));
+		scene->addItem(mapItem);
     }
     else
-    {
-        mapItem->setPixmap(QPixmap::fromImage(*mapImage));
-        scene->setSceneRect(mapItem->boundingRect());
-    }
+	{
+		mapItem->setPixmap(QPixmap::fromImage(*mapImage));
+		scene->setSceneRect(mapItem->boundingRect());
+	}
 
-    Output::Inst()->kprintf("Map information generated");
-    MapHandler::setImage(mapImage);
-    Phys::setEnvironment(mapImage->width(),mapImage->height());
+	Output::Inst()->kprintf("Map information generated");
+	MapHandler::setImage(mapImage);
+	Phys::setEnvironment(mapImage->width(),mapImage->height());
     //GridMovement::initGrid(mapImage->width(), mapImage->height());
     ui->graphicsView->fitInView(mapItem->sceneBoundingRect(),Qt::KeepAspectRatio);
 //control->toggleLiveView(true);
@@ -781,7 +773,7 @@ void MainWindow::defineMap()
  */
 void MainWindow::on_delaySpinBox_valueChanged(int arg1)
 {
-    Output::DelayValue = arg1;
+	Output::DelayValue = arg1;
 }
 
 /**
@@ -790,11 +782,11 @@ void MainWindow::on_delaySpinBox_valueChanged(int arg1)
  */
 void MainWindow::on_zoomSlider_valueChanged(int value)
 {
-    double scale = std::abs((double)value/100);
+	double scale = std::abs((double)value/100);
 
-    ui->zoomLabel->setText(QString().setNum(value));
+	ui->zoomLabel->setText(QString().setNum(value));
 
-    ui->graphicsView->setTransform(QTransform::fromScale(scale,scale));
+	ui->graphicsView->setTransform(QTransform::fromScale(scale,scale));
 }
 
 /**
@@ -802,9 +794,9 @@ void MainWindow::on_zoomSlider_valueChanged(int value)
  */
 void MainWindow::on_pushButton_clicked()
 {
-    //ui->outputTextEdit->
-    //ui->outputTextBrowser->cl
-    ui->outputTextBrowser->clear();
+	//ui->outputTextEdit->
+	//ui->outputTextBrowser->cl
+	ui->outputTextBrowser->clear();
 }
 
 /**
@@ -818,17 +810,17 @@ void MainWindow::actionPrintInfo()
 
 void MainWindow::on_macroSpinBox_valueChanged(int arg1)
 {
-    if( arg1 > ui->timeResSpinBox->value()) ui->timeResSpinBox->setValue(arg1);
+	if( arg1 > ui->timeResSpinBox->value()) ui->timeResSpinBox->setValue(arg1);
 }
 
 void MainWindow::on_timeResSpinBox_valueChanged(int arg1)
 {
-    if( arg1 < ui->macroSpinBox->value()) ui->macroSpinBox->setValue(arg1);
+	if( arg1 < ui->macroSpinBox->value()) ui->macroSpinBox->setValue(arg1);
 }
 
 
 /********************************************************
- *
+ * 
  * Post-processing.
  *
  *******************************************************/
@@ -839,27 +831,27 @@ void MainWindow::on_timeResSpinBox_valueChanged(int arg1)
  */
 void MainWindow::ppConstruction()
 {
-    vis_controlTab = ui->vis_controlTab;
-    vis_mapTab = ui->vis_mapTab;
+	vis_controlTab = ui->vis_controlTab;
+	vis_mapTab = ui->vis_mapTab;
 
-    ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_controlTab));
-    ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
+	ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_controlTab));
+	ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
 
-    QObject::connect(ui->action_Enable_Visualisation, SIGNAL(changed()),this, SLOT(ppIsChecked()));
+	QObject::connect(ui->action_Enable_Visualisation, SIGNAL(changed()),this, SLOT(ppIsChecked()));
 
 
-    QObject::connect(this,SIGNAL(writePPSignal(QString)),
-                     this,SLOT(on_writePPOutput(QString)));
+	QObject::connect(this,SIGNAL(writePPSignal(QString)),
+					 this,SLOT(on_writePPOutput(QString)));
 
-    ui->vis_processEventsPushButton->setEnabled(false);
+	ui->vis_processEventsPushButton->setEnabled(false);
 
-    eventScene->setBackgroundBrush(Qt::black);
-    eventMapScene->setBackgroundBrush(Qt::black);
+	eventScene->setBackgroundBrush(Qt::black);
+	eventMapScene->setBackgroundBrush(Qt::black);
 
-    ui->vis_graphicsView->setScene(eventScene);
-    ui->vis_mapGraphicsView->setScene(eventMapScene);
+	ui->vis_graphicsView->setScene(eventScene);
+	ui->vis_mapGraphicsView->setScene(eventMapScene);
 
-    QObject::connect(zMapTimer,SIGNAL(timeout()),this,SLOT(on_zMapTimerTimeout()));
+	QObject::connect(zMapTimer,SIGNAL(timeout()),this,SLOT(on_zMapTimerTimeout()));
 
 }
 
@@ -870,38 +862,38 @@ void MainWindow::ppConstruction()
 void MainWindow::ppIsChecked()
 {
 
-    if(Output::SimRunning.load())
-    {
-        Output::Inst()->
-                kprintf("<b>Cannot Enable Postprocessing until the simulation is done</b>");
-        ui->action_Enable_Visualisation->setChecked(false);
-    } else
-    {
+	if(Output::SimRunning.load())
+	{
+		Output::Inst()->
+				kprintf("<b>Cannot Enable Postprocessing until the simulation is done</b>");
+		ui->action_Enable_Visualisation->setChecked(false);
+	} else
+	{
 
-        if(ui->action_Enable_Visualisation->isChecked())
-        {
-            ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_controlTab));
-            ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_viewTab));
-            ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_advancedTab));
+		if(ui->action_Enable_Visualisation->isChecked())
+		{
+			ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_controlTab));
+			ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_viewTab));
+			ui->tabWidget->removeTab(ui->tabWidget->indexOf(sim_advancedTab));
 
-            ui->simGeneralWidget->hide();
+			ui->simGeneralWidget->hide();
 
-            ui->tabWidget->insertTab(ui->tabWidget->count()+1,vis_controlTab,"Event Process Control");
-            //ui->tabWidget->insertTab(3,vis_mapTabptr,"Event Map");
+			ui->tabWidget->insertTab(ui->tabWidget->count()+1,vis_controlTab,"Event Process Control");
+			//ui->tabWidget->insertTab(3,vis_mapTabptr,"Event Map");
         }
         else
-        {
-            ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_controlTab));
-            ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
+		{
+			ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_controlTab));
+			ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
 
-            ui->tabWidget->insertTab(ui->tabWidget->count()+1,sim_controlTab,"Control");
-            ui->tabWidget->insertTab(ui->tabWidget->count()+1,sim_viewTab,"Live View");
-            ui->tabWidget->insertTab(ui->tabWidget->count()+
-                                     2,sim_advancedTab,"Advanced");
+			ui->tabWidget->insertTab(ui->tabWidget->count()+1,sim_controlTab,"Control");
+			ui->tabWidget->insertTab(ui->tabWidget->count()+1,sim_viewTab,"Live View");
+			ui->tabWidget->insertTab(ui->tabWidget->count()+
+									 2,sim_advancedTab,"Advanced");
 
-            ui->simGeneralWidget->show();
-        }
-    }
+			ui->simGeneralWidget->show();
+		}
+	}
 }
 
 /**
@@ -910,55 +902,55 @@ void MainWindow::ppIsChecked()
  */
 void MainWindow::on_vis_processEventsPushButton_clicked()
 {
-    zMapTimer->stop();
+	zMapTimer->stop();
 
 
-    QFileInfo fi(ui->vis_eventPathLineEdit->text());
-    QFileInfo efi(ui->vis_agentPathLineEdit->text());
-    QString agentPath = ui->vis_agentPathLineEdit->text();
-    QString eventPath = ui->vis_eventPathLineEdit->text();
+	QFileInfo fi(ui->vis_eventPathLineEdit->text());
+	QFileInfo efi(ui->vis_agentPathLineEdit->text());
+	QString agentPath = ui->vis_agentPathLineEdit->text();
+	QString eventPath = ui->vis_eventPathLineEdit->text();
 
-    if( fi.isFile() && efi.isFile())
-    {
+	if( fi.isFile() && efi.isFile())
+	{
 
         groupItems.clear();
-        eventScene->clear();
+		eventScene->clear();
 
-        ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
+		ui->tabWidget->removeTab(ui->tabWidget->indexOf(vis_mapTab));
 
-        Output::RunEventProcessing.store(true);
-        //clear the zBlock and remove the blocks from the graphicsScene:
+		Output::RunEventProcessing.store(true);
+		//clear the zBlock and remove the blocks from the graphicsScene:
 
-        zBlocks = NULL;
+		zBlocks = NULL;
 
-        ui->vis_processEventsPushButton->setDisabled(true);
+		ui->vis_processEventsPushButton->setDisabled(true);
 
-        double timeRes = ui->vis_timeResolutionDoubleSpinBox->value();
+		double timeRes = ui->vis_timeResolutionDoubleSpinBox->value();
 
-        int mapRes = ui->vis_resolutionSpinBox->value();
-        double thresshold = ui->vis_zThressholdDoubleSpinBox->value();
+		int mapRes = ui->vis_resolutionSpinBox->value();
+		double thresshold = ui->vis_zThressholdDoubleSpinBox->value();
 
-        int to = ui->vis_toTimeSpinBox->value();
-        int from = ui->vis_fromTimeSpinBox->value();
+		int to = ui->vis_toTimeSpinBox->value();
+		int from = ui->vis_fromTimeSpinBox->value();
 
-        QRegExp regex(ui->vis_eventRegExLineEdit->text());
+		QRegExp regex(ui->vis_eventRegExLineEdit->text());
 
-        postControl->runProcessEvents(regex,eventPath,to,from,
-                                      timeRes,agentPath,mapRes,thresshold);
+		postControl->runProcessEvents(regex,eventPath,to,from,
+									  timeRes,agentPath,mapRes,thresshold);
 
-        timeOffset = from/timeRes;
-        ui->vis_activeMapSpinBox->setMinimum(timeOffset);
+		timeOffset = from/timeRes;
+		ui->vis_activeMapSpinBox->setMinimum(timeOffset);
 
-        QString stringTmp = QString::number(timeRes);
-        ui->vis_activeTimeResolutionLabel->setText(stringTmp);
-        stringTmp = QString::number(0);
-        ui->vis_activeTimeLabel->setText(stringTmp);
+		QString stringTmp = QString::number(timeRes);
+		ui->vis_activeTimeResolutionLabel->setText(stringTmp);
+		stringTmp = QString::number(0);
+		ui->vis_activeTimeLabel->setText(stringTmp);
 
     }
     else
-        Output::Inst()->ppprintf("agent- %s or event path %s, not found",
-                                 agentPath.toStdString().c_str(),
-                                 eventPath.toStdString().c_str());
+		Output::Inst()->ppprintf("agent- %s or event path %s, not found",
+								 agentPath.toStdString().c_str(),
+								 eventPath.toStdString().c_str());
 }
 
 /**
@@ -971,34 +963,34 @@ void MainWindow::on_vis_processEventsPushButton_clicked()
 void MainWindow::setupVisualTab(QHash<QString, ZBlock *> *argZBlocks)
 {
     PPactiveAgents = NULL;
-    zBlocks = argZBlocks;
+	zBlocks = argZBlocks;
 
     //groupItems.clear();
 
     //Output::Inst()->ppprintf("adding item to something fierce...");
     //eventScene->clear();
-    //eventScene->setSceneRect(0,0,10,10);
-    for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
-    {
+	//eventScene->setSceneRect(0,0,10,10);
+	for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
+	{
       //  Output::Inst()->ppprintf("adding item to something fierce...");
-        eventScene->addItem(it.value());
-    }
+		eventScene->addItem(it.value());
+	}
 
-    //add the map tab:
-    ui->tabWidget->insertTab(ui->tabWidget->count()+1,vis_mapTab,"Event Map");
-    ui->vis_activeMapSpinBox->setMaximum(ColorUtility::GetMaxTime());
+	//add the map tab:
+	ui->tabWidget->insertTab(ui->tabWidget->count()+1,vis_mapTab,"Event Map");
+	ui->vis_activeMapSpinBox->setMaximum(ColorUtility::GetMaxTime());
     //Output::Inst()->kprintf();
-    ui->vis_mapTypeComboBox->setCurrentIndex(0);
-    ui->vis_activeMapSpinBox->setValue(timeOffset);
+	ui->vis_mapTypeComboBox->setCurrentIndex(0);
+	ui->vis_activeMapSpinBox->setValue(timeOffset);
     zmode = ZMode::Cumulative;
 
-    if(zBlocks != NULL)
-    {
-        for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
-        {
+	if(zBlocks != NULL)
+	{
+		for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
+		{
             it.value()->changeMode(zmode);
-        }
-    }
+		}
+	}
 
     zmap = new ZMap();
 
@@ -1020,11 +1012,11 @@ void MainWindow::setupVisualTab(QHash<QString, ZBlock *> *argZBlocks)
 
     agentpositionMap.clear();
 
-    if(file.is_open())
-    {
-        while(!file.eof())
-        {
-            agentTmu agenttmu;
+	if(file.is_open())
+	{
+		while(!file.eof())
+		{
+			agentTmu agenttmu;
             file.read(reinterpret_cast<char*>(&agenttmu),sizeof(agentTmu));
           // Output::Inst()->kprintf("id %d, posx %d, posY %d",agenttmu.id, agenttmu.x, agenttmu.y);
             agentInfo agentinfo;
@@ -1050,8 +1042,8 @@ void MainWindow::setupVisualTab(QHash<QString, ZBlock *> *argZBlocks)
                 }
             }
 
-        }
-    }
+		}
+	}
     file.close();
 
     Output::Inst()->kprintf("Visual Tab Ready");
@@ -1074,7 +1066,7 @@ void MainWindow::setEventSceneRect(int x, int y)
  */
 void MainWindow::writeZValue(QString string)
 {
-    ui->vis_zValueLabel->setText(string);
+	ui->vis_zValueLabel->setText(string);
 }
 
 /**
@@ -1085,7 +1077,7 @@ void MainWindow::writeZValue(QString string)
  */
 void MainWindow::setProcessEventButton(bool enabled)
 {
-    ui->vis_processEventsPushButton->setEnabled(enabled);
+	ui->vis_processEventsPushButton->setEnabled(enabled);
 }
 
 /**
@@ -1094,11 +1086,11 @@ void MainWindow::setProcessEventButton(bool enabled)
  */
 void MainWindow::advancePPProgess(int percentage)
 {
-    //QCoreApplication::postEvent(scene, new QEvent(QEvent::UpdateRequest),
-    //						Qt::LowEventPriority);
+	//QCoreApplication::postEvent(scene, new QEvent(QEvent::UpdateRequest),
+	//						Qt::LowEventPriority);
 
-    QMetaObject::invokeMethod(ui->vis_progressBar, "setValue", Q_ARG(int, percentage));
-    //ui->progressBar->setValue(percentage);
+	QMetaObject::invokeMethod(ui->vis_progressBar, "setValue", Q_ARG(int, percentage));
+	//ui->progressBar->setValue(percentage);
 }
 
 /**
@@ -1107,9 +1099,9 @@ void MainWindow::advancePPProgess(int percentage)
  */
 void MainWindow::write_PPOutput(QString argMsg)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    emit writePPSignal(argMsg);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	emit writePPSignal(argMsg);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 }
 
@@ -1119,8 +1111,8 @@ void MainWindow::write_PPOutput(QString argMsg)
  */
 void MainWindow::on_writePPOutput(QString string)
 {
-    ui->vis_outputTextBrowser->append(string);
-    //ui->vis_outputTextBrowser->append("");
+	ui->vis_outputTextBrowser->append(string);
+	//ui->vis_outputTextBrowser->append("");
 }
 
 /**
@@ -1132,11 +1124,11 @@ void MainWindow::on_writePPOutput(QString string)
  */
 void MainWindow::on_vis_eventBrowsePushButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName
-            (this, tr("Open Event Save File"),QDir::currentPath(),
-             tr("Event Save File (*.kas)"));
+	QString fileName = QFileDialog::getOpenFileName
+			(this, tr("Open Event Save File"),QDir::currentPath(),
+			 tr("Event Save File (*.kas)"));
 
-    ui->vis_eventPathLineEdit->setText(fileName);
+	ui->vis_eventPathLineEdit->setText(fileName);
 }
 
 /**
@@ -1146,11 +1138,11 @@ void MainWindow::on_vis_eventBrowsePushButton_clicked()
  */
 void MainWindow::on_vis_agentPathPushButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName
-            (this, tr("Open Map File"),QDir::currentPath(),
-             tr("Lua Files (*.lua)"));
+	QString fileName = QFileDialog::getOpenFileName
+			(this, tr("Open Map File"),QDir::currentPath(),
+			 tr("Lua Files (*.lua)"));
 
-    ui->vis_agentPathLineEdit->setText(fileName);
+	ui->vis_agentPathLineEdit->setText(fileName);
 }
 
 /**
@@ -1160,38 +1152,38 @@ void MainWindow::on_vis_agentPathPushButton_clicked()
  */
 void MainWindow::on_vis_readInfoPushButton_clicked()
 {
-    QString path = ui->vis_eventPathLineEdit->text();
-    QFileInfo fi(ui->vis_eventPathLineEdit->text());
-    EventQueue::simInfo *info;
+	QString path = ui->vis_eventPathLineEdit->text();
+	QFileInfo fi(ui->vis_eventPathLineEdit->text());
+	EventQueue::simInfo *info;
 
-    if (fi.isFile())
-    {
-        Output::Inst()->ppprintf("path is again %s", path.toStdString().c_str());
-        info = postControl->getEventInfo(path);
+	if (fi.isFile())
+	{
+		Output::Inst()->ppprintf("path is again %s", path.toStdString().c_str());
+		info = postControl->getEventInfo(path);
         //bad bad practice... fix when time allows...
         siminfo = info;
 
-        int runtime = int(info->tmuAmount + info->macroFactor)/(info->timeResolution);
-        int step = runtime/10;
+		int runtime = int(info->tmuAmount + info->macroFactor)/(info->timeResolution);
+		int step = runtime/10;
 
-        if(step == 0) step = 1;
+		if(step == 0) step = 1;
 
-        ui->vis_fromTimeSpinBox->setMinimum(0);
-        ui->vis_fromTimeSpinBox->setMaximum(runtime-1);
+		ui->vis_fromTimeSpinBox->setMinimum(0);
+		ui->vis_fromTimeSpinBox->setMaximum(runtime-1);
 
-        int stepSize = (int)runtime/100;
-        if(stepSize < 1) stepSize = 1;
+		int stepSize = (int)runtime/100;
+		if(stepSize < 1) stepSize = 1;
 
-        ui->vis_fromTimeSpinBox->setSingleStep(stepSize);
-        ui->vis_toTimeSpinBox->setMinimum(1);
-        ui->vis_toTimeSpinBox->setMaximum(runtime);
-        ui->vis_toTimeSpinBox->setSingleStep(stepSize);
-        ui->vis_agentPathLineEdit->setText(info->luaFileName);
+		ui->vis_fromTimeSpinBox->setSingleStep(stepSize);
+		ui->vis_toTimeSpinBox->setMinimum(1);
+		ui->vis_toTimeSpinBox->setMaximum(runtime);
+		ui->vis_toTimeSpinBox->setSingleStep(stepSize);
+		ui->vis_agentPathLineEdit->setText(info->luaFileName);
 
-        ui->vis_processEventsPushButton->setEnabled(true);
+		ui->vis_processEventsPushButton->setEnabled(true);
 
-    }else
-        Output::Inst()->ppprintf("path %s ,not found",path.toStdString().c_str());
+	}else
+		Output::Inst()->ppprintf("path %s ,not found",path.toStdString().c_str());
 
 }
 
@@ -1201,33 +1193,33 @@ void MainWindow::on_vis_readInfoPushButton_clicked()
  */
 void MainWindow::on_vis_mapTypeComboBox_currentIndexChanged(const QString &arg1)
 {
-    Output::Inst()->ppprintf("Current index is :%s", arg1.toStdString().c_str());
+	Output::Inst()->ppprintf("Current index is :%s", arg1.toStdString().c_str());
     zmode = ZMode::Average;
 
-    //set the z mode:
-    if(arg1.compare("Average") == 0)
-        zmode = ZMode::Average;
-    else if(arg1.compare("Highest") == 0)
-        zmode = ZMode::Highest;
-    else if(arg1.compare("Frequency") == 0)
-        zmode = ZMode::Frequency;
-    else if(arg1.compare("Cumulative") == 0)
-        zmode = ZMode::Cumulative;
+	//set the z mode:
+	if(arg1.compare("Average") == 0)
+		zmode = ZMode::Average;
+	else if(arg1.compare("Highest") == 0)
+		zmode = ZMode::Highest;
+	else if(arg1.compare("Frequency") == 0)
+		zmode = ZMode::Frequency;
+	else if(arg1.compare("Cumulative") == 0)
+		zmode = ZMode::Cumulative;
 
-    if(zBlocks != NULL)
-    {
-        for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
-        {
-            it.value()->changeMode(zmode);
-        }
-    }
+	if(zBlocks != NULL)
+	{
+		for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
+		{
+			it.value()->changeMode(zmode);
+		}
+	}
 
-    if(zmap != NULL)
-    {
+	if(zmap != NULL)
+	{
         zmap->changeMode(zmode);
         zmap->setPos(0,0);
         zmap->setSize(ui->vis_mapGraphicsView->width(),ui->vis_mapGraphicsView->height());
-    }
+	}
 }
 
 /**
@@ -1237,23 +1229,23 @@ void MainWindow::on_vis_mapTypeComboBox_currentIndexChanged(const QString &arg1)
  */
 void MainWindow::on_vis_activeMapSpinBox_valueChanged(int arg1)
 {
-    if(zBlocks != NULL)
-    {
-        for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
-        {
-            it.value()->setTime(arg1);
-        }
+	if(zBlocks != NULL)
+	{
+		for(auto it = zBlocks->begin(); it != zBlocks->end(); ++it)
+		{
+			it.value()->setTime(arg1);
+		}
     }
 
 
 
-    double currentTime = ui->vis_activeMapSpinBox->value() *
-            ui->vis_activeTimeResolutionLabel->text().toDouble();
+	double currentTime = ui->vis_activeMapSpinBox->value() *
+			ui->vis_activeTimeResolutionLabel->text().toDouble();
 
-    QString stringtmp = QString::number(currentTime);
-    stringtmp.append("\t - \t");
-    stringtmp.append(QString::number(currentTime + ui->vis_activeTimeResolutionLabel->text().toDouble()));
-    ui->vis_activeTimeLabel->setText(stringtmp);
+	QString stringtmp = QString::number(currentTime);
+	stringtmp.append("\t - \t");
+	stringtmp.append(QString::number(currentTime + ui->vis_activeTimeResolutionLabel->text().toDouble()));
+	ui->vis_activeTimeLabel->setText(stringtmp);
     //if(PPactiveAgents != NULL)
     //{
       //eventScene->removeItem(PPactiveAgents);
@@ -1278,13 +1270,17 @@ void MainWindow::on_vis_activeMapSpinBox_valueChanged(int arg1)
     {
         for(auto ditr = itr.value().begin(); ditr != itr.value().end(); ++ditr)
         {
-            rgba color;
-            agentItem *item = new agentItem(QString::number(ditr.value().id),color, 0);
+			rgba color;
+			agentItem *item = new agentItem(QString::number(ditr.value().id),color, 0);
             item->setX(ditr.value().x/ui->vis_resolutionSpinBox->value());
             item->setY(ditr.value().y/ui->vis_resolutionSpinBox->value());
             //item->setX(20);
             //item->setY(20);
             item->setZValue(3);
+			item->setScale(1/(double)ui->vis_resolutionSpinBox->value());
+			//item->setScale(1/ui->vis_resolutionSpinBox->value());
+			item->showAngle(false);
+			item->showID(false);
             eventScene->addItem(item);
             groupItems.append(item);
             //Output::Inst()->kprintf("agent item found");
@@ -1304,7 +1300,7 @@ void MainWindow::on_vis_activeMapSpinBox_valueChanged(int arg1)
  */
 void MainWindow::on_vis_stopEventProcessingPushButton_clicked()
 {
-    Output::RunEventProcessing.store(false);
+	Output::RunEventProcessing.store(false);
 }
 
 /**
@@ -1315,18 +1311,18 @@ void MainWindow::on_vis_stopEventProcessingPushButton_clicked()
  */
 void MainWindow::on_vis_eventZoomSlider_valueChanged(int value)
 {
-    double scale = (double)value/100;
+	double scale = (double)value/100;
 
-    ui->vis_zoomValueLabel->setText(QString().setNum(value));
+	ui->vis_zoomValueLabel->setText(QString().setNum(value));
 
-    ui->vis_graphicsView->setTransform(QTransform::fromScale(scale,scale));
+	ui->vis_graphicsView->setTransform(QTransform::fromScale(scale,scale));
 
 }
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
-    //if(zmap != NULL)
-    //zmap->setSize(50,ui->vis_mapGraphicsView->height());
+	//if(zmap != NULL)
+	//zmap->setSize(50,ui->vis_mapGraphicsView->height());
 }
 
 /**
@@ -1336,34 +1332,34 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
  */
 void MainWindow::on_vis_eventPlayPushButton_clicked()
 {
-    if(!playingMap)
-    {
-        ui->vis_eventPlayPushButton->setText("Stop Playback");
+	if(!playingMap)
+	{
+		ui->vis_eventPlayPushButton->setText("Stop Playback");
 
-        zMapTimer->start(ui->vis_controlEventPlaySpinBox->value());
-        playingMap = true;
+		zMapTimer->start(ui->vis_controlEventPlaySpinBox->value());
+		playingMap = true;
 
-    }else
-    {
-        ui->vis_eventPlayPushButton->setText("Start Playback");
+	}else
+	{
+		ui->vis_eventPlayPushButton->setText("Start Playback");
 
-        zMapTimer->stop();
-        playingMap = false;
-    }
+		zMapTimer->stop();
+		playingMap = false;
+	}
 }
 
 void MainWindow::on_zMapTimerTimeout()
 {
-    int index = ui->vis_activeMapSpinBox->value();
-    index++;
+	int index = ui->vis_activeMapSpinBox->value();
+	index++;
 
-    if(index > ui->vis_activeMapSpinBox->maximum())
-    {
-        index = 0;
-    }
+	if(index > ui->vis_activeMapSpinBox->maximum())
+	{
+		index = 0;
+	}
 
-    on_vis_activeMapSpinBox_valueChanged(index);
-    ui->vis_activeMapSpinBox->setValue(index);
+	on_vis_activeMapSpinBox_valueChanged(index);
+	ui->vis_activeMapSpinBox->setValue(index);
 
 }
 
@@ -1372,22 +1368,22 @@ void MainWindow::on_zMapTimerTimeout()
  */
 void MainWindow::on_vis_clearOutputPushButton_clicked()
 {
-    ui->vis_outputTextBrowser->clear();
+	ui->vis_outputTextBrowser->clear();
 
 }
 
 /********************************************************
- *
+ * 
  * Dialogs.
  *
  ********************************************************/
 
 void MainWindow::dialogConstruction()
 {
-    QObject::connect(ui->actionSave_Current_Events, SIGNAL(triggered()),this, SLOT(eventDialog()));
+	QObject::connect(ui->actionSave_Current_Events, SIGNAL(triggered()),this, SLOT(eventDialog()));
     QObject::connect(ui->action_Info,SIGNAL(triggered(bool)),this,SLOT(helpDialog()));
-    //Output::Inst()->kprintf("dialog start now");
-    //Output::Inst()->kprintf("No map has been loaded, please do that...");
+	//Output::Inst()->kprintf("dialog start now");
+	//Output::Inst()->kprintf("No map has been loaded, please do that...");
 }
 
 void MainWindow::helpDialog()
@@ -1398,23 +1394,23 @@ void MainWindow::helpDialog()
 
 void MainWindow::eventDialog()
 {
-    if(!control->isRunning())
-    {
-        EventDialog *dialog = new EventDialog(control, this);
-        dialog->exec();
-    } else if(!control->isGenerated())
-    {
-        Output::Inst()->kprintf("Cannot save events, there is no simulation data");
-    }
-    else
-    {
-        Output::Inst()->kprintf("Cannot save events, simulation is still running,");
-    }
+	if(!control->isRunning())
+	{
+		EventDialog *dialog = new EventDialog(control, this);
+		dialog->exec();
+	} else if(!control->isGenerated())
+	{
+		Output::Inst()->kprintf("Cannot save events, there is no simulation data");
+	}
+	else
+	{
+		Output::Inst()->kprintf("Cannot save events, simulation is still running,");
+	}
 }
 
 void MainWindow::on_actionDisable_Simulation_Output_toggled(bool arg1)
 {
-    disableSimOutput = arg1;
+	disableSimOutput = arg1;
 }
 
 
@@ -1451,9 +1447,9 @@ void MainWindow::on_vis_disableAgentIDs_clicked()
 
 void MainWindow::on_showAngle_checkbox_toggled(bool checked)
 {
-    for(auto itr = graphAgents.begin(); itr != graphAgents.end(); ++itr)
-    {
-        itr.value()->showAngle(!checked);
-    }
-    ui->graphicsView->viewport()->update();
+	for(auto itr = graphAgents.begin(); itr != graphAgents.end(); ++itr)
+	{
+		itr.value()->showAngle(!checked);
+	}
+	ui->graphicsView->viewport()->update();
 }

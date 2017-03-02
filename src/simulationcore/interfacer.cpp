@@ -24,39 +24,16 @@ int Interfacer::addLuaAgent(double x, double y, double z, std::string path, std:
 {
     std::lock_guard<std::mutex> guard(agentMutex);
 
-	int id = master->addAgent(x, y, z, path, filename, "Lua");
-	//Output::Inst()->addGraphicAgent(id,x,y);
+    int id = master->addAgent(x, y, z, path, filename, "Lua");
+    //Output::Inst()->addGraphicAgent(id,x,y);
 
-	return id;
-}
-
-std::map<int, std::string> Interfacer::getAgentInfo()
-{
-	return agentFilenames;
-}
-
-bool Interfacer::removeAgent(int Id)
-{
-    std::lock_guard<std::mutex> guard(agentMutex);
-
-	if(master->removeAgent(Id))
-	{
-		Output::Inst()->removeGraphicAgent(Id);
-		return true;
-	} return false;
+    return id;
 }
 
 void Interfacer::addLuaAgentPtr(std::shared_ptr<AgentLuaInterface> luaPtr)
 {
     std::lock_guard<std::mutex> guard(agentPtrMutex);
     agents.insert(make_pair(luaPtr->getID(), luaPtr));
-}
-
-void Interfacer::submitEEvent(std::unique_ptr<EventQueue::eEvent> eEvent)
-{
-    std::lock_guard<std::mutex> guard(eventMutex);
-
-    master->receiveEEventPtr(std::move(eEvent));
 }
 
 std::shared_ptr<AgentLuaInterface> Interfacer::getAgentPtr(int id)
@@ -69,17 +46,6 @@ std::shared_ptr<AgentLuaInterface> Interfacer::getAgentPtr(int id)
 	{
 		return itr->second;
 	} else return NULL;
-}
-
-void Interfacer::modifyAgentInfo(std::vector<agentInfo> infolist)
-{
-	for(agentInfo &info : infolist)
-	{
-		auto &agent = agents[info.id];
-
-		agent->setPositions(2,3,8);
-
-	}
 }
 
 int Interfacer::addCppAgent(double x, double y, double z, std::string path, std::string filename)
@@ -109,4 +75,36 @@ std::shared_ptr<AgentInterface> Interfacer::getAgentCppPtr(int id)
 	} else return NULL;
 }
 
+bool Interfacer::removeAgent(int Id)
+{
+    std::lock_guard<std::mutex> guard(agentMutex);
 
+    if(master->removeAgent(Id))
+    {
+        Output::Inst()->removeGraphicAgent(Id);
+        return true;
+    } return false;
+}
+
+std::map<int, std::string> Interfacer::getAgentInfo()
+{
+    return agentFilenames;
+}
+
+void Interfacer::modifyAgentInfo(std::vector<agentInfo> infolist)
+{
+    for(agentInfo &info : infolist)
+    {
+        auto &agent = agents[info.id];
+
+        agent->setPositions(2,3,8);
+
+    }
+}
+
+void Interfacer::submitEEvent(std::unique_ptr<EventQueue::eEvent> eEvent)
+{
+    std::lock_guard<std::mutex> guard(eventMutex);
+
+    master->receiveEEventPtr(std::move(eEvent));
+}

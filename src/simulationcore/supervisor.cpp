@@ -411,5 +411,6 @@ void Supervisor::setSimulationType(int numberOfAgents)
     {
         simulationType = 1;
     }
+    std::cout << "Test: " << simulationType << std::endl;
 }
 

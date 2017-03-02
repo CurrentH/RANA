@@ -1,7 +1,7 @@
 //--begin_license--
 //
 //Copyright 	2013 	Søren Vissing Jørgensen.
-//			2014	Søren Vissing Jørgensen, Center for Bio-Robotics, SDU, MMMI.  
+//			2014	Søren Vissing Jørgensen, Center for Bio-Robotics, SDU, MMMI.
 //
 //This file is part of RANA.
 //
@@ -50,25 +50,25 @@ public:
     static std::atomic<int> DelayValue;
     static std::atomic<bool> RunSimulation;
     static std::atomic<bool> KillSimulation;
-	static std::atomic<bool> RunEventProcessing;
-	static std::atomic<bool> SimRunning;
-	static std::atomic<bool> LegacyMode;
+    static std::atomic<bool> RunEventProcessing;
+    static std::atomic<bool> SimRunning;
+    static std::atomic<bool> LegacyMode;
 
-	//Post processing things:
-	void ppprintf(const char* msg, ...);
-	void ppprogressbar(int current, int maximum);
-	void setEventSceneRect(int x, int y);
+    //Post processing things:
+    void ppprintf(const char* msg, ...);
+    void ppprogressbar(int current, int maximum);
+    void setEventSceneRect(int x, int y);
 
-	static unsigned long long RUNTIME;
-	static std::string AgentPath;
-	static std::string AgentFile;
-	static std::string RanaDir;
+    static unsigned long long RUNTIME;
+    static std::string AgentPath;
+    static std::string AgentFile;
+    static std::string RanaDir;
 
-	void updateZvalue(QString string);
+    void updateZvalue(QString string);
 
-	void removeGraphicAgent(int Id);
+    void removeGraphicAgent(int Id);
     void addGraphicAgent(int Id, double posX, double posY, rgba color, double angle);
-    void changeGraphicAgentColor(int id, int r, int g, int b, int alpha);
+    //void changeGraphicAgentColor(int id, int r, int g, int b, int alpha);
     void enableRunBotton(bool enabled);
 
 private:

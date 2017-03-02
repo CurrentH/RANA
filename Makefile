@@ -487,29 +487,9 @@ BUILD/rcc/qrc_images.cpp: resources/images.qrc \
 compiler_moc_header_make_all: BUILD/moc/moc_mainwindow.cpp BUILD/moc/moc_control.cpp BUILD/moc/moc_runner.cpp BUILD/moc/moc_eventdialog.cpp BUILD/moc/moc_postcontrol.cpp BUILD/moc/moc_eventrunner.cpp BUILD/moc/moc_helpdialog.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) BUILD/moc/moc_mainwindow.cpp BUILD/moc/moc_control.cpp BUILD/moc/moc_runner.cpp BUILD/moc/moc_eventdialog.cpp BUILD/moc/moc_postcontrol.cpp BUILD/moc/moc_eventrunner.cpp BUILD/moc/moc_helpdialog.cpp
-BUILD/moc/moc_mainwindow.cpp: src/graphics/agentItem.h \
-		src/postprocessing/postcontrol.h \
-		src/postprocessing/eventrunner.h \
-		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
+BUILD/moc/moc_mainwindow.cpp: src/control.h \
 		src/mainwindow.h \
-		src/postprocessing/graphics/zblock.h \
-		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
-		src/postprocessing/graphics/zmap.h \
-		src/mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/mainwindow.h -o BUILD/moc/moc_mainwindow.cpp
-
-BUILD/moc/moc_control.cpp: src/mainwindow.h \
+		src/utility.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
@@ -518,15 +498,35 @@ BUILD/moc/moc_control.cpp: src/mainwindow.h \
 		src/simulationcore/sector.h \
 		src/simulationcore/supervisor.h \
 		src/simulationcore/eventqueue.h \
-		src/utility.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
+		src/postprocessing/graphics/zmap.h \
 		src/runner.h \
 		src/simulationcore/flowcontrol.h \
 		src/simulationcore/interfacer.h \
+		src/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/mainwindow.h -o BUILD/moc/moc_mainwindow.cpp
+
+BUILD/moc/moc_control.cpp: src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
+		src/graphics/agentItem.h \
+		src/postprocessing/postcontrol.h \
+		src/postprocessing/eventrunner.h \
+		src/postprocessing/eventprocessing.h \
+		src/postprocessing/graphics/zblock.h \
+		src/postprocessing/colorutility.h \
 		src/postprocessing/graphics/zmap.h \
 		src/control.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/control.h -o BUILD/moc/moc_control.cpp
@@ -541,20 +541,21 @@ BUILD/moc/moc_runner.cpp: src/simulationcore/flowcontrol.h \
 		src/simulationcore/agents/agentluainterface.h \
 		src/simulationcore/interfacer.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/runner.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
 		src/postprocessing/graphics/zmap.h \
 		src/runner.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/runner.h -o BUILD/moc/moc_runner.cpp
 
 BUILD/moc/moc_eventdialog.cpp: src/control.h \
 		src/mainwindow.h \
+		src/utility.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
@@ -563,7 +564,6 @@ BUILD/moc/moc_eventdialog.cpp: src/control.h \
 		src/simulationcore/sector.h \
 		src/simulationcore/supervisor.h \
 		src/simulationcore/eventqueue.h \
-		src/utility.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
@@ -585,14 +585,14 @@ BUILD/moc/moc_postcontrol.cpp: src/postprocessing/eventrunner.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/mainwindow.h \
-		src/graphics/agentItem.h \
-		src/postprocessing/postcontrol.h \
-		src/postprocessing/graphics/zblock.h \
-		src/postprocessing/colorutility.h \
 		src/control.h \
 		src/runner.h \
 		src/simulationcore/flowcontrol.h \
 		src/simulationcore/interfacer.h \
+		src/graphics/agentItem.h \
+		src/postprocessing/postcontrol.h \
+		src/postprocessing/graphics/zblock.h \
+		src/postprocessing/colorutility.h \
 		src/postprocessing/graphics/zmap.h \
 		src/postprocessing/postcontrol.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/postprocessing/postcontrol.h -o BUILD/moc/moc_postcontrol.cpp
@@ -606,15 +606,15 @@ BUILD/moc/moc_eventrunner.cpp: src/postprocessing/eventprocessing.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/postprocessing/eventrunner.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/theis/workspace/RANA -I/home/theis/workspace/lua51_64bit/include -I/usr/include/lua5.1 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/postprocessing/eventrunner.h -o BUILD/moc/moc_eventrunner.cpp
@@ -648,23 +648,23 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 BUILD/obj/main.o: src/main.cpp src/ID.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h \
 		src/api/gridmovement.h \
@@ -673,23 +673,23 @@ BUILD/obj/main.o: src/main.cpp src/ID.h \
 
 BUILD/obj/mainwindow.o: src/mainwindow.cpp BUILD/ui/ui_mainwindow.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/output.h \
 		src/api/maphandler.h \
@@ -701,29 +701,30 @@ BUILD/obj/mainwindow.o: src/mainwindow.cpp BUILD/ui/ui_mainwindow.h \
 
 BUILD/obj/output.o: src/output.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/output.o src/output.cpp
 
 BUILD/obj/control.o: src/control.cpp src/control.h \
 		src/mainwindow.h \
+		src/utility.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
@@ -732,7 +733,6 @@ BUILD/obj/control.o: src/control.cpp src/control.h \
 		src/simulationcore/sector.h \
 		src/simulationcore/supervisor.h \
 		src/simulationcore/eventqueue.h \
-		src/utility.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
@@ -744,7 +744,8 @@ BUILD/obj/control.o: src/control.cpp src/control.h \
 		src/output.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/control.o src/control.cpp
 
-BUILD/obj/agentItem.o: src/graphics/agentItem.cpp src/graphics/agentItem.h
+BUILD/obj/agentItem.o: src/graphics/agentItem.cpp src/graphics/agentItem.h \
+		src/utility.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/agentItem.o src/graphics/agentItem.cpp
 
 BUILD/obj/runner.o: src/runner.cpp src/runner.h \
@@ -758,13 +759,13 @@ BUILD/obj/runner.o: src/runner.cpp src/runner.h \
 		src/simulationcore/agents/agentluainterface.h \
 		src/simulationcore/interfacer.h \
 		src/mainwindow.h \
+		src/control.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
 		src/postprocessing/graphics/zmap.h \
 		src/output.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/runner.o src/runner.cpp
@@ -781,15 +782,15 @@ BUILD/obj/eventprocessing.o: src/postprocessing/eventprocessing.cpp src/api/grid
 		src/simulationcore/agents/agent.h \
 		src/postprocessing/eventprocessing.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/output.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/eventprocessing.o src/postprocessing/eventprocessing.cpp
@@ -797,22 +798,22 @@ BUILD/obj/eventprocessing.o: src/postprocessing/eventprocessing.cpp src/api/grid
 BUILD/obj/colorutility.o: src/postprocessing/colorutility.cpp src/postprocessing/colorutility.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/colorutility.o src/postprocessing/colorutility.cpp
 
@@ -820,6 +821,7 @@ BUILD/obj/eventdialog.o: src/eventdialog.cpp BUILD/ui/ui_eventdialog.h \
 		src/eventdialog.h \
 		src/control.h \
 		src/mainwindow.h \
+		src/utility.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
@@ -828,7 +830,6 @@ BUILD/obj/eventdialog.o: src/eventdialog.cpp BUILD/ui/ui_eventdialog.h \
 		src/simulationcore/sector.h \
 		src/simulationcore/supervisor.h \
 		src/simulationcore/eventqueue.h \
-		src/utility.h \
 		src/simulationcore/agents/agentinterface.h \
 		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
@@ -841,67 +842,67 @@ BUILD/obj/eventdialog.o: src/eventdialog.cpp BUILD/ui/ui_eventdialog.h \
 
 BUILD/obj/zblock.o: src/postprocessing/graphics/zblock.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/zblock.o src/postprocessing/graphics/zblock.cpp
 
 BUILD/obj/postcontrol.o: src/postprocessing/postcontrol.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/postcontrol.o src/postprocessing/postcontrol.cpp
 
 BUILD/obj/eventrunner.o: src/postprocessing/eventrunner.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/eventrunner.o src/postprocessing/eventrunner.cpp
 
@@ -910,21 +911,21 @@ BUILD/obj/zmap.o: src/postprocessing/graphics/zmap.cpp src/postprocessing/graphi
 		src/postprocessing/colorutility.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
-		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h
+		src/postprocessing/eventprocessing.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/zmap.o src/postprocessing/graphics/zmap.cpp
 
 BUILD/obj/helpdialog.o: src/helpdialog.cpp src/helpdialog.h \
@@ -934,45 +935,45 @@ BUILD/obj/helpdialog.o: src/helpdialog.cpp src/helpdialog.h \
 BUILD/obj/gridmovement.o: src/api/gridmovement.cpp src/api/gridmovement.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/gridmovement.o src/api/gridmovement.cpp
 
 BUILD/obj/maphandler.o: src/api/maphandler.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h \
 		src/api/maphandler.h
@@ -981,68 +982,69 @@ BUILD/obj/maphandler.o: src/api/maphandler.cpp src/output.h \
 BUILD/obj/phys.o: src/api/phys.cpp src/api/phys.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/phys.o src/api/phys.cpp
 
 BUILD/obj/scanning.o: src/api/scanning.cpp src/api/scanning.h \
 		src/utility.h \
+		src/api/phys.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/scanning.o src/api/scanning.cpp
 
 BUILD/obj/shared.o: src/api/shared.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/shared.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/shared.o src/api/shared.cpp
@@ -1050,23 +1052,23 @@ BUILD/obj/shared.o: src/api/shared.cpp src/output.h \
 BUILD/obj/flowcontrol.o: src/simulationcore/flowcontrol.cpp src/ID.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h \
 		src/api/gridmovement.h \
@@ -1075,69 +1077,69 @@ BUILD/obj/flowcontrol.o: src/simulationcore/flowcontrol.cpp src/ID.h \
 
 BUILD/obj/interfacer.o: src/simulationcore/interfacer.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/interfacer.o src/simulationcore/interfacer.cpp
 
 BUILD/obj/sector.o: src/simulationcore/sector.cpp src/ID.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/sector.o src/simulationcore/sector.cpp
 
 BUILD/obj/supervisor.o: src/simulationcore/supervisor.cpp src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/supervisor.o src/simulationcore/supervisor.cpp
@@ -1154,23 +1156,23 @@ BUILD/obj/agent.o: src/simulationcore/agents/agent.cpp src/simulationcore/sector
 BUILD/obj/agentinterface.o: src/simulationcore/agents/agentinterface.cpp src/ID.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h \
 		src/api/gridmovement.h \
@@ -1182,23 +1184,23 @@ BUILD/obj/agentinterface.o: src/simulationcore/agents/agentinterface.cpp src/ID.
 BUILD/obj/agentluainterface.o: src/simulationcore/agents/agentluainterface.cpp src/ID.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h \
 		src/api/gridmovement.h \
@@ -1210,23 +1212,23 @@ BUILD/obj/agentluainterface.o: src/simulationcore/agents/agentluainterface.cpp s
 BUILD/obj/eventqueue.o: src/simulationcore/eventqueue.cpp src/ID.h \
 		src/output.h \
 		src/mainwindow.h \
+		src/control.h \
+		src/utility.h \
+		src/runner.h \
+		src/simulationcore/flowcontrol.h \
+		src/simulationcore/supervisor.h \
+		src/simulationcore/eventqueue.h \
+		src/simulationcore/sector.h \
+		src/simulationcore/agents/agentinterface.h \
+		src/simulationcore/agents/agent.h \
+		src/simulationcore/agents/agentluainterface.h \
+		src/simulationcore/interfacer.h \
 		src/graphics/agentItem.h \
 		src/postprocessing/postcontrol.h \
 		src/postprocessing/eventrunner.h \
 		src/postprocessing/eventprocessing.h \
-		src/simulationcore/agents/agentluainterface.h \
-		src/simulationcore/sector.h \
-		src/simulationcore/supervisor.h \
-		src/simulationcore/eventqueue.h \
-		src/utility.h \
-		src/simulationcore/agents/agentinterface.h \
-		src/simulationcore/agents/agent.h \
 		src/postprocessing/graphics/zblock.h \
 		src/postprocessing/colorutility.h \
-		src/control.h \
-		src/runner.h \
-		src/simulationcore/flowcontrol.h \
-		src/simulationcore/interfacer.h \
 		src/postprocessing/graphics/zmap.h \
 		src/api/phys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BUILD/obj/eventqueue.o src/simulationcore/eventqueue.cpp

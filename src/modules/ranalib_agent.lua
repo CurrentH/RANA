@@ -2,9 +2,9 @@ local ranaLibAgent = {}
 
 local currentColor = {r=255,g=255,b=255,alpha=255}
 
--- Add an agent to the simulation. This agent will only receive 
+-- Add an agent to the simulation. This agent will only receive
 -- events emitted after it has been added.
--- For simulation consistency it is recommended to use this mostly during takeStep, 
+-- For simulation consistency it is recommended to use this mostly during takeStep,
 -- rather than handleEvent.
 -- @Param filename the path of the agent relative to the agent defined in Rana upon simulation
 -- start.
@@ -13,20 +13,19 @@ local currentColor = {r=255,g=255,b=255,alpha=255}
 -- Example: addAgent([[02_oscillator.lua]], 50, 50)
 function ranaLibAgent.addAgent(filename, posX, posY)
 
-	local mapWidth, mapHeight = l_getEnvironmentSize()
-	local path = l_getAgentPath()
+        local mapWidth, mapHeight = l_getEnvironmentSize()
+        local path = l_getAgentPath()
 
         local posX = posX or l_getRandomInteger(1,mapWidth)
         local posY = posY or l_getRandomInteger(1,mapHeight)
 
-        say("       x "..posX.." y "..posY)
-
-	if type(filename) == "string" then
-		local ID = l_addAgent(posX, posY, 0, path, filename)
-		return ID
+        if type(filename) == "string" then
+                local ID = l_addAgent(posX, posY, 0, path, filename)
+                return ID
         else
-		return -1
-	end
+
+                return -1
+        end
 
 end
 
@@ -36,25 +35,25 @@ end
 -- agent or not.
 function ranaLibAgent.removeAgent(ID)
 
-	local success
+        local success
 
-	if type(ID) == "number" then
-		success = l_removeAgent(ID)
-	else
-		success = false
-	end
+        if type(ID) == "number" then
+                success = l_removeAgent(ID)
+        else
+                success = false
+        end
 
-	return success
+        return success
 end
 
 -- Join a group, Events can, upon emision be targeted at a specific
--- group. An agent can belong to 0 or more groups. Groups will be 
+-- group. An agent can belong to 0 or more groups. Groups will be
 -- removed and added on the fly as needed.
 function ranaLibAgent.joinGroup(groupID)
-	
-	if type(group) == "number" then
-		l_addGroup(groupID,ID)
-	end
+
+        if type(group) == "number" then
+                l_addGroup(groupID,ID)
+        end
 end
 
 -- Leave a group. Removes the agent from a certain group.
@@ -63,22 +62,22 @@ end
 -- is not of type number.
 function ranaLibAgent.leaveGroup(groupID)
 
-	local success
+        local success
 
-	if type(groupID) == "number" then
-		success = l_removeGroup(ID, groupID)
-	else 
-		success = false
-	end
+        if type(groupID) == "number" then
+                success = l_removeGroup(ID, groupID)
+        else
+                success = false
+        end
 
-	return success
+        return success
 end
 
 -- Sets a new step multiple of the agent
 -- Setting this value allows the user to control how
 -- often the agents will takeStep() en relation to default.
 -- It will also correct the stepPrecision value.
--- Default is 1 and a value of 0 will take the agent out of 
+-- Default is 1 and a value of 0 will take the agent out of
 -- the Step flow completely.
 -- Example:
 -- if the stepPrecision is at 1e-3[s] and this agent only needs
@@ -86,43 +85,44 @@ end
 -- E.g. setStepMultiple(10)
 function ranaLibAgent.setStepMultiple(multiple)
 
-	local success
-	
-	if type(multiple) == "number" and multiple >= 0 then
+        local success
 
-		l_setMacroFactorMultiple(ID, multiple)
-		StepPrecision = multiple * stepPrecision/stepMultiple
-		StepMultiple = multiple
-		success = true
-	else 
-		success = false
-	end
+        if type(multiple) == "number" and multiple >= 0 then
 
-	return success
+                l_setMacroFactorMultiple(ID, multiple)
+                StepPrecision = multiple * stepPrecision/stepMultiple
+                StepMultiple = multiple
+                success = true
+        else
+                success = false
+        end
+
+        return success
 end
 
 -- changes the color of an agent, returns true if the color
--- values are valid. 
+-- values are valid.
 function ranaLibAgent.changeColor(options)
 
-        local r = options.r or 0
-        local g = options.g or 0
-        local b = options.b or 0
-        local alpha = options.alpha or 255
-        local id = options.id or ID
+        ColorRed = options.r or 0
+        ColorGreen = options.g or 0
+        ColorBlue = options.b or 0
+        ColorAlpha = options.alpha or 255
 
-        if r ~= currentColor.r or g ~= currentColor.g or b ~= currentColor.b or alpha ~= currentColor.alpha then
-                currentColor.r = r
-                currentColor.g = g
-                currentColor.b = b
-                currentColor.alpha = alpha
+        --if r ~= currentColor.r or g ~= currentColor.g or b ~= currentColor.b or alpha ~= currentColor.alpha then
+                --currentColor.r = r
+                --currentColor.g = g
+                --currentColor.b = b
+                --currentColor.alpha = alpha
 
-                return l_changeAgentColor(id,r,g,b,alpha)
 
-        else
-                return true
-        end
+
+                --return l_changeAgentColor(id,r,g,b,alpha)
+
+        --else
+                --return true
+        --end
 
 end
- 
+
 return ranaLibAgent

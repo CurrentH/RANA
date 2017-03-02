@@ -71,7 +71,6 @@ bool FlowControl::checkEnvPresence()
 void FlowControl::generateEnvironment(double width, double height, int threads,
                                       int agentAmount, double timeResolution, int macroFactor, std::string filename)
 {
-
     //srand(time(0));
     //Phys::seedMersenne();
     this->timeResolution = timeResolution;
@@ -109,6 +108,7 @@ void FlowControl::populateSystem()
 {
     //srand(time(0));
     //Phys::seedMersenne();
+    masteragent->setSimulationType(agentAmount);
     masteragent->populateSystem(0, 0, agentAmount, luaFilename);
     retrievePopPos();
     mapGenerated = true;
@@ -124,7 +124,6 @@ void FlowControl::populateSystem()
  */
 void FlowControl::retrievePopPos()
 {
-
     std::list<agentInfo> agentPositions = masteragent->retrievePopPos();
 
     control->refreshPopPos(agentPositions);
@@ -137,7 +136,6 @@ void FlowControl::retrievePopPos()
             //std::ofstream file(positionFilename.c_str(),std::ofstream::out | std::ofstream::app);
             for(const auto &apos : agentPositions)
             {
-
                 agentTmu agenttmu;
                 agenttmu.x = apos.x;
                 agenttmu.y = apos.y;
@@ -166,8 +164,6 @@ void FlowControl::toggleLiveView(bool enable)
  */
 void FlowControl::runSimulation(int time)
 {
-
-
     std::string positionFilePath = Output::Inst()->RanaDir;
     positionFilePath.append("/positionData/");
     positionFilePath.append(positionFilename.c_str());
@@ -180,8 +176,7 @@ void FlowControl::runSimulation(int time)
 	file.open(positionFilePath.c_str(),std::ofstream::out | std::ofstream::app | std::ofstream::binary);
 
     stop = false;
-    Output::Inst()->kprintf("Running Simulation of: %i[s], with resolution of %f \n",
-                            time, timeResolution);
+    Output::Inst()->kprintf("Running Simulation of: %i[s], with resolution of %f \n",time, timeResolution);
     Output::RunSimulation = true;
 
     unsigned long long iterations = (double)time/timeResolution;

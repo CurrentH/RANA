@@ -1341,7 +1341,7 @@ int AgentLuaInterface::l_changeAgentColor(lua_State *L)
         success = false;
     } else
     {
-        Output::Inst()->changeGraphicAgentColor(id, r, g, b, alpha);
+        //Output::Inst()->changeGraphicAgentColor(id, r, g, b, alpha);
     }
 
     lua_pushboolean(L, success);

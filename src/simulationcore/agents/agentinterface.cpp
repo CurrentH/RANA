@@ -648,7 +648,7 @@ bool AgentInterface::changeAgentColor(int id, int r, int g, int b, int alpha)
     {
         return false;
     }
-    Output::Inst()->changeGraphicAgentColor(id, r, g, b, alpha);
+    //Output::Inst()->changeGraphicAgentColor(id, r, g, b, alpha);
     return true;
 }
 

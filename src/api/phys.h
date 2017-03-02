@@ -47,11 +47,9 @@
 #include <random>
 #include <chrono>
 
-
 class Phys
 {
 	public:
-
 		Phys(){}
 
         static double getTimeRes();
@@ -105,9 +103,5 @@ private:
 
 		static double scale;
 };
-
-
-
-
 
 #endif // PHYS_H

@@ -1,7 +1,7 @@
 //--begin_license--
 //
 //Copyright 	2013 	Søren Vissing Jørgensen.
-//			2014	Søren Vissing Jørgensen, Center for Bio-Robotics, SDU, MMMI.  
+//			2014	Søren Vissing Jørgensen, Center for Bio-Robotics, SDU, MMMI.
 //
 //This file is part of RANA.
 //
@@ -21,16 +21,19 @@
 //--end_license--
 #include "agentItem.h"
 
+
 static const QPointF points[3] = {
     QPointF(0, 1.25),
     QPointF(0, -1.25),
     QPointF(4.5, 0),
 };
 
+
 agentItem::agentItem(QString id, rgba color, double angle) :
     id(id), pencolor(Qt::white), showid(true), angle(angle), angleShow(true)
 {
     pencolor = QColor(color.red, color.green, color.blue, color.alpha);
+
 }
 
 QRectF agentItem::boundingRect() const
@@ -41,11 +44,8 @@ QRectF agentItem::boundingRect() const
     return QRectF(0,0,10,10);
 }
 
-void agentItem::paint(QPainter *painter,
-                      const QStyleOptionGraphicsItem *option,
-                      QWidget *widget)
+void agentItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget)
 {
-
     QPen pen (pencolor, 1);
     painter->setPen(pen);
 //	painter->fillPath();
@@ -58,6 +58,8 @@ void agentItem::paint(QPainter *painter,
         painter->drawText(rect, Qt::AlignCenter, id);
     }
 
+    painter->drawPoint(0,0);
+/*
     if(angleShow)
     {
 //		painter->drawLine(0,0,5,0);
@@ -73,6 +75,7 @@ void agentItem::paint(QPainter *painter,
         painter->drawPoint(1,-1);
         painter->drawPoint(-1,1);
     }
+*/
 }
 
 void agentItem::setColor(rgba color)
@@ -90,7 +93,6 @@ void agentItem::setAngle(double angle)
 {
     this->angle = angle;
     this->setRotation(angle);
-
 }
 
 double agentItem::getAngle()
@@ -103,3 +105,4 @@ void agentItem::showAngle(bool angleShow)
     this->angleShow = angleShow;
 
 }
+
