@@ -163,7 +163,6 @@ void Output::setMainWindow(MainWindow *mainwindow)
  */
 void Output::ppprintf(const char *msg,...)
 {
-
 	va_list args;
 	va_start(args, msg);
 

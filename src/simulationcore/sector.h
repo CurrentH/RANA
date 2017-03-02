@@ -50,31 +50,30 @@ class Sector
         Sector(double posX,double posY, double width, double height, Supervisor* master, int id);
         ~Sector();
 
-		void generateAgent();
+        void generateAgent();
         void populate(int LUASize, std::string filename, int agentType);
         void takeStepPhase(unsigned long long tmu);
-		//function to receive events the master, and distribute them on all local sector
-		void distroPhase(const EventQueue::eEvent *event);
-		std::list<EventQueue::iEvent> responsePhase();
-		void retrievePopPos(std::list<agentInfo> &infolist);
-		int initAmount;
-		void simDone();
-		int getID(){ return id; }
+        //function to receive events the master, and distribute them on all local sector
+        void distroPhase(const EventQueue::eEvent *event);
+        std::list<EventQueue::iEvent> responsePhase();
+        void retrievePopPos(std::list<agentInfo> &infolist);
+        int initAmount;
+        void simDone();
+        int getID(){ return id; }
         int addAgent(double x, double y, double z, std::string filename, std::string type);
 
-		bool removeAgent(int arg_id);
-		int containsAgent(int arg_id);
+        bool removeAgent(int arg_id);
+        int containsAgent(int arg_id);
 
         std::promise<int> taskPromise;
         std::promise<bool> taskDonePromise;
 
 private:
-
-		//purge events before current tmu.
-		void purgeEvents();
-		//Functions to perform during a microStep.
-		//check whether or not there is to be initiated an event on one of its residents.
-		void performEvent(std::unique_ptr<EventQueue::eEvent> event);
+        //purge events before current tmu.
+        void purgeEvents();
+        //Functions to perform during a microStep.
+        //check whether or not there is to be initiated an event on one of its residents.
+        void performEvent(std::unique_ptr<EventQueue::eEvent> event);
         Supervisor *master;
 
         std::map<int,std::shared_ptr<AgentLuaInterface>> luaAgents;
@@ -83,16 +82,16 @@ private:
         std::map<int,std::shared_ptr<AgentInterface>> cppAgents;
         std::list<std::shared_ptr<AgentInterface>> newCppAgents;
 
-		std::list<int> removalIDs;
+        std::list<int> removalIDs;
 
-		friend class Agent;
-		friend class AgentInterface;
-		friend class AgentLuaInterface;
-		double posX;
-		double posY;
-		double width;
-		double height;
-		int id;
+        friend class Agent;
+        friend class AgentInterface;
+        friend class AgentLuaInterface;
+        double posX;
+        double posY;
+        double width;
+        double height;
+        int id;
 
         int agentType;
 };
