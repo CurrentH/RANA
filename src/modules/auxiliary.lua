@@ -20,7 +20,6 @@ function _HandleEvent(sourceX, sourceY, sourceZ, originID, description, serialTa
 end
 
 function _TakeStep()
-
         if TakeStep ~= nil then
                 TakeStep()
         elseif takeStep ~= nil then

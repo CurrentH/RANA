@@ -23,7 +23,6 @@ function ranaLibAgent.addAgent(filename, posX, posY)
                 local ID = l_addAgent(posX, posY, 0, path, filename)
                 return ID
         else
-
                 return -1
         end
 

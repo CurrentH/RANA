@@ -62,7 +62,6 @@ AgentLuaInterface::AgentLuaInterface(int ID, double posX, double posY, double po
         Output::Inst()->kprintf("<b><font color=\"brown\">A new Agent cannot be initialized. Lua(%s) is out of memory, Killing simulation</font></b></>", LUA_VERSION);
         Output::KillSimulation.store(true);
         removed = true;
-
     }
     else
     {
@@ -207,7 +206,6 @@ AgentLuaInterface::AgentLuaInterface(int ID, double posX, double posY, double po
         settingsPath.erase(settingsPath.end()-4,settingsPath.end());
         settingsPath.append("_settings.lua");
 
-
         if(luaL_loadfile(L, auxLib.c_str()) || lua_pcall(L,0,0,0))
         {
             Output::Inst()->kprintf("<font color=\"red\">error : %s <\font>", lua_tostring(L, -1));
@@ -273,9 +271,7 @@ void AgentLuaInterface::InitializeAgent()
 
     if (gridmove == true)
     {
-        GridMovement::addPos(
-                    int(posX*GridMovement::getScale()),
-                    int(posY*GridMovement::getScale()),ID);
+        GridMovement::addPos(int(posX*GridMovement::getScale()),int(posY*GridMovement::getScale()),ID);
     }
     getSyncData();
 }
@@ -531,8 +527,7 @@ void AgentLuaInterface::processFunction(EventQueue::dataEvent *devent, double ti
         lua_pushstring(L, devent->table);
 
         if(lua_pcall(L,6,2,0)!=LUA_OK){
-            Output::Inst()->kprintf("Error on calling _ProcessEventFunction : %s\n,",
-                                    lua_tostring(L,-1));
+            Output::Inst()->kprintf("Error on calling _ProcessEventFunction : %s\n,",lua_tostring(L,-1));
             Output::RunEventProcessing.store(false);
             return;
         } else
@@ -1427,9 +1422,6 @@ int AgentLuaInterface::l_setMacroFactorMultipler(lua_State *L)
     return 0;
 
 }
-
-
-
 
 //Emergency brake -- do not pull --!
 int AgentLuaInterface::luapanic(lua_State *L)

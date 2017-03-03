@@ -113,8 +113,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui->graphicsView->viewport()->installEventFilter(this);
 
-	Output::Inst()->RanaDir =
-			QCoreApplication::applicationDirPath().toUtf8().constData();
+    Output::Inst()->RanaDir = QCoreApplication::applicationDirPath().toUtf8().constData();
 }
 
 MainWindow::~MainWindow()
@@ -702,11 +701,9 @@ void MainWindow::on_browseLuaAgentButton_clicked()
  */
 void MainWindow::on_runButton_clicked()
 {
-
     if(control->isRunning()){
         ui->runButton->setEnabled(false);
         control->stopSimulation();
-
     }
 	else
 	{

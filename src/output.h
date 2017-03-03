@@ -27,8 +27,6 @@
 #include <atomic>
 #include "src/mainwindow.h"
 
-
-
 class MainWindow;
 class Output
 {
@@ -39,12 +37,8 @@ public:
     void kdebug(const char* msg, ...);
 
     void updateStatus(unsigned long long internalEvents, unsigned long long externalEvents);
-
-
     void progressBar(unsigned long long current, unsigned long long maximum);
-
     void updatePosition(int id, double x, double y);
-
     void setMainWindow(MainWindow *mainwindow);
 
     static std::atomic<int> DelayValue;

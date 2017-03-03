@@ -30,6 +30,10 @@
 #include<stdio.h>
 #include<fstream>
 
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+
 #include "supervisor.h"
 #include "src/simulationcore/interfacer.h"
 #include "src/mainwindow.h"
@@ -44,11 +48,15 @@ class FlowControl
         FlowControl(Control *control);
         ~FlowControl();
 
+        void l_startSimulation();
+        void l_stopSimulation();
+        void l_restartSimulation();
+        void l_pauseSimulation();
+        void l_continiueSimulation();
+
         void generateEnvironment(double width, double height, int resolution, int agentAmount,
-				double timeResolution, int macroFactor, std::string filename);
-
+                                 double timeResolution, int macroFactor, std::string filename);
         void retrievePopPos();
-
 		void runSimulation(int time);
 
 		bool checkEnvPresence();
@@ -92,6 +100,8 @@ private:
         std::string positionFilename;
 
         std::ofstream file;
+
+        lua_State* L;
 };
 
 #endif // FLOWCONTROL_H
