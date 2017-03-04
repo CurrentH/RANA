@@ -712,8 +712,8 @@ void MainWindow::on_runButton_clicked()
 	else
 	{
         //ui->generateButton->setDisabled(true);
-		control->runSimulation(ui->runTimeSpinBox->value());
-	}
+        control->runSimulation(ui->runTimeSpinBox->value());
+    }
 }
 
 /**

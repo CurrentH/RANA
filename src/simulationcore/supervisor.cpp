@@ -55,6 +55,7 @@ Supervisor::Supervisor()
 
 Supervisor::~Supervisor()
 {
+    Output::Inst()->kprintf("Supervisor - Destructor");
     delete eventQueue;
 
     for(const auto &s : sectors)
@@ -155,6 +156,7 @@ void Supervisor::populateSystem(int listenerSize, int screamerSize, int LUASize,
 {
 
     Output::Inst()->kprintf("Supervisor - populateSystem");
+    std::cout << "\t" << listenerSize << "\t" << screamerSize << "\t" << LUASize << "\t" << filename << std::endl;
     std::vector<int> LUAVector;
 
     for(uint i = 0; i < sectors.size(); i++)

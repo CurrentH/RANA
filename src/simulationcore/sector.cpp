@@ -45,6 +45,7 @@ Sector::Sector(double posX, double posY, double width, double height, Supervisor
 
 Sector::~Sector()
 {
+    Output::Inst()->kprintf("Sector - Destructor");
 }
 
 void Sector::populate(int agentSize ,std::string filename, int agentType)

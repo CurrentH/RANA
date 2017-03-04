@@ -563,6 +563,7 @@ void AgentLuaInterface::setRemoved()
 
 void AgentLuaInterface::simDone()
 {
+    Output::Inst()->kprintf("AgentLuaInterface - simDone");
     if(nofile)
         return;
     try

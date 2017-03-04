@@ -91,7 +91,7 @@ public slots:
 
 private slots:
 
-	void on_generateButton_clicked();
+        void on_generateButton_clicked();
 	void actionExit();
 	void on_browseMapButton_clicked();
 	void on_browseLuaAgentButton_clicked();

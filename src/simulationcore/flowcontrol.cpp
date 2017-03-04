@@ -49,6 +49,7 @@ FlowControl::FlowControl(Control *control)
 
 FlowControl::~FlowControl()
 {
+    Output::Inst()->kprintf("FlowControl - Destructor");
     //ID::resetSystem();
     Phys::setCTime(0);
     delete masteragent;
@@ -78,6 +79,8 @@ void FlowControl::generateEnvironment(double width, double height, int threads, 
     this->timeResolution = timeResolution;
     this->macroFactor = macroFactor;
     this->threads = threads;
+    this->agentAmount = agentAmount;
+    this->agentFilename = filename;
 
     macroResolution = macroFactor * timeResolution;
 
@@ -97,9 +100,6 @@ void FlowControl::generateEnvironment(double width, double height, int threads, 
     mapWidth = width;
     mapHeight = height;
 
-    agentFilename = filename;
-    agentAmount = agentAmount;
-
     masteragent->setSimulationType(agentAmount);
     masteragent->populateSystem(0, 0, agentAmount, filename);
 
@@ -108,11 +108,34 @@ void FlowControl::generateEnvironment(double width, double height, int threads, 
     Output::Inst()->enableRunBotton(true);
 }
 
+bool FlowControl::runAgain()
+{
+    if( numIt < 2 ){
+        std::cout << "numIt: " << numIt << " returning true" << std::endl;
+        numIt++;
+        return true;
+    }else{
+        std::cout << "numIt: " << numIt << " returning false" << std::endl;
+        numIt++;
+        return false;
+    }
+}
+
+
 void FlowControl::resetSimulation()
 {
-    Output::Inst()->kprintf("FlowControl - resetSimulation");
+    Output::Inst()->kprintf("FlowControl - resetSimulation1");
     stopSimulation();
+    Output::Inst()->kprintf("FlowControl - resetSimulation2");
+    masteragent->~Supervisor();
+    Output::Inst()->kprintf("FlowControl - resetSimulation3");
+    masteragent = new Supervisor();
+    Output::Inst()->kprintf("FlowControl - resetSimulation4");
     generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
+    Output::Inst()->kprintf("FlowControl - resetSimulation5");
+
+    //  TODO: Find way to get the runSimulation to work from here
+
 }
 
 void FlowControl::populateSystem()
@@ -275,6 +298,10 @@ void FlowControl::runSimulation(int time)
     duration_cast<seconds>(start2-endsim).count();
     Output::Inst()->kprintf("Simulation run took:\t %llu[s] of computing time", duration_cast<seconds>(endsim - start2).count());
     file.close();
+
+    if( runAgain() ){
+        resetSimulation();
+    }
 }
 
 /**

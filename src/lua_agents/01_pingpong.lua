@@ -36,8 +36,8 @@
 -- DestinationX 	-- Agents destination in the X plane. 
 -- DestinationY 	-- Agents destination in the Y plane.
 -- StepMultiple 	-- Amount of steps to skip.
--- Speed 			-- Movement speed of the agent in meters pr. second.
--- Moving 			-- Denotes wether this agent is moving (default = false).
+-- Speed 		-- Movement speed of the agent in meters pr. second.
+-- Moving 		-- Denotes wether this agent is moving (default = false).
 -- GridMove 		-- Is collision detection active (default = false).
 -- ------------------------------------
 
@@ -57,8 +57,10 @@ function InitializeAgent()
 		PositionX = ENV_WIDTH/2
 		PositionY = ENV_HEIGHT/2
 	end
-
+        DestinationX = 1
+        DestinationY = 1
         Moving = true
+        Speed = 1
 end
 
 function HandleEvent(event)

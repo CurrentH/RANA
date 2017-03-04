@@ -61,7 +61,12 @@ class FlowControl
         void toggleLiveView(bool enable);
         void populateSystem();
 
+        bool runAgain();
+
 private:
+
+        int numIt = 0;
+
         void resetSimulation();
 
         Control *control;
