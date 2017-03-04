@@ -46,13 +46,14 @@ Control::~Control()
 
 void Control::runSimulation(unsigned long long runTime)
 {
+    Output::Inst()->kprintf("Control - runSimulation");
 	running = true;
     //runThread.setStackSize(1024*1024*1024);
 	Output::SimRunning.store(true);
 	mainwindow->changeRunButton("Stop");
 	emit startDoWork(agentDomain, runTime);
 	//runner->setParameters(agentDomain, runTime);
-	//runThread->start();
+    //runThread->start();
 }
 
 void Control::stopSimulation()
@@ -60,10 +61,52 @@ void Control::stopSimulation()
     agentDomain->stopSimulation();
 }
 
-void Control::generateEnvironment(QImage *map, int threads,
-                                  double timeRes, double macroRes,
-                                  int agentAmount, std::string agentPath)
+void Control::generateEnvironment(int width, int heigth, int threads, double timeRes,
+                                    double macroRes, int agentAmount, std::string agentPath)
 {
+    Output::Inst()->kprintf("generateEnvironment1");
+    if(!running || !generating)
+    {
+        Output::Inst()->kprintf("generateEnvironment2");
+        generating = true;
+
+        if(populateFuture.isRunning())
+        {
+            Output::Inst()->kprintf("A previous system was being populated, it will be cancelled");
+            populateFuture.cancel();
+            populateFuture.waitForFinished();
+        }
+
+        Output::KillSimulation.store(true);
+        Output::Inst()->kprintf("generateEnvironment3");
+
+        if(agentDomain != NULL)
+        {
+            Output::Inst()->kprintf("generateEnvironment3.1");
+            delete agentDomain;
+            agentDomain = NULL;
+        }
+
+        agentDomain = new FlowControl(this);
+
+        agentDomain->generateEnvironment(width,heigth,threads, agentAmount,timeRes,macroRes,agentPath);
+
+        generating = false;
+    } else{
+        Output::Inst()->kprintf("Simulation is being generating or it is running");
+    }
+    //retrieve and update the positions:
+    Output::Inst()->kprintf("generateEnvironment4");
+}
+
+void Control::generateEnvironment(QImage *map, int threads, double timeRes,
+                                  double macroRes, int agentAmount, std::string agentPath)
+{
+    Output::Inst()->kprintf("generateEnvironment5");
+    generateEnvironment(map->width(),map->height(),threads,timeRes,macroRes,agentAmount,agentPath);
+    Output::Inst()->kprintf("generateEnvironment6");
+    /*
+    Output::Inst()->kprintf("generateEnvironment5");
     if(!running || !generating)
     {
         generating = true;
@@ -75,23 +118,23 @@ void Control::generateEnvironment(QImage *map, int threads,
         }
         Output::KillSimulation.store(true);
 
-        Output::Inst()->kprintf("Generating environment");
+        Output::Inst()->kprintf("generateEnvironment6");
 
         if(agentDomain != NULL)
         {
+            Output::Inst()->kprintf("generateEnvironment6.1");
             //Output::Inst()->kprintf("Deleting agent domain");
             delete agentDomain;
             agentDomain = NULL;
         }
-
+        Output::Inst()->kprintf("generateEnvironment7");
         agentDomain = new FlowControl(this);
-
-        agentDomain->generateEnvironment(map->width(),map->height(),threads,
-                                         agentAmount,timeRes,macroRes,agentPath);
+        Output::Inst()->kprintf("generateEnvironment8");
+        agentDomain->generateEnvironment(map->width(),map->height(),threads,agentAmount,timeRes,macroRes,agentPath);
         //agentDomain->populateSystem();
-
-        populateFuture = QtConcurrent::run(agentDomain, &FlowControl::populateSystem);
-
+        Output::Inst()->kprintf("generateEnvironment9");
+        //populateFuture = QtConcurrent::run(agentDomain, &FlowControl::populateSystem);
+        Output::Inst()->kprintf("generateEnvironment10");
         //populateFuture.waitForFinished();
 
         //ture.waitForFinished();
@@ -100,6 +143,8 @@ void Control::generateEnvironment(QImage *map, int threads,
     } else
         Output::Inst()->kprintf("Simulation is being generating or it is running");
     //retrieve and update the positions:
+    Output::Inst()->kprintf("generateEnvironment11");
+    */
 }
 
 void Control::threadTest(std::string something)

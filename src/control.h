@@ -52,7 +52,6 @@ public:
     bool checkEnvPresence();
 
     void runSimulation(unsigned long long runTime);
-
     void stopSimulation();
 
     /**
@@ -66,9 +65,11 @@ public:
      * @param agentAmount number of Lua agents
      * @param agentPath path to the agent
      */
-    void generateEnvironment(QImage *map, int threads,
-                             double timeRes, double macroRes,
-                             int agentAmount, std::string agentPath);
+    void generateEnvironment(QImage *map, int threads, double timeRes,
+                             double macroRes, int agentAmount, std::string agentPath);
+
+    void generateEnvironment(int width, int heigth, int threads,double timeRes,
+                             double macroRes, int agentAmount, std::string agentPath);
 
     std::list<double[3]> updatePositions();
 

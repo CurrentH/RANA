@@ -45,6 +45,7 @@
 Agent   = require "ranalib_agent"
 Shared  = require "ranalib_shared"
 Stat    = require "ranalib_statistic"
+Sim     = require "ranalib_simconfig"
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 oscillator_amount = 2
@@ -52,6 +53,9 @@ oscillator_amount = 2
 function InitializeAgent()
         l_debug("Master agent #: " .. ID .. " is being initialized")
 
+        local a = Sim.test()
+
+        l_debug("test "..a)
         -- Add the data collector agent.
         PositionX = -1
         PositionY = -1

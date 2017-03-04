@@ -47,9 +47,10 @@ Shared = require "ranalib_shared"
 Stat = require "ranalib_statistic"
 Move = require "ranalib_movement"
 
+n = 1
+
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 function InitializeAgent()
-
 	say("Agent #: " .. ID .. " has been initialized")
 
 	if ID == 1 then
@@ -57,7 +58,7 @@ function InitializeAgent()
 		PositionY = ENV_HEIGHT/2
 	end
 
-	
+        Moving = true
 end
 
 function HandleEvent(event)
@@ -75,6 +76,10 @@ function HandleEvent(event)
 end
 
 function takeStep()
+        if n%1000 == 0 then
+            --l_debug(PositionX.." "..PositionY)
+        end
+        n = n + 1
 
 	if Stat.randomInteger(1,1/STEP_RESOLUTION) <= 1 then
 		--say("Agent:"..ID.." is emiting ping")

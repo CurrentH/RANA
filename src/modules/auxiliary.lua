@@ -1,5 +1,4 @@
 function _HandleEvent(sourceX, sourceY, sourceZ, originID, description, serialTable)
-
         --local eventTable = {}
         if string.len(serialTable) > 3 then
                 --say(serialTable)
@@ -16,7 +15,6 @@ function _HandleEvent(sourceX, sourceY, sourceZ, originID, description, serialTa
         elseif handleEvent ~= nil then
                 handleEvent(sourceX, sourceY, originID, description, _eventTable)
         end
-
 end
 
 function _TakeStep()
@@ -30,18 +28,18 @@ function _TakeStep()
 end
 
 function _InitializeAgent()
-
         if InitializeAgent ~= nil then
                 InitializeAgent()
         elseif initializeAgent ~= nil then
                 initializeAgent()
+        elseif initializeSimulation ~= nil then
+                InitializeSimulation()
         else
                 say("Agent #: "..ID.. " has been initialized")
         end
 end
 
 function _CleanUp()
-
         if CleanUp ~=nil then
                 CleanUp()
         elseif cleanUp ~= nil then
@@ -49,22 +47,18 @@ function _CleanUp()
         else
                 say("Agent #: "..ID.." is done")
         end
-
 end
 
 function _EventInitialization(posx, posy)
-
         if EventInitialization ~= nil then
                 EventInitialization(posx, posy)
         else
                 PositionX = posx
                 PositionY = posy
         end
-
 end
 
 function _ProcessEventFunction(sourceX, sourceY, posX, posY, time, serialTable)
-
         if string.len(serialTable) > 3 then
                 --say(serialTable)
                 loadstring("_eventTable="..serialTable)()

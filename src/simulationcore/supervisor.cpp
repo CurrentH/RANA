@@ -154,6 +154,7 @@ std::list<agentInfo> Supervisor::retrievePopPos()
 void Supervisor::populateSystem(int listenerSize, int screamerSize, int LUASize, std::string filename)
 {
 
+    Output::Inst()->kprintf("Supervisor - populateSystem");
     std::vector<int> LUAVector;
 
     for(uint i = 0; i < sectors.size(); i++)
@@ -411,6 +412,5 @@ void Supervisor::setSimulationType(int numberOfAgents)
     {
         simulationType = 1;
     }
-    std::cout << "Test: " << simulationType << std::endl;
 }
 

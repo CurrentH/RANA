@@ -161,8 +161,11 @@ DIST          = src/lua_agents/01_pingpong.lua \
 		src/modules/ranalib_utility.lua \
 		src/modules/ranalib_math.lua \
 		src/modules/ranalib_physics.lua \
-		src/modules/ranalib_simconfig.lua \
 		src/modules/wrapper_auxiliary.lua \
+		src/modules/auxiliarysimconfig.lua \
+		src/modules/ranalib_simconfig.lua \
+		src/lua_agents/test_agentconf.lua \
+		src/lua_agents/test_agent_osc.lua \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \

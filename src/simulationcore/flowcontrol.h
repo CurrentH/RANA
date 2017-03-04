@@ -48,13 +48,7 @@ class FlowControl
         FlowControl(Control *control);
         ~FlowControl();
 
-        void l_startSimulation();
-        void l_stopSimulation();
-        void l_restartSimulation();
-        void l_pauseSimulation();
-        void l_continiueSimulation();
-
-        void generateEnvironment(double width, double height, int resolution, int agentAmount,
+        void generateEnvironment(double width, double height, int threads, int agentAmount,
                                  double timeResolution, int macroFactor, std::string filename);
         void retrievePopPos();
 		void runSimulation(int time);
@@ -68,12 +62,14 @@ class FlowControl
         void populateSystem();
 
 private:
+        void resetSimulation();
 
         Control *control;
 		bool mapGenerated;
         Interfacer doctor;
         Supervisor *masteragent;
 
+        int threads;
 		double timeResolution;
 		double macroResolution;
 
@@ -91,8 +87,7 @@ private:
         std::atomic_bool fetchPositions;
 
         int agentAmount;
-
-        std::string luaFilename;
+        std::string agentFilename;
 
 		typedef std::list<agentInfo> onlineAgents;
 		std::unordered_map<unsigned long long, onlineAgents> positionMap;

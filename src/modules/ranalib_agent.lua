@@ -12,7 +12,6 @@ local currentColor = {r=255,g=255,b=255,alpha=255}
 -- if the filename is not present, the new agent will be in 'disabled' mode.
 -- Example: addAgent([[02_oscillator.lua]], 50, 50)
 function ranaLibAgent.addAgent(filename, posX, posY)
-
         local mapWidth, mapHeight = l_getEnvironmentSize()
         local path = l_getAgentPath()
 

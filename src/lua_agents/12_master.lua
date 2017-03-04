@@ -42,8 +42,8 @@
 -- ------------------------------------
 
 -- Import Rana lua libraries.
-Agent	= require "ranalib_agent"
-Shared = require "ranalib_shared"
+Agent   = require "ranalib_agent"
+Shared  = require "ranalib_shared"
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 oscillator_amount = 2
@@ -55,9 +55,9 @@ function InitializeAgent()
 
 	agent_table = {}
 	ids = {}
-	-- Load up the oscillator agents.
-	for i=1 , oscillator_amount do
-		local ID = Agent.addAgent("12_greenfield_osc.lua")
+        -- Load up the oscillator agents.
+        for i=1 , oscillator_amount do
+                local ID = Agent.addAgent("12_greenfield_osc.lua")
 		table.insert(ids, ID)
 		agent_table[ID]=0
 	end	

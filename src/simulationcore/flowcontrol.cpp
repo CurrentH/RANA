@@ -40,146 +40,12 @@ using std::chrono::steady_clock;
 
 FlowControl::FlowControl(Control *control)
     :control(control), mapGenerated(false),masteragent(new Supervisor()), stop(false), fetchPositions(false),
-      agentAmount(0),luaFilename(""),storePositions(true),positionFilename("_positionData.pos")
+      agentAmount(0),agentFilename(""),storePositions(true),positionFilename("_positionData.pos")
 {
     //Phys::seedMersenne();
     //file = std::ofstream(positionFilename.c_str(),std::ofstream::out| std::ofstream::trunc);
     //file.open(positionFilename.c_str(),std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
-
-    L = luaL_newstate();
-    if(L == NULL)
-    {
-        Output::Inst()->kprintf("<b><font color=\"brown\">Simulation config cannot be initialized. Lua(%s) is out of memory, Killing simulation</font></b></>", LUA_VERSION);
-        Output::KillSimulation.store(true);
-    }
-    else
-    {
-        luaL_openlibs(L);
-
-        //  Register the path to the simulation config module
-        std::string simLib = Output::Inst()->RanaDir;
-        simLib.append("/src/modules/ranalib_simconfig.lua");
-        Output::Inst()->kdebug(simLib.c_str());
-
-        //  Load the simulation config module
-        if(luaL_loadfile(L, simLib.c_str()) || lua_pcall(L,0,0,0))
-        {
-            Output::Inst()->kprintf("simulation file not found\n");
-        }
-
-        //  Simulation control functions
-        /*
-        lua_register(L, "l_startSimulation",    l_startSimulation);
-        lua_register(L, "l_stopSimulation",     l_stopSimulation);
-        lua_register(L, "l_restartSimulation",  l_restartSimulation);
-        lua_register(L, "l_pauseSimulation",    l_pauseSimulation);
-        lua_register(L, "l_continiueSimulation",l_continiueSimulation);
-        */
-
-
-    }
-
-    /*****
-     *      TEST
-     ****/
-
-    std::cout << "PRE TEST" << std::endl;
-
-    /*
-    lua_settop(L,0);
-    try
-    {
-        lua_getglobal(L, "l_startSimulation");
-        if(lua_pcall(L,0,0,0) !=LUA_OK)
-        {
-            Output::Inst()->kprintf("Lua error on going to l_startSimulation");
-        }
-    }
-    catch(std::exception &e)
-    {
-        Output::Inst()->kprintf("Exception on going to l_startSimulation"  ,e.what());
-    }
-    */
-
-    l_startSimulation();
-
-    std::cout << "POST TEST" << std::endl;
 }
-
-/********************************************************
- * Rana simulation API functions.
- ********************************************************/
-
-void FlowControl::l_startSimulation()
-{
-    //  Call the startSimulation function in the ranalib_simconfig file
-
-    try{
-        lua_settop(L,0);
-        lua_getglobal(L, "_startSimulation");
-        if(lua_pcall(L,0,0,0)!=LUA_OK)
-        {
-            Output::Inst()->kprintf("Shit doesn't work");
-        } else
-        {
-            Output::Inst()->kprintf("HOLY SHIT IT WORKED");
-        }
-    }
-    catch(std::exception& e){   Output::Inst()->kprintf("Shit doesn't work - EXCEPTION");   }
-
-    return;
-}
-void FlowControl::l_stopSimulation()
-{
-    //  Do stuff
-    return;
-}
-void FlowControl::l_restartSimulation()
-{
-    //  Do stuff
-    return;
-}
-void FlowControl::l_continiueSimulation()
-{
-    //  Do stuff
-    return;
-}
-void FlowControl::l_pauseSimulation()
-{
-    //  Do stuff
-    return;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 FlowControl::~FlowControl()
 {
@@ -201,13 +67,17 @@ bool FlowControl::checkEnvPresence()
  * Upon environment generation the sectors will be placed, autons will be
  * assigned to a sector and placed within it's parameters.
  */
-void FlowControl::generateEnvironment(double width, double height, int threads,
-                                      int agentAmount, double timeResolution, int macroFactor, std::string filename)
+void FlowControl::generateEnvironment(double width, double height, int threads, int agentAmount,
+                                      double timeResolution, int macroFactor, std::string filename)
 {
+    Output::Inst()->kprintf("FlowControl - generateEnvironment");
+
     //srand(time(0));
     //Phys::seedMersenne();
+
     this->timeResolution = timeResolution;
     this->macroFactor = macroFactor;
+    this->threads = threads;
 
     macroResolution = macroFactor * timeResolution;
 
@@ -227,7 +97,7 @@ void FlowControl::generateEnvironment(double width, double height, int threads,
     mapWidth = width;
     mapHeight = height;
 
-    luaFilename = filename;
+    agentFilename = filename;
     agentAmount = agentAmount;
 
     masteragent->setSimulationType(agentAmount);
@@ -235,14 +105,23 @@ void FlowControl::generateEnvironment(double width, double height, int threads,
 
     retrievePopPos();
     mapGenerated = true;
+    Output::Inst()->enableRunBotton(true);
+}
+
+void FlowControl::resetSimulation()
+{
+    Output::Inst()->kprintf("FlowControl - resetSimulation");
+    stopSimulation();
+    generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
 }
 
 void FlowControl::populateSystem()
 {
+    Output::Inst()->kprintf("FlowControl - populateSystem");
     //srand(time(0));
     //Phys::seedMersenne();
     masteragent->setSimulationType(agentAmount);
-    masteragent->populateSystem(0, 0, agentAmount, luaFilename);
+    masteragent->populateSystem(0, 0, agentAmount, agentFilename);
     retrievePopPos();
     mapGenerated = true;
     Output::Inst()->enableRunBotton(true);
@@ -297,13 +176,15 @@ void FlowControl::toggleLiveView(bool enable)
  */
 void FlowControl::runSimulation(int time)
 {
+    Output::Inst()->kprintf("FlowControl - runSimulation");
+
     std::string positionFilePath = Output::Inst()->RanaDir;
     positionFilePath.append("/positionData/");
     positionFilePath.append(positionFilename.c_str());
 
 	if(remove(positionFilePath.c_str()) != 0)
 	{
-		Output::Inst()->kprintf("Position file does not exist");
+        //Output::Inst()->kprintf("Position file does not exist");    //TODO, look up on this
 	}
 
 	file.open(positionFilePath.c_str(),std::ofstream::out | std::ofstream::app | std::ofstream::binary);
@@ -325,9 +206,9 @@ void FlowControl::runSimulation(int time)
 
     for(i = 0; i < iterations;)
     {
-        if(Output::KillSimulation.load() == true)
+        if(Output::KillSimulation.load() == true){
             return;
-
+        }
 
         Phys::setCTime(i);
 
@@ -388,7 +269,6 @@ void FlowControl::runSimulation(int time)
     masteragent->simDone();
     masteragent->printStatus();
     Output::Inst()->progressBar(i,iterations);
-
     Output::RUNTIME = i;
 
     auto endsim = steady_clock::now();
@@ -403,6 +283,7 @@ void FlowControl::runSimulation(int time)
  */
 void FlowControl::stopSimulation()
 {
+    Output::Inst()->kprintf("FlowControl - stopSimulation");
     stop.store(true);
 }
 

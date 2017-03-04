@@ -127,9 +127,13 @@ MainWindow::~MainWindow()
  *
  */
 
+void MainWindow::resetSimulation()
+{
+    on_generateButton_clicked();
+}
+
 void MainWindow::on_generateButton_clicked()
 {
-
     qApp->processEvents();
     if (Output::Inst()->SimRunning.load())
     {

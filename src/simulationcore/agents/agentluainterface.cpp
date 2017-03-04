@@ -247,7 +247,12 @@ AgentLuaInterface::~AgentLuaInterface()
 
 void AgentLuaInterface::InitializeAgent()
 {
-    if(removed) return;
+    Output::Inst()->kprintf("AgentLuaInterface - InitializeAgent");
+    if(removed)
+    {
+        Output::Inst()->kprintf("AgentLuaInterface - InitializeAgent - Removed");
+        return;
+    }
 
     lua_settop(L,0);
     try

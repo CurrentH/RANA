@@ -68,7 +68,7 @@ public:
 
 	void saveExternalEvents(std::string filename);
 
-	int addAgent(double x, double y, double z, std::string path, std::string filename, std::string type);
+    int addAgent(double x, double y, double z, std::string path, std::string filename, std::string type);
 	bool removeAgent(int ID);
 
 	void simDone();
