@@ -45,15 +45,27 @@ Control::~Control()
     runThread.wait();
 }
 
+unsigned long long Control::getRunTime()
+{
+    return runTime;
+}
+
 void Control::runSimulation(unsigned long long runTime)
 {
-    Output::Inst()->kprintf("Control - runSimulation");
-	running = true;
+    Output::Inst()->kprintf("Control - runSimulation1");
+    this->runTime = runTime;
+    runsimulation();
+}
+
+void Control::runsimulation()
+{
+    Output::Inst()->kprintf("Control - runsimulation2");
+    running = true;
     //runThread.setStackSize(1024*1024*1024);
-	Output::SimRunning.store(true);
-	mainwindow->changeRunButton("Stop");
-	emit startDoWork(agentDomain, runTime);
-	//runner->setParameters(agentDomain, runTime);
+    Output::SimRunning.store(true);
+    mainwindow->changeRunButton("Stop");
+    emit startDoWork(agentDomain, this->runTime);
+    //runner->setParameters(agentDomain, runTime);
     //runThread->start();
 }
 

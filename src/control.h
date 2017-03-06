@@ -52,6 +52,7 @@ public:
     bool checkEnvPresence();
 
     void runSimulation(unsigned long long runTime);
+    void runsimulation();   //TODO: Make private
     void stopSimulation();
 
     /**
@@ -78,6 +79,7 @@ public:
 
     bool isGenerated();
     bool isRunning();
+    unsigned long long getRunTime();
 
 	void saveEvents(QString path);
 
@@ -94,7 +96,6 @@ signals:
     void startDoWork(FlowControl *agentDomain, unsigned long long runtime);
 
 private:
-
     FlowControl *agentDomain;
     MainWindow *mainwindow;
     Runner *runner;
@@ -105,6 +106,7 @@ private:
     bool generated;
     bool stopped;
     bool generating;
+    unsigned long long runTime;
 
 
 };

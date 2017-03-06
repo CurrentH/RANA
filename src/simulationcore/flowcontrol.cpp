@@ -133,9 +133,8 @@ void FlowControl::resetSimulation()
     Output::Inst()->kprintf("FlowControl - resetSimulation4");
     generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
     Output::Inst()->kprintf("FlowControl - resetSimulation5");
-
-    //  TODO: Find way to get the runSimulation to work from here
-
+    control->runsimulation();
+    Output::Inst()->kprintf("FlowControl - resetSimulation6");
 }
 
 void FlowControl::populateSystem()

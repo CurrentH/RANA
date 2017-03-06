@@ -86,11 +86,9 @@ public:
 
 
 public slots:
-
     void wheelEvent(QWheelEvent *event);
 
 private slots:
-
         void on_generateButton_clicked();
 	void actionExit();
 	void on_browseMapButton_clicked();
@@ -157,7 +155,6 @@ private slots:
 	void on_showAngle_checkbox_toggled(bool checked);
 
 signals:
-
 	void map_updateSignal(INFOLIST infolist);
 	void writeStringSignal(QString something);
 	void writeStatusSignal(unsigned long long internalEvents, unsigned long long externalEvents);
@@ -172,7 +169,6 @@ signals:
 	void writePPSignal(QString something);
 
 private:
-
 	Ui::MainWindow *ui;
 	void updatePosition(int Id, int x, int y);
 	void advanceProgess();
@@ -227,7 +223,6 @@ private:
 	bool disableLiveView;
 	bool playingMap;
 	bool running;
-
 
 };
 
