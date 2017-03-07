@@ -45,6 +45,48 @@ FlowControl::FlowControl(Control *control)
     //Phys::seedMersenne();
     //file = std::ofstream(positionFilename.c_str(),std::ofstream::out| std::ofstream::trunc);
     //file.open(positionFilename.c_str(),std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
+
+    L = luaL_newstate();
+    if(L == NULL)
+    {
+        Output::Inst()->kprintf("<b><font color=\"brown\">Simulation config cannot be initialized. Lua(%s) is out of memory, Killing simulation</font></b></>", LUA_VERSION);
+        Output::KillSimulation.store(true);
+    }
+    else
+    {
+        luaL_openlibs(L);
+
+        //  Register the path to the simulation config module
+        std::string simLib = Output::Inst()->RanaDir;
+        simLib.append("/src/modules/ranalib_simconfig.lua");
+
+        std::string auxLib = Output::Inst()->RanaDir;
+        auxLib.append("/src/modules/auxiliarysimconfig.lua");
+
+        //  Load the simulation config module
+        if(luaL_loadfile(L, simLib.c_str()) || lua_pcall(L,0,0,0)){
+            Output::Inst()->kprintf("sim file not found\n");
+        }else{ std::cout << simLib << std::endl; }
+
+        //  Load the simulation config module
+        if(luaL_loadfile(L, auxLib.c_str()) || lua_pcall(L,0,0,0)){
+            Output::Inst()->kprintf("auxsim file not found\n");
+        }else{ std::cout << auxLib << std::endl; }
+
+
+        //  Access the simconfig file, and find number of iteration
+        //      the simulation should do.
+        try{
+            lua_settop(L,0);
+            lua_getglobal(L,"_loadNumberIterations");
+            if(lua_pcall(L,0,0,0)!=LUA_OK)
+            {
+                Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Doesn't work");
+            }else{
+                Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Works");
+            }
+        }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
+    }
 }
 
 FlowControl::~FlowControl()

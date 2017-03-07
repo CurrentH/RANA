@@ -32,9 +32,6 @@ function _InitializeAgent()
                 InitializeAgent()
         elseif initializeAgent ~= nil then
                 initializeAgent()
-        elseif initializeSimulation ~= nil then
-                InitializeSimulation()
-        else
                 say("Agent #: "..ID.. " has been initialized")
         end
 end

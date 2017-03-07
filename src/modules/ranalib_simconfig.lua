@@ -1,11 +1,7 @@
-function startSimulation()
+local ranaLibSimconfig = {}
+
+function ranaLibSimconfig.loadNumberIterations()
+    say("TEST TEST TEST TEST TEST")
 end
 
-function stopSimulation()
-end
-
-function pauseSimulation()
-end
-
-function continiueSimulation()
-end
+return ranaLibSimconfig
