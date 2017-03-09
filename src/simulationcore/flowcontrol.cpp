@@ -79,11 +79,13 @@ FlowControl::FlowControl(Control *control)
         try{
             lua_settop(L,0);
             lua_getglobal(L,"_loadNumberIterations");
-            if(lua_pcall(L,0,0,0)!=LUA_OK)
+            if(lua_pcall(L,0,1,0)!=LUA_OK)
             {
                 Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Doesn't work");
             }else{
                 Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Works");
+                simNumIt  = lua_tonumber(L,-1);
+                Output::Inst()->kprintf("\tIterations: %i", simNumIt);
             }
         }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
     }
@@ -152,7 +154,7 @@ void FlowControl::generateEnvironment(double width, double height, int threads, 
 
 bool FlowControl::runAgain()
 {
-    if( numIt < 2 ){
+    if( numIt < simNumIt ){
         std::cout << "numIt: " << numIt << " returning true" << std::endl;
         numIt++;
         return true;

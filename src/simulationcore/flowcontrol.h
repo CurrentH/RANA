@@ -64,8 +64,8 @@ class FlowControl
         bool runAgain();
 
 private:
-
         int numIt = 0;
+        int simNumIt = 0;
 
         void resetSimulation();
 
