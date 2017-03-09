@@ -53,9 +53,6 @@ oscillator_amount = 2
 function InitializeAgent()
         l_debug("Master agent #: " .. ID .. " is being initialized")
 
-        local a = Sim.test()
-
-        l_debug("test "..a)
         -- Add the data collector agent.
         PositionX = -1
         PositionY = -1

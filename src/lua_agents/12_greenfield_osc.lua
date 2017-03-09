@@ -69,6 +69,12 @@ Agent 	= require "ranalib_agent"
 function initializeAgent()
         l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
+        tbl = loadParameters("agent1")
+
+        print(tbl.name)
+        print(tbl.to)
+
+
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
         --say("GFie "..ID.." x "..positionX.." y "..positionY)
@@ -136,5 +142,57 @@ function cleanUp()
 
         Agent.removeAgent(ID)
         l_debug("Agent " .. ID .. " is done")
+end
+
+function setParameter( v1, v2, it )
+    v1.from
+
+
+end
+
+
+--  TODO: Put function somewhere else
+function loadParameters( key )
+
+    local ftables,err = loadfile( "_simconfig.data" )
+    if err then
+        return _,err
+    end
+
+    local tables = ftables()
+
+    for idx = 1,#tables do
+
+        local tolinki = {}
+
+        for i,v in pairs( tables[idx] ) do
+            if i == "name" and v == key then
+
+                if type( v ) == "table" then
+                    tables[idx][i] = tables[v[1]]
+                end
+
+                if type( i ) == "table" and tables[i[1]] then
+                    table.insert( tolinki,{ i,tables[i[1]] } )
+                end
+
+            end
+
+        end
+
+        for _,v in ipairs( tolinki ) do
+            tables[idx][v[2]],tables[idx][v[1]] =  tables[idx][v[1]],nil
+        end
+
+    end
+
+    for i = 1,#tables do
+        if tables[i].name == key then
+            return tables[i]
+        end
+    end
+
+    return nil
+
 end
 

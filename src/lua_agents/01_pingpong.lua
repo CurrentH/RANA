@@ -61,6 +61,10 @@ function InitializeAgent()
         DestinationY = 1
         Moving = true
         Speed = 1
+
+        tbl = loadTable( "_simconfig.data", "agent1" )
+        print(tbl.name)
+        --print(tbl[1].name)
 end
 
 function HandleEvent(event)
