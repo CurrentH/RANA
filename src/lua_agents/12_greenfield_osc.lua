@@ -74,6 +74,8 @@ function initializeAgent()
         print(tbl.name)
         print(tbl.to)
 
+        setParameters(tbl)
+
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
@@ -144,14 +146,26 @@ function cleanUp()
         l_debug("Agent " .. ID .. " is done")
 end
 
-function setParameter( v1, v2, it )
-    v1.from
+function setParameter( tbl )
+    --  Min: 0  Max: 10
+    --  Min: 0  Max: 10
+    --  Stepsize 1. (Total iterations 100)
 
+    for i=1,currentIteration do
+        var1 = var1+Stepsize
+        if var1 > maxVar1 then
+            var1 = minVar1
+            var2 = var2+Stepsize
+        end
+    end
+
+    var1 = (Stepsize * iteration) mod maxVar1
+    var2 = (Stepsize * iteration) division maxVar2
 
 end
 
 
---  TODO: Put function somewhere else
+--  TODO: Put function somewhere else so all agents can get to it
 function loadParameters( key )
 
     local ftables,err = loadfile( "_simconfig.data" )
@@ -166,6 +180,9 @@ function loadParameters( key )
         local tolinki = {}
 
         for i,v in pairs( tables[idx] ) do
+            --if i == "iteration" then
+            --    currentIteration =
+            --end
             if i == "name" and v == key then
 
                 if type( v ) == "table" then
