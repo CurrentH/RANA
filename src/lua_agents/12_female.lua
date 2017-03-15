@@ -102,7 +102,6 @@ function TakeStep()
  	end
 end
 
-
 function CleanUp()
         l_debug("Agent "..ID.." is doing clean up - Female")
 

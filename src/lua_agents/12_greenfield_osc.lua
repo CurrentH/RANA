@@ -71,10 +71,35 @@ function initializeAgent()
 
         tbl = loadParameters("agent1")
 
-        print(tbl.name)
-        print(tbl.to)
+        --setParameters(tbl)
 
-        setParameters(tbl)
+    print("\n\n\n")
+
+
+    local currentIT = 155
+
+    local minV1 = tbl.v1_f
+    local maxV1 = tbl.v1_t
+    local stepV1 = 0.1
+    local itV1 = (maxV1 - minV1)/stepV1
+
+    local minV2 = tbl.v2_f
+    local maxV2 = tbl.v2_t
+    local stepV2 = 0.1
+    local itV2 = (maxV2 - minV2)/stepV2
+
+    print(minV1, maxV1, stepV1, itV1)
+    print(minV2, maxV2, stepV2, itV2)
+
+    local V1 = stepV1 * math.floor( currentIT / itV1 )
+    local V2 = stepV2 * math.fmod( currentIT, itV2)
+
+
+    print("Iteration: ", currentIT)
+    print("The current variables are: V1: ", V1, " V2: ", V2)
+
+    print("\n\n\n")
+
 
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
@@ -151,16 +176,8 @@ function setParameter( tbl )
     --  Min: 0  Max: 10
     --  Stepsize 1. (Total iterations 100)
 
-    for i=1,currentIteration do
-        var1 = var1+Stepsize
-        if var1 > maxVar1 then
-            var1 = minVar1
-            var2 = var2+Stepsize
-        end
-    end
-
-    var1 = (Stepsize * iteration) mod maxVar1
-    var2 = (Stepsize * iteration) division maxVar2
+    --var1 = (Stepsize * iteration) mod maxVar1
+    --var2 = (Stepsize * iteration) division maxVar2
 
 end
 

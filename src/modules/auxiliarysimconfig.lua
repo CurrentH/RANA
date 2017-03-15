@@ -1,8 +1,8 @@
 filename = "_simconfig.data"
-simulationIterations = 5
+simulationIterations = 3
 
 simAgents = {
-{name="agent1",v1_f=1,v2_f=1,v1_t=10,v2_t=10},
+{name="agent1",v1_f=0,v2_f=0,v1_t=5,v2_t=10},
 {name="agent2",from=1,to=10}
 }
 
