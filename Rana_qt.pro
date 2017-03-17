@@ -165,4 +165,5 @@ DISTFILES += \
     src/modules/auxiliarysimconfig.lua \
     src/modules/ranalib_simconfig.lua \
     src/lua_agents/test_agentconf.lua \
-    src/lua_agents/test_agent_osc.lua
+    src/lua_agents/test_agent_osc.lua \
+    src/modules/ranalib_variable.lua

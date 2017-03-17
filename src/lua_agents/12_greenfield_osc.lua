@@ -64,6 +64,7 @@ Event	= require "ranalib_event"
 Core	= require "ranalib_core"
 Stat	= require "ranalib_statistic"
 Agent 	= require "ranalib_agent"
+Para    = require "ranalib_variable"    --Used for setting the parameters each iteration.
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 function initializeAgent()
