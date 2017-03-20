@@ -64,44 +64,12 @@ Event	= require "ranalib_event"
 Core	= require "ranalib_core"
 Stat	= require "ranalib_statistic"
 Agent 	= require "ranalib_agent"
-Para    = require "ranalib_variable"    --Used for setting the parameters each iteration.
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 function initializeAgent()
         l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
         tbl = loadParameters("agent1")
-
-        --setParameters(tbl)
-
-    print("\n\n\n")
-
-
-    local currentIT = 155
-
-    local minV1 = tbl.v1_f
-    local maxV1 = tbl.v1_t
-    local stepV1 = 0.1
-    local itV1 = (maxV1 - minV1)/stepV1
-
-    local minV2 = tbl.v2_f
-    local maxV2 = tbl.v2_t
-    local stepV2 = 0.1
-    local itV2 = (maxV2 - minV2)/stepV2
-
-    print(minV1, maxV1, stepV1, itV1)
-    print(minV2, maxV2, stepV2, itV2)
-
-    local V1 = stepV1 * math.floor( currentIT / itV1 )
-    local V2 = stepV2 * math.fmod( currentIT, itV2)
-
-
-    print("Iteration: ", currentIT)
-    print("The current variables are: V1: ", V1, " V2: ", V2)
-
-    print("\n\n\n")
-
-
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
@@ -172,21 +140,10 @@ function cleanUp()
         l_debug("Agent " .. ID .. " is done")
 end
 
-function setParameter( tbl )
-    --  Min: 0  Max: 10
-    --  Min: 0  Max: 10
-    --  Stepsize 1. (Total iterations 100)
-
-    --var1 = (Stepsize * iteration) mod maxVar1
-    --var2 = (Stepsize * iteration) division maxVar2
-
-end
-
-
 --  TODO: Put function somewhere else so all agents can get to it
 function loadParameters( key )
 
-    local ftables,err = loadfile( "_simconfig.data" )
+    local ftables,err = loadfile( "_parameters.data" )
     if err then
         return _,err
     end
@@ -230,4 +187,34 @@ function loadParameters( key )
     return nil
 
 end
+
+--[[
+
+    print("\n\n\n")
+
+    local currentIT = 155
+
+    local minV1 = tbl.v1_f
+    local maxV1 = tbl.v1_t
+    local stepV1 = 0.1
+    local itV1 = (maxV1 - minV1)/stepV1
+
+    local minV2 = tbl.v2_f
+    local maxV2 = tbl.v2_t
+    local stepV2 = 0.1
+    local itV2 = (maxV2 - minV2)/stepV2
+
+    print(minV1, maxV1, stepV1, itV1)
+    print(minV2, maxV2, stepV2, itV2)
+
+    local V1 = stepV1 * math.floor( currentIT / itV1 )
+    local V2 = stepV2 * math.fmod( currentIT, itV2)
+
+
+    print("Iteration: ", currentIT)
+    print("The current variables are: V1: ", V1, " V2: ", V2)
+
+    print("\n\n\n")
+]]--
+
 

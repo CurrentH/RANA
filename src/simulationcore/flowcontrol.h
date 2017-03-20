@@ -67,6 +67,7 @@ private:
         int numIt = 0;
         int simNumIt = 0;
 
+        void setNewParameters();
         void resetSimulation();
 
         Control *control;

@@ -60,19 +60,10 @@ FlowControl::FlowControl(Control *control)
         std::string simLib = Output::Inst()->RanaDir;
         simLib.append("/src/modules/ranalib_simconfig.lua");
 
-        std::string auxLib = Output::Inst()->RanaDir;
-        auxLib.append("/src/modules/auxiliarysimconfig.lua");
-
-        //  Load the simulation config module
+        //  Load the lua modules
         if(luaL_loadfile(L, simLib.c_str()) || lua_pcall(L,0,0,0)){
             Output::Inst()->kprintf("sim file not found\n");
         }else{ std::cout << simLib << std::endl; }
-
-        //  Load the simulation config module
-        if(luaL_loadfile(L, auxLib.c_str()) || lua_pcall(L,0,0,0)){
-            Output::Inst()->kprintf("auxsim file not found\n");
-        }else{ std::cout << auxLib << std::endl; }
-
 
         //  Access the simconfig file, and find number of iteration
         //      the simulation should do.
@@ -84,7 +75,7 @@ FlowControl::FlowControl(Control *control)
                 Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Doesn't work");
             }else{
                 Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Works");
-                simNumIt  = lua_tonumber(L,-1);
+                this->simNumIt  = lua_tonumber(L,-1);
                 Output::Inst()->kprintf("\tIterations: %i", simNumIt);
             }
         }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
@@ -154,13 +145,12 @@ void FlowControl::generateEnvironment(double width, double height, int threads, 
 
 bool FlowControl::runAgain()
 {
+    numIt++;
     if( numIt < simNumIt ){
-        std::cout << "numIt: " << numIt << " returning true" << std::endl;
-        numIt++;
+        std::cout << "numIt: " << numIt << " returning true " << simNumIt << std::endl;
         return true;
     }else{
-        std::cout << "numIt: " << numIt << " returning false" << std::endl;
-        numIt++;
+        std::cout << "numIt: " << numIt << " returning false " << simNumIt << std::endl;
         return false;
     }
 }
@@ -173,12 +163,14 @@ void FlowControl::resetSimulation()
     Output::Inst()->kprintf("FlowControl - resetSimulation2");
     masteragent->~Supervisor();
     Output::Inst()->kprintf("FlowControl - resetSimulation3");
-    masteragent = new Supervisor();
+    setNewParameters();
     Output::Inst()->kprintf("FlowControl - resetSimulation4");
-    generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
+    masteragent = new Supervisor();
     Output::Inst()->kprintf("FlowControl - resetSimulation5");
-    control->runsimulation();
+    generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
     Output::Inst()->kprintf("FlowControl - resetSimulation6");
+    control->runsimulation();
+    Output::Inst()->kprintf("FlowControl - resetSimulation7");
 }
 
 void FlowControl::populateSystem()
@@ -193,6 +185,22 @@ void FlowControl::populateSystem()
     Output::Inst()->enableRunBotton(true);
 }
 
+void FlowControl::setNewParameters()
+{
+    Output::Inst()->kprintf("FlowControl - setNewParameters");
+
+    //  Use the LUA script to set the new parameters
+    try{
+        lua_settop(L,0);
+        lua_getglobal(L,"_saveNewAgentParametersToFile");
+        if(lua_pcall(L,0,0,0)!=LUA_OK)
+        {
+            Output::Inst()->kprintf("Flowcontrol - Lua_newP - Doesn't work");
+        }else{
+            Output::Inst()->kprintf("Flowcontrol - Lua_newP - Works");
+        }
+    }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
+}
 
 /**
  * Retrieval of auton positions.
