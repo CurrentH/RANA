@@ -3,6 +3,7 @@ return {
 {
    {2},
    {3},
+   ["simIteration"]=1,
    ["numAgents"]=2,
 },
 -- Table: {2}

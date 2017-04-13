@@ -57,8 +57,13 @@ total_calls = 0
 synced_calls = 0
 synced = false
 
+-- data sets
+iteration = 1
+
 function InitializeAgent()
         l_debug("Female agent #: " .. ID .. " is being initialized")
+
+        tbl = loadParameters("female")
 
         --positionX = ENV_WIDTH/2
         --positionY = ENV_HEIGHT/2
@@ -98,14 +103,13 @@ end
 function TakeStep()
 	if countdown >= 0 then
 		countdown = countdown - STEP_RESOLUTION
-
  	end
 end
 
 function CleanUp()
         l_debug("Agent "..ID.." is doing clean up - Female")
 
-        file = io.open("test_output/greenfield_stats.csv", "w")
+        file = io.open("test_output/data_female_"..iteration.."_"..ID..".csv", "w")
 
 	for key,value in pairs(ids) do
             file:write(value ..",".. agent_table[value] .."\n")
@@ -113,10 +117,9 @@ function CleanUp()
 
         file:close()
 
-        file2 = io.open("test_output/box_data.csv", "a")
+        file2 = io.open("test_output/box_data_"..iteration.."_"..ID..".csv", "w")
 	file2:write(synced_calls .."\n")
         file2:close()
-
 
         --say(Utility.serializeTable(agent_table))
         --say("Total number of calls: ".. total_calls)
@@ -126,3 +129,54 @@ function CleanUp()
         l_debug("Agent " .. ID .. " is done")
 end
 
+--  TODO: Put function somewhere else so all agents can get to it
+function loadParameters( key )
+
+    local ftables,err = loadfile( "_parameters.data" )
+    if err then
+        return _,err
+    end
+
+    local tables = ftables()
+
+    for idx = 1,#tables do
+
+        local tolinki = {}
+
+        for i,v in pairs( tables[idx] ) do
+            --  Set so the agent knows what iteration we are doing.
+            if i == "simIteration" then
+                if iteration ~= nil then
+                    iteration = v
+                end
+            end
+
+            if i == "name" and v == key then
+
+                if type( v ) == "table" then
+                    tables[idx][i] = tables[v[1]]
+                end
+
+                if type( i ) == "table" and tables[i[1]] then
+                    table.insert( tolinki,{ i,tables[i[1]] } )
+                end
+
+            end
+
+        end
+
+        for _,v in ipairs( tolinki ) do
+            tables[idx][v[2]],tables[idx][v[1]] =  tables[idx][v[1]],nil
+        end
+
+    end
+
+    for i = 1,#tables do
+        if tables[i].name == key then
+            return tables[i]
+        end
+    end
+
+    return nil
+
+end

@@ -69,7 +69,7 @@ Agent 	= require "ranalib_agent"
 function initializeAgent()
         l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
-        tbl = loadParameters("agent1")
+        tbl = loadParameters("green")
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
@@ -129,7 +129,7 @@ function cleanUp()
 
 	--Write the oscillation data to a csv file.
 	if ID <= 4 then
-                file = io.open("test_output/green_data"..ID..".csv", "w")
+                file = io.open("test_output/data_green_"..iteration.."_"..ID..".csv", "w")
 		for i,v in pairs(Olevels) do
 			file:write(i..","..v.."\n")
 		end
@@ -155,9 +155,13 @@ function loadParameters( key )
         local tolinki = {}
 
         for i,v in pairs( tables[idx] ) do
-            --if i == "iteration" then
-            --    currentIteration =
-            --end
+            --  Set so the agent knows what iteration we are doing.
+            if i == "simIteration" then
+                if iteration ~= nil then
+                    iteration = v
+                end
+            end
+
             if i == "name" and v == key then
 
                 if type( v ) == "table" then
@@ -187,34 +191,4 @@ function loadParameters( key )
     return nil
 
 end
-
---[[
-
-    print("\n\n\n")
-
-    local currentIT = 155
-
-    local minV1 = tbl.v1_f
-    local maxV1 = tbl.v1_t
-    local stepV1 = 0.1
-    local itV1 = (maxV1 - minV1)/stepV1
-
-    local minV2 = tbl.v2_f
-    local maxV2 = tbl.v2_t
-    local stepV2 = 0.1
-    local itV2 = (maxV2 - minV2)/stepV2
-
-    print(minV1, maxV1, stepV1, itV1)
-    print(minV2, maxV2, stepV2, itV2)
-
-    local V1 = stepV1 * math.floor( currentIT / itV1 )
-    local V2 = stepV2 * math.fmod( currentIT, itV2)
-
-
-    print("Iteration: ", currentIT)
-    print("The current variables are: V1: ", V1, " V2: ", V2)
-
-    print("\n\n\n")
-]]--
-
 

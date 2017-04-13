@@ -16,14 +16,15 @@ eller at lave udregningen for parameter sætningen inde i agenten hver gang (n-f
 simname = "_simconfig.data"
 parname = "_parameters.data"
 currentIteration = 0
-simulationIterations = 5
+simulationIterations = 3
 
 --  Import Rana lua libraries
 --Para    = require "ranalib_variable"    --Used for setting the parameters each iteration.
 
 --  Master table to be set with parameters
-simAgents =
+configTbl =
 {
+    simIteration=1,
     numAgents=2,
     {
         name="agent1",  --e.g. greenfield
@@ -50,7 +51,7 @@ function _loadNumberIterations()
         return 1
     end
 
-    saveTable(simAgents,simname)
+    saveTable(configTbl,simname)
     _saveNewAgentParametersToFile()
 
     return simulationIterations
@@ -59,9 +60,9 @@ end
 
 function _saveNewAgentParametersToFile()
 
-    local paramTable = simAgents
+    local paramTable = configTbl
 
-    for key, value in pairs(simAgents) do
+    for key, value in pairs(configTbl) do
         if(type(value) == "table") then
             tbl = handleParameterTable(value)
 
@@ -73,6 +74,7 @@ function _saveNewAgentParametersToFile()
     saveTable( paramTable, parname )
 
     currentIteration = currentIteration + 1
+    configTbl.simIteration = configTbl.simIteration + 1
 
 end
 
@@ -94,42 +96,6 @@ function tableMerge(t1, t2)
     return t1
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function handleParameterTable( tbl )
     print(tbl.name, tbl.numVar)
