@@ -51,7 +51,7 @@ Sim     = require "ranalib_simconfig"
 oscillator_amount = 2
 
 function InitializeAgent()
-        l_debug("Master agent #: " .. ID .. " is being initialized")
+        --l_debug("Master agent #: " .. ID .. " is being initialized")
 
         -- Add the data collector agent.
         PositionX = -1
@@ -61,7 +61,7 @@ function InitializeAgent()
         ids = {}
 
         initiateGreenfield()
-        initiateFreerunning()
+        --initiateFreerunning()
 
         Shared.storeTable("agents", agent_table)
         Shared.storeTable("ids", ids)
@@ -92,6 +92,6 @@ end
 
 function cleanUp()
     Agent.removeAgent(ID)
-    l_debug("Master - Clean up for Agent " .. ID .. " is done")
+    --l_debug("Master - Clean up for Agent " .. ID .. " is done")
 end
 

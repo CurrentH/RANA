@@ -16,7 +16,7 @@ eller at lave udregningen for parameter sætningen inde i agenten hver gang (n-f
 simname = "_simconfig.data"
 parname = "_parameters.data"
 currentIteration = 0
-simulationIterations = 3
+simulationIterations = 1000
 
 --  Import Rana lua libraries
 --Para    = require "ranalib_variable"    --Used for setting the parameters each iteration.
@@ -30,21 +30,21 @@ configTbl =
         name="greenfield",
         v1_f = 0.0,
         v1_t = 1.0,
-        v1_ss = 0.01,
+        v1_ss = 0.001,
         numVar=1
     },
     {
         name="female",
         v1_f=0.0,
         v1_t=1.0,
-        v1_ss = 0.01,
+        v1_ss = 0.001,
         numVar=1
     },
     {
         name="freerunning",
         v1_f=0.0,
         v1_t=1.0,
-        v1_ss = 0.01,
+        v1_ss = 0.001,
         numVar=1
     }
 }
@@ -71,7 +71,6 @@ function _saveNewAgentParametersToFile()
             tbl = handleParameterTable(value)
 
             tableMerge(value, tbl)
-
         end
     end
 
@@ -79,6 +78,8 @@ function _saveNewAgentParametersToFile()
 
     currentIteration = currentIteration + 1
     configTbl.simIteration = configTbl.simIteration + 1
+
+    print("Simulation #: "..currentIteration.." of "..simulationIterations)
 
 end
 

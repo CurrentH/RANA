@@ -32,7 +32,7 @@ function _InitializeAgent()
                 InitializeAgent()
         elseif initializeAgent ~= nil then
                 initializeAgent()
-                say("Agent #: "..ID.. " has been initialized")
+                --say("Agent #: "..ID.. " has been initialized")
         end
 end
 

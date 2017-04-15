@@ -67,9 +67,10 @@ Agent 	= require "ranalib_agent"
 
 -- Init of the lua frog, function called upon initilization of the LUA auton.
 function initializeAgent()
-        l_debug("Oscillator agent #: " .. ID .. " is being initialized")
+        --l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
-        tbl = loadParameters("green")
+        tbl = loadParameters("greenfield")
+        s = tbl.v1
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
@@ -136,7 +137,7 @@ function cleanUp()
 
         Agent.removeAgent(ID)
 
-        l_debug("Green - Clean up for Agent " .. ID .. " is done")
+        --l_debug("Green - Clean up for Agent " .. ID .. " is done")
 end
 
 --  TODO: Put function somewhere else so all agents can get to it

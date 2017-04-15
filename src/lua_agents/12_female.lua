@@ -61,7 +61,7 @@ synced = false
 iteration = 1
 
 function InitializeAgent()
-        l_debug("Female agent #: " .. ID .. " is being initialized")
+        --l_debug("Female agent #: " .. ID .. " is being initialized")
 
         tbl = loadParameters("female")
 
@@ -91,7 +91,7 @@ function HandleEvent(event)
 	else
 		--say(synced_calls)
 		synced_calls = 0
-                say(event.ID)
+                --say(event.ID)
 		countdown = beta
 		synced = true
 	end
@@ -123,7 +123,7 @@ function CleanUp()
         --say("Number of calls within thresshold: ".. synced_calls)
 
         Agent.removeAgent(ID)
-        l_debug("Female - Clean up for Agent " .. ID .. " is done")
+        --l_debug("Female - Clean up for Agent " .. ID .. " is done")
 end
 
 --  TODO: Put function somewhere else so all agents can get to it
