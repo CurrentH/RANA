@@ -27,7 +27,6 @@ Runner::Runner(){}
 
 void Runner::doWork(FlowControl *agentDomain, unsigned long long runTime)
 {
-    Output::Inst()->kprintf("Runner - doWork");
     if(agentDomain != NULL && runTime != 0)
     {
         agentDomain->runSimulation(runTime);

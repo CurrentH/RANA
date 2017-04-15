@@ -125,11 +125,9 @@ function handleEvent(sourceX, sourceY, sourceID, eventDescription, eventTable)
 end
 
 function cleanUp()
-        l_debug("Agent "..ID.." is doing clean up - Green")
-
 	--Write the oscillation data to a csv file.
 	if ID <= 4 then
-                file = io.open("test_output/data_green_"..iteration.."_"..ID..".csv", "w")
+                file = io.open("test_output/data_green_1_"..iteration.."_"..ID..".csv", "w")
 		for i,v in pairs(Olevels) do
 			file:write(i..","..v.."\n")
 		end
@@ -137,7 +135,8 @@ function cleanUp()
 	end
 
         Agent.removeAgent(ID)
-        l_debug("Agent " .. ID .. " is done")
+
+        l_debug("Green - Clean up for Agent " .. ID .. " is done")
 end
 
 --  TODO: Put function somewhere else so all agents can get to it

@@ -45,18 +45,14 @@ Sector::Sector(double posX, double posY, double width, double height, Supervisor
 
 Sector::~Sector()
 {
-    Output::Inst()->kprintf("Sector - Destructor");
 }
 
 void Sector::populate(int agentSize ,std::string filename, int agentType)
 {
-    Output::Inst()->kprintf("Sector - populateSystem - %i", agentSize);
     for(int i=0; i<agentSize; i++)
     {
-        Output::Inst()->kprintf("Sector - initialize lua agent - %i",i);
         if(Output::KillSimulation.load())
         {
-            Output::Inst()->kprintf("Sector - populateSystem - Kill");
             return;
         }
         double xtmp = Phys::getMersenneFloat(0,width);

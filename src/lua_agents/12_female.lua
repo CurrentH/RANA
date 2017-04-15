@@ -99,7 +99,6 @@ function HandleEvent(event)
 	total_calls = total_calls + 1
 end
 
-
 function TakeStep()
 	if countdown >= 0 then
 		countdown = countdown - STEP_RESOLUTION
@@ -107,9 +106,7 @@ function TakeStep()
 end
 
 function CleanUp()
-        l_debug("Agent "..ID.." is doing clean up - Female")
-
-        file = io.open("test_output/data_female_"..iteration.."_"..ID..".csv", "w")
+        file = io.open("test_output/data_female_1_"..iteration.."_"..ID..".csv", "w")
 
 	for key,value in pairs(ids) do
             file:write(value ..",".. agent_table[value] .."\n")
@@ -117,8 +114,8 @@ function CleanUp()
 
         file:close()
 
-        file2 = io.open("test_output/box_data_"..iteration.."_"..ID..".csv", "w")
-	file2:write(synced_calls .."\n")
+        file2 = io.open("test_output/box_data_1_"..iteration.."_"..ID..".csv", "w")
+        file2:write(synced_calls .."\n")
         file2:close()
 
         --say(Utility.serializeTable(agent_table))
@@ -126,7 +123,7 @@ function CleanUp()
         --say("Number of calls within thresshold: ".. synced_calls)
 
         Agent.removeAgent(ID)
-        l_debug("Agent " .. ID .. " is done")
+        l_debug("Female - Clean up for Agent " .. ID .. " is done")
 end
 
 --  TODO: Put function somewhere else so all agents can get to it

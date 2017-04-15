@@ -27,20 +27,24 @@ configTbl =
     simIteration=1,
     numAgents=2,
     {
-        name="agent1",  --e.g. greenfield
-        v1_f = 0,
-        v1_t = 10,
-        v2_f = 0,
-        v2_t = 10,
-        v1_ss = 0.1,
-        v2_ss = 0.1,
-        numVar=2
+        name="greenfield",
+        v1_f = 0.0,
+        v1_t = 1.0,
+        v1_ss = 0.01,
+        numVar=1
     },
     {
-        name="agent2",  --e.g. female
-        v1_f=0,
-        v1_t=10,
-        v1_ss = 0.4,
+        name="female",
+        v1_f=0.0,
+        v1_t=1.0,
+        v1_ss = 0.01,
+        numVar=1
+    },
+    {
+        name="freerunning",
+        v1_f=0.0,
+        v1_t=1.0,
+        v1_ss = 0.01,
         numVar=1
     }
 }
@@ -98,8 +102,6 @@ function tableMerge(t1, t2)
 end
 
 function handleParameterTable( tbl )
-    print(tbl.name, tbl.numVar)
-
     if tbl.numVar == 1 then
         return singleParam( tbl )
     elseif tbl.numVar == 2 then

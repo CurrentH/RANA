@@ -247,10 +247,8 @@ AgentLuaInterface::~AgentLuaInterface()
 
 void AgentLuaInterface::InitializeAgent()
 {
-    Output::Inst()->kprintf("AgentLuaInterface - InitializeAgent");
     if(removed)
     {
-        Output::Inst()->kprintf("AgentLuaInterface - InitializeAgent - Removed");
         return;
     }
 
@@ -563,7 +561,6 @@ void AgentLuaInterface::setRemoved()
 
 void AgentLuaInterface::simDone()
 {
-    Output::Inst()->kprintf("AgentLuaInterface - simDone");
     if(nofile)
         return;
     try

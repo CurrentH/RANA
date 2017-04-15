@@ -40,7 +40,6 @@ Control::Control(MainWindow* mainwindow)
 
 Control::~Control()
 {
-    Output::Inst()->kprintf("Control - ~Control");
 	runThread.quit();
     runThread.wait();
 }
@@ -52,14 +51,12 @@ unsigned long long Control::getRunTime()
 
 void Control::runSimulation(unsigned long long runTime)
 {
-    Output::Inst()->kprintf("Control - runSimulation1");
     this->runTime = runTime;
     runsimulation();
 }
 
 void Control::runsimulation()
 {
-    Output::Inst()->kprintf("Control - runsimulation2");
     running = true;
     //runThread.setStackSize(1024*1024*1024);
     Output::SimRunning.store(true);
@@ -71,17 +68,14 @@ void Control::runsimulation()
 
 void Control::stopSimulation()
 {
-    Output::Inst()->kprintf("Control - stopSimulation");
     agentDomain->stopSimulation();
 }
 
 void Control::generateEnvironment(int width, int heigth, int threads, double timeRes,
                                     double macroRes, int agentAmount, std::string agentPath)
 {
-    Output::Inst()->kprintf("Control - generateEnvironment - 2");
     if(!running || !generating)
     {
-        Output::Inst()->kprintf("Control - generateEnvironment - 3");
         generating = true;
 
         if(populateFuture.isRunning())
@@ -92,7 +86,6 @@ void Control::generateEnvironment(int width, int heigth, int threads, double tim
         }
 
         Output::KillSimulation.store(true);
-        Output::Inst()->kprintf("Control - generateEnvironment - 4");
 
         if(agentDomain != NULL)
         {
@@ -101,24 +94,19 @@ void Control::generateEnvironment(int width, int heigth, int threads, double tim
 
         agentDomain = new FlowControl(this);
 
-        Output::Inst()->kprintf("Control - generateEnvironment - 5");
-
         agentDomain->generateEnvironment(width,heigth,threads, agentAmount,timeRes,macroRes,agentPath);
 
         generating = false;
     } else{
         Output::Inst()->kprintf("Simulation is being generating or it is running");
     }
-    //retrieve and update the positions:
-    Output::Inst()->kprintf("Control - generateEnvironment - 6");
+    //retrieve and update the positions
 }
 
 void Control::generateEnvironment(QImage *map, int threads, double timeRes,
                                   double macroRes, int agentAmount, std::string agentPath)
 {
-    Output::Inst()->kprintf("Control - generateEnvironment - 1");
     generateEnvironment(map->width(),map->height(),threads,timeRes,macroRes,agentAmount,agentPath);
-    Output::Inst()->kprintf("Control - generateEnvironment - 7");
 }
 
 void Control::threadTest(std::string something)
@@ -128,12 +116,10 @@ void Control::threadTest(std::string something)
 
 void Control::on_simDone()
 {
-    Output::Inst()->kprintf("Control - on_simDone");
     running = false;
     mainwindow->changeRunButton("Run");
     mainwindow->runButtonHide();
-	Output::SimRunning.store(false);
-    //Output::Inst()->kprintf("Simulation Done");
+    Output::SimRunning.store(false);
 }
 
 void Control::refreshPopPos(std::list<agentInfo> infolist)

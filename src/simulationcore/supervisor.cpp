@@ -48,14 +48,12 @@ Supervisor::Supervisor()
     :sectorIndex(0), sectorAmount(0) ,eEventInitAmount(0), responseAmount(0),
       externalDistroAmount(0), tmu(0)
 {
-    //Output::Inst()->kprintf("Initiating master\n");
     eventQueue = new EventQueue;
     srand(time(NULL));
 }
 
 Supervisor::~Supervisor()
 {
-    Output::Inst()->kprintf("Supervisor - Destructor");
     delete eventQueue;
 
     for(const auto &s : sectors)
@@ -133,7 +131,6 @@ std::list<agentInfo> Supervisor::retrievePopPos()
 {
 
     std::list<agentInfo> agentinfo;
-    //Output::Inst()->kprintf("testing retrieve of master");
     for(const auto &s : sectors)
     {
         s->retrievePopPos(agentinfo);
@@ -154,9 +151,6 @@ std::list<agentInfo> Supervisor::retrievePopPos()
 
 void Supervisor::populateSystem(int listenerSize, int screamerSize, int LUASize, std::string filename)
 {
-
-    Output::Inst()->kprintf("Supervisor - populateSystem");
-    std::cout << "\t" << listenerSize << "\t" << screamerSize << "\t" << LUASize << "\t" << filename << std::endl;
     std::vector<int> LUAVector;
 
     for(uint i = 0; i < sectors.size(); i++)
@@ -213,7 +207,6 @@ void Supervisor::receiveIEventPtr(std::unique_ptr<EventQueue::iEvent> ievent)
  */
 void Supervisor::microStep(unsigned long long tmu)
 {
-
     //Output::Inst()->kprintf("Taking microstep at %d \n", tmu);
     if(eventQueue->eEventsAtTime(tmu))
     {

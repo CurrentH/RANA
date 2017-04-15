@@ -60,19 +60,8 @@ function InitializeAgent()
         agent_table = {}
         ids = {}
 
-        -- Load up the greenfield oscillator agents.
-        for i=1 , oscillator_amount do
-                local ID = Agent.addAgent("12_greenfield_osc.lua", 70+20*i, 100)
-
-                table.insert(ids, ID)
-                agent_table[ID]=0
-        end
-
-        -- Load up the free oscillator agent
-        local ID = Agent.addAgent("12_freerunning_osc.lua", 100, 110)
-
-        table.insert(ids,ID)
-        agent_table[ID]=0
+        initiateGreenfield()
+        initiateFreerunning()
 
         Shared.storeTable("agents", agent_table)
         Shared.storeTable("ids", ids)
@@ -80,12 +69,29 @@ function InitializeAgent()
         local ID = Agent.addAgent("12_female.lua", 100, 100)
 end
 
+function initiateGreenfield()
+    -- Load up the greenfield oscillator agents.
+    for i=1 , oscillator_amount do
+            local ID = Agent.addAgent("12_greenfield_osc.lua", 70+20*i, 100)
+
+            table.insert(ids, ID)
+            agent_table[ID]=0
+    end
+end
+
+function initiateFreerunning()
+    -- Load up the free oscillator agent
+    local ID = Agent.addAgent("12_freerunning_osc.lua", 100, 110)
+
+    table.insert(ids,ID)
+    agent_table[ID]=0
+end
+
 function takeStep()
 end
 
 function cleanUp()
-    l_debug("Agent "..ID.." is doing clean up - Master")
     Agent.removeAgent(ID)
-    l_debug("Agent " .. ID .. " is done")
+    l_debug("Master - Clean up for Agent " .. ID .. " is done")
 end
 

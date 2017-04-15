@@ -74,9 +74,7 @@ FlowControl::FlowControl(Control *control)
             {
                 Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Doesn't work");
             }else{
-                Output::Inst()->kprintf("Flowcontrol - Lua_simconfig - Works");
                 this->simNumIt  = lua_tonumber(L,-1);
-                Output::Inst()->kprintf("\tIterations: %i", simNumIt);
             }
         }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
     }
@@ -84,7 +82,6 @@ FlowControl::FlowControl(Control *control)
 
 FlowControl::~FlowControl()
 {
-    Output::Inst()->kprintf("FlowControl - Destructor");
     //ID::resetSystem();
     Phys::setCTime(0);
     delete masteragent;
@@ -106,8 +103,6 @@ bool FlowControl::checkEnvPresence()
 void FlowControl::generateEnvironment(double width, double height, int threads, int agentAmount,
                                       double timeResolution, int macroFactor, std::string filename)
 {
-    Output::Inst()->kprintf("FlowControl - generateEnvironment");
-
     //srand(time(0));
     //Phys::seedMersenne();
 
@@ -147,10 +142,8 @@ bool FlowControl::runAgain()
 {
     numIt++;
     if( numIt < simNumIt ){
-        std::cout << "numIt: " << numIt << " returning true " << simNumIt << std::endl;
         return true;
     }else{
-        std::cout << "numIt: " << numIt << " returning false " << simNumIt << std::endl;
         return false;
     }
 }
@@ -158,24 +151,16 @@ bool FlowControl::runAgain()
 
 void FlowControl::resetSimulation()
 {
-    Output::Inst()->kprintf("FlowControl - resetSimulation1");
     stopSimulation();
-    Output::Inst()->kprintf("FlowControl - resetSimulation2");
     masteragent->~Supervisor();
-    Output::Inst()->kprintf("FlowControl - resetSimulation3");
     setNewParameters();
-    Output::Inst()->kprintf("FlowControl - resetSimulation4");
     masteragent = new Supervisor();
-    Output::Inst()->kprintf("FlowControl - resetSimulation5");
     generateEnvironment(Phys::getEnvX(),Phys::getEnvY(),threads,agentAmount,timeResolution, macroFactor, agentFilename);
-    Output::Inst()->kprintf("FlowControl - resetSimulation6");
     control->runsimulation();
-    Output::Inst()->kprintf("FlowControl - resetSimulation7");
 }
 
 void FlowControl::populateSystem()
 {
-    Output::Inst()->kprintf("FlowControl - populateSystem");
     //srand(time(0));
     //Phys::seedMersenne();
     masteragent->setSimulationType(agentAmount);
@@ -187,8 +172,6 @@ void FlowControl::populateSystem()
 
 void FlowControl::setNewParameters()
 {
-    Output::Inst()->kprintf("FlowControl - setNewParameters");
-
     //  Use the LUA script to set the new parameters
     try{
         lua_settop(L,0);
@@ -196,8 +179,6 @@ void FlowControl::setNewParameters()
         if(lua_pcall(L,0,0,0)!=LUA_OK)
         {
             Output::Inst()->kprintf("Flowcontrol - Lua_newP - Doesn't work");
-        }else{
-            Output::Inst()->kprintf("Flowcontrol - Lua_newP - Works");
         }
     }catch(std::exception& e){ Output::Inst()->kprintf("Flowcontrol - Exception"); }
 }
@@ -250,8 +231,6 @@ void FlowControl::toggleLiveView(bool enable)
  */
 void FlowControl::runSimulation(int time)
 {
-    Output::Inst()->kprintf("FlowControl - runSimulation");
-
     std::string positionFilePath = Output::Inst()->RanaDir;
     positionFilePath.append("/positionData/");
     positionFilePath.append(positionFilename.c_str());
@@ -361,7 +340,6 @@ void FlowControl::runSimulation(int time)
  */
 void FlowControl::stopSimulation()
 {
-    Output::Inst()->kprintf("FlowControl - stopSimulation");
     stop.store(true);
 }
 

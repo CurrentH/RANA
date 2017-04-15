@@ -3,7 +3,8 @@ return {
 {
    {2},
    {3},
-   ["simIteration"]=3,
+   {4},
+   ["simIteration"]=1,
    ["numAgents"]=2,
 },
 -- Table: {2}
@@ -13,18 +14,27 @@ return {
    ["v2_ss"]=0.1,
    ["numVar"]=2,
    ["v2_t"]=10,
-   ["name"]="agent1",
+   ["name"]="greenfield",
    ["v1_f"]=0,
    ["v2_f"]=0,
    ["v1"]=0,
-   ["v2"]=0.2,
+   ["v2"]=0,
 },
 -- Table: {3}
 {
    ["v1_t"]=10,
-   ["name"]="agent2",
+   ["name"]="female",
    ["v1_f"]=0,
-   ["v1"]=0.8,
+   ["v1"]=0,
+   ["numVar"]=1,
+   ["v1_ss"]=0.4,
+},
+-- Table: {4}
+{
+   ["v1_t"]=10,
+   ["name"]="freerunning",
+   ["v1_f"]=0,
+   ["v1"]=0,
    ["numVar"]=1,
    ["v1_ss"]=0.4,
 },
