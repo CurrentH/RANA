@@ -66,13 +66,13 @@ function InitializeAgent()
         Shared.storeTable("agents", agent_table)
         Shared.storeTable("ids", ids)
 
-        local ID = Agent.addAgent("12_female.lua", 100, 100)
+        local ID = Agent.addAgent("15_female.lua", 100, 100)
 end
 
 function initiateGreenfield()
     -- Load up the greenfield oscillator agents.
     for i=1 , oscillator_amount do
-            local ID = Agent.addAgent("12_greenfield_osc.lua", 70+20*i, 100)
+            local ID = Agent.addAgent("15_greenfield_osc.lua", 70+20*i, 100)
 
             table.insert(ids, ID)
             agent_table[ID]=0
@@ -81,7 +81,7 @@ end
 
 function initiateFreerunning()
     -- Load up the free oscillator agent
-    local ID = Agent.addAgent("12_freerunning_osc.lua", 100, 110)
+    local ID = Agent.addAgent("15_freerunning_osc.lua", 100, 110)
 
     table.insert(ids,ID)
     agent_table[ID]=0

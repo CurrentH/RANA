@@ -13,7 +13,7 @@ return {
    ["name"]="greenfield",
    ["v1_f"]=0,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 -- Table: {3}
 {
@@ -21,7 +21,7 @@ return {
    ["name"]="female",
    ["v1_f"]=0,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 -- Table: {4}
 {
@@ -29,6 +29,6 @@ return {
    ["name"]="freerunning",
    ["v1_f"]=0,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 }

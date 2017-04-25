@@ -70,7 +70,9 @@ function initializeAgent()
         --l_debug("Oscillator agent #: " .. ID .. " is being initialized")
 
         tbl = loadParameters("greenfield")
-        s = tbl.v1
+        if tbl ~= nil then
+            s = tbl.v1
+        end
 
         --positionX = Stat.randomMean(ENV_WIDTH/4,ENV_WIDTH/2)
         --positionY = Stat.randomMean(ENV_HEIGHT/4,ENV_HEIGHT/2)
@@ -128,7 +130,7 @@ end
 function cleanUp()
 	--Write the oscillation data to a csv file.
 	if ID <= 4 then
-                file = io.open("test_output/data_green_1_"..iteration.."_"..ID..".csv", "w")
+                file = io.open("test_output/data_green_5_"..iteration.."_"..ID..".csv", "w")
 		for i,v in pairs(Olevels) do
 			file:write(i..","..v.."\n")
 		end

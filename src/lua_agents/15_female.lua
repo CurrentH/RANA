@@ -106,7 +106,7 @@ function TakeStep()
 end
 
 function CleanUp()
-        file = io.open("test_output/data_female_1_"..iteration.."_"..ID..".csv", "w")
+        file = io.open("test_output/data_female_5_"..iteration.."_"..ID..".csv", "w")
 
 	for key,value in pairs(ids) do
             file:write(value ..",".. agent_table[value] .."\n")
@@ -114,7 +114,7 @@ function CleanUp()
 
         file:close()
 
-        file2 = io.open("test_output/box_data_1_"..iteration.."_"..ID..".csv", "w")
+        file2 = io.open("test_output/box_data_5_"..iteration.."_"..ID..".csv", "w")
         file2:write(synced_calls .."\n")
         file2:close()
 

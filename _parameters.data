@@ -4,7 +4,7 @@ return {
    {2},
    {3},
    {4},
-   ["simIteration"]=12,
+   ["simIteration"]=1000,
    ["numAgents"]=2,
 },
 -- Table: {2}
@@ -12,26 +12,26 @@ return {
    ["v1_t"]=1,
    ["name"]="greenfield",
    ["v1_f"]=0,
-   ["v1"]=0.11,
+   ["v1"]=0.999,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 -- Table: {3}
 {
    ["v1_t"]=1,
    ["name"]="female",
    ["v1_f"]=0,
-   ["v1"]=0.11,
+   ["v1"]=0.999,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 -- Table: {4}
 {
    ["v1_t"]=1,
    ["name"]="freerunning",
    ["v1_f"]=0,
-   ["v1"]=0.11,
+   ["v1"]=0.999,
    ["numVar"]=1,
-   ["v1_ss"]=0.01,
+   ["v1_ss"]=0.001,
 },
 }
